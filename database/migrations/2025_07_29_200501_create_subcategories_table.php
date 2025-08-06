@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->string('thumbnail');
+            $table->string('thumbnail')->nullable();
             $table->string('status')->default('active');
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->timestamps();

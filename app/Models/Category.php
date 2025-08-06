@@ -4,15 +4,22 @@ namespace App\Models;
 
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Category extends Model
+class Category extends Model implements HasMedia
 {
+        use InteractsWithMedia;
     protected $fillable = [
         'name',
    'description',
    'thumbnail',
    'status'
     ];
+     public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('thumbnails')->singleFile(); // أو بدون singleFile إذا بتسمح بعدة صور
+    }
      protected $casts = [
        'status'=>stateStatusEnum::class,
     ];

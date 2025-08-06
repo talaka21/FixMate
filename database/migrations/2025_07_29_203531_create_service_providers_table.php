@@ -30,6 +30,8 @@ return new class extends Migration
             $table->foreignId('subcategory_id')->references('id')->on('subcategories');
             $table->foreignId('state_id')->references('id')->on('states');
             $table->foreignId('city_id')->references('id')->on('cities');
+            $table->string('tag')->nullable();
+
             $table->timestamps();
         });
     }

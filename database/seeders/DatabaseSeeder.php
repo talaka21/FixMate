@@ -16,10 +16,17 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
 
-         $this->call([
-         StateSeeder::class,
-         CitySeeder::class,
-        AdminSeeder::class
-    ]);
+        $this->call([
+        //     StateSeeder::class,
+        //     CitySeeder::class,
+        //       AdminSeeder::class,
+        //     CategorySeeder::class,
+        //     SubCategorySeeder::class,
+        //     TagSeeder::class,
+        //   ServiceProviderSeeder::class,
+        //   ServiceProviderRequestSeeder::class
+        // SliderSeeder::class
+        OfferSeeder::class
+        ]);
     }
 }

@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use App\Enum\ServiceProviderEnum;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceProvider extends Model
 {
+ 
+
     protected  $fillable =[
         'provider_name',
         'shop_name',
@@ -30,6 +33,7 @@ class ServiceProvider extends Model
         'gallery' => 'array',
            'status'=>ServiceProviderEnum::class,
     ];
+
 
     public function category()
     {
@@ -63,6 +67,7 @@ class ServiceProvider extends Model
     public function tags()
 {
     return $this->belongsToMany(Tag::class, 'service_provider_tag', 'service_provider_id', 'tag_id');
+
 }
 
 }

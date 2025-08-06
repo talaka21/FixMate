@@ -21,8 +21,9 @@ return new class extends Migration
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('image')->nullable();
-            $table->string('status')->default('unread');
-            $table->foreignId('category_id')->references('id')->on('categories');
+            $table->string('status')->default('rejected');
+                 $table->string('is_read')->default('unread');
+            $table->foreignId('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreignId('subcategory_id')->references('id')->on('subcategories');
             $table->foreignId('state_id')->references('id')->on('states');
             $table->foreignId('city_id')->references('id')->on('cities');
