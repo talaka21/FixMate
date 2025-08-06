@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OfferResource\Pages;
 use App\Filament\Resources\OfferResource\RelationManagers;
 use App\Models\Offer;
+use App\Models\ServiceProvider;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -28,18 +29,38 @@ class OfferResource extends Resource
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('image')
                     ->image()
+                    ->maxFiles(1)
                     ->required(),
-                Forms\Components\TextInput::make('service_provider_id')
+                Forms\Components\Select::make('service_provider_id')
                     ->required()
-                    ->numeric(),
+                    ->relationship('serviceProvider', 'provider_name')
+                    ->options(function () {
+                        return ServiceProvider::where('status', 'active')->pluck('provider_name', 'id');
+                    }),
                 Forms\Components\DatePicker::make('start_date')
-                    ->required(),
-                Forms\Components\DatePicker::make('expire_date')
-                    ->required(),
-                Forms\Components\TextInput::make('status')
                     ->required()
-                    ->maxLength(255)
-                    ->default('active'),
+                    ->rule('after:today'),
+                    
+                Forms\Components\DatePicker::make('expire_date')
+                    ->required()
+                    ->rules([
+                        function ($get) {
+                            return function ($attribute, $value, $fail) use ($get) {
+                                $startDate = $get('start_date');
+                                if ($startDate && $value < $startDate) {
+                                    $fail('The expiration date must be the same as or after the start date.');
+                                }
+                            };
+                        },
+                    ]),
+
+                Forms\Components\Select::make('status')
+                    ->required()
+                    ->default('active')
+                    ->options([
+                        'active' => 'active',
+                        'inactive' => 'inactive',
+                    ]),
             ]);
     }
 

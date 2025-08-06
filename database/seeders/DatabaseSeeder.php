@@ -17,16 +17,17 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-        //     StateSeeder::class,
-        //     CitySeeder::class,
-        //       AdminSeeder::class,
-        //     CategorySeeder::class,
-        //     SubCategorySeeder::class,
-        //     TagSeeder::class,
-        //   ServiceProviderSeeder::class,
-        //   ServiceProviderRequestSeeder::class
-        // SliderSeeder::class
-        OfferSeeder::class
+            StateSeeder::class,
+            CitySeeder::class,
+              AdminSeeder::class,
+            CategorySeeder::class,
+            SubCategorySeeder::class,
+            TagSeeder::class,
+          ServiceProviderSeeder::class,
+          ServiceProviderRequestSeeder::class,
+        SliderSeeder::class,
+        OfferSeeder::class,
+        governmentEntitieSeeder::class,
         ]);
     }
 }

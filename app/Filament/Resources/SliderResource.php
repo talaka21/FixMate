@@ -59,19 +59,23 @@ class SliderResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->limit(50),
+                    
                 Tables\Columns\ImageColumn::make('image'),
+
                 Tables\Columns\TextColumn::make('serviceProvider.provider_name')
                     ->label('Service Provider')
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn($state) => match ($state) {
                         stateStatusEnum::ACTIVE => 'success',
-                        stateStatusEnum::INACTIVE => 'danger',
-                    }),
+                        stateStatusEnum::INACTIVE => 'danger',   }),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()

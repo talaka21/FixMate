@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->foreignId('state_id')->constrained()->onDelete('cascade');
             $table->foreignId('city_id')->constrained()->onDelete('cascade');
-            $table->boolean('status')->default(true);
+           $table->string('status')->default('active');
             $table->timestamps();
         });
     }
