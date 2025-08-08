@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('message');
-          $table->morphs('target'); // تنشئ النوع والـ id تلقائياً
+          $table->nullableMorphs('target');
             $table->boolean('is_read')->default(false);
             $table->timestamp('send_at')->nullable();
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');

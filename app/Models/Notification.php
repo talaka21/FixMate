@@ -22,5 +22,9 @@ class Notification extends Model
         'send_at' => 'datetime',
         'target_type'=>  NotificationEnum::class
     ];
+public function target()
+{
+    return $this->morphTo();
+}
 
 }

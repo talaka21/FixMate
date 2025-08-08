@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceProvider extends Model
 {
- 
+
 
     protected  $fillable =[
         'provider_name',
