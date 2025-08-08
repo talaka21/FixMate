@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enum\UserEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,7 +19,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'phone_number',
+        'image',
+        'state_id',
+        'city_id',
+        'status',
         'email',
         'password',
     ];
@@ -40,9 +47,11 @@ class User extends Authenticatable
      */
     protected function casts(): array
     {
+
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'status'=>UserEnum::class,
         ];
     }
 
@@ -55,5 +64,14 @@ public function serviceProviderRequest()
     return $this->hasOne(ServiceProviderRequest::class);
 }
 
+public function city()
+{
+    return $this->belongsTo(City::class);
+}
+
+public function state()
+{
+    return $this->belongsTo(State::class);
+}
 
 }

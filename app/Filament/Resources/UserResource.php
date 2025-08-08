@@ -4,14 +4,18 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\city;
+use App\Models\state;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Validation\Rule;
 
 class UserResource extends Resource
 {
@@ -23,18 +27,42 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('first_name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('last_name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('phone_number')
+                    ->tel()
+                    ->required()
+                    ->maxLength(10),
+                    
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
-                Forms\Components\TextInput::make('password')
-                    ->password()
+
+                Forms\Components\FileUpload::make('image')
+                    ->image(),
+
+                Forms\Components\TextInput::make('state_id')
                     ->required()
-                    ->maxLength(255),
+                    ->rules([
+                        Rule::exists('states', 'id')->where('status', 'active'),    ])
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('city_id')
+                    ->required()
+                    ->rules([
+                        Rule::exists('cities', 'id')->where('status', 'active'), ])
+                    ->numeric(),
+
+                Forms\Components\TextInput::make('status')
+                    ->required()
+                    ->maxLength(255)
+                    ->default('active'),
+
             ]);
     }
 
@@ -42,13 +70,22 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
+                Tables\Columns\TextColumn::make('phone_number')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email'),
+                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\TextColumn::make('state_id')
+                    ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('city_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -59,7 +96,20 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'active' => 'Active',
+                        'inactive' => 'Inactive',
+                        'suspended' => 'Suspended',
+                    ]),
+                Tables\Filters\SelectFilter::make('state_id')
+                    ->label('state')
+                    ->options(fn() => state::pluck('name', 'id')->toArray()),
+
+                Tables\Filters\SelectFilter::make('city_id')
+                    ->label('city')
+                    ->options(fn() => city::pluck('name', 'id')->toArray()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

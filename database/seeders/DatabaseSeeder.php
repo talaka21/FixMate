@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         SliderSeeder::class,
         OfferSeeder::class,
         governmentEntitieSeeder::class,
+        UserSeeder::class,
         ]);
     }
 }
