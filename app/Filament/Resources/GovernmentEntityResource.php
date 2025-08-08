@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -34,7 +35,7 @@ class GovernmentEntityResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(10),
                 Forms\Components\TextInput::make('website')
                     ->maxLength(255)
                     ->default(null),
@@ -82,7 +83,12 @@ class GovernmentEntityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+               SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        'active' => 'Active',
+                        'inactive' => 'Inactive',
+                    ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -52,7 +52,7 @@ public function notifications()
     }
 public function serviceProviderRequest()
 {
-    return $this->hasOne(ServiceProviderRequests::class);
+    return $this->hasOne(ServiceProviderRequest::class);
 }
 
 

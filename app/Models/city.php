@@ -32,6 +32,6 @@ class city extends Model
 
     public function serviceProviderRequests()
     {
-        return $this->hasMany(ServiceProviderRequests::class);
+        return $this->hasMany(ServiceProviderRequest::class);
     }
 }
