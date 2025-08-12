@@ -55,6 +55,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function getFullNameAttribute()
+{
+    return "{$this->first_name} {$this->last_name}";
+}
+
 public function notifications()
     {
         return $this->hasMany(Notification::class, 'created_by');

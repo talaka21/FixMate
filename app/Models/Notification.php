@@ -27,4 +27,12 @@ public function target()
     return $this->morphTo();
 }
 
+public function targetUser()
+{
+    return $this->belongsTo(User::class, 'target_id');
+}
+public function createdByUser()
+{
+    return $this->belongsTo(User::class, 'created_by');
+}
 }
