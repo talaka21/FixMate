@@ -21,7 +21,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user';
 
     public static function form(Form $form): Form
     {
@@ -37,7 +37,7 @@ class UserResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(10),
-                    
+
                 Forms\Components\TextInput::make('email')
                     ->email()
                     ->required()
@@ -75,7 +75,9 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone_number')
-                    ->searchable(),
+                    ->searchable()
+                       ->badge()
+                    ->color('primary'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('state_id')
@@ -85,7 +87,9 @@ class UserResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                    ->searchable()
+                       ->badge()
+                  ->color(fn ($state) => $state->color()),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

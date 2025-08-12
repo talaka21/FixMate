@@ -18,7 +18,7 @@ class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
 
     public static function form(Form $form): Form
     {
@@ -40,7 +40,7 @@ class OfferResource extends Resource
                 Forms\Components\DatePicker::make('start_date')
                     ->required()
                     ->rule('after:today'),
-                    
+
                 Forms\Components\DatePicker::make('expire_date')
                     ->required()
                     ->rules([
@@ -80,8 +80,10 @@ class OfferResource extends Resource
                 Tables\Columns\TextColumn::make('expire_date')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                         Tables\Columns\TextColumn::make('status')
+                    ->searchable()
+                      ->badge()
+                  ->color(fn ($state) => $state->color()),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

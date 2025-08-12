@@ -23,7 +23,7 @@ class SliderResource extends Resource
 {
     protected static ?string $model = Slider::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
 
     public static function form(Form $form): Form
     {
@@ -59,7 +59,7 @@ class SliderResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable()
                     ->limit(50),
-                    
+
                 Tables\Columns\ImageColumn::make('image'),
 
                 Tables\Columns\TextColumn::make('serviceProvider.provider_name')

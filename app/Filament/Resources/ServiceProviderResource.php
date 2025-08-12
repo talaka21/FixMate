@@ -17,7 +17,7 @@ class ServiceProviderResource extends Resource
 {
     protected static ?string $model = ServiceProvider::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-s-clipboard';
 
     public static function getEloquentQuery(): Builder
     {
@@ -104,7 +104,9 @@ class ServiceProviderResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                       ->badge()
+                    ->color('primary'),
                 Tables\Columns\TextColumn::make('whatsapp')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('facebook')
@@ -119,7 +121,9 @@ class ServiceProviderResource extends Resource
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                    ->searchable()
+                       ->badge()
+                  ->color(fn ($state) => $state->color()),
                 Tables\Columns\TextColumn::make('views')
                     ->numeric()
                     ->label('views')

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\stateStatusEnum;
 use App\Filament\Resources\GovernmentEntityResource\Pages;
 use App\Filament\Resources\GovernmentEntityResource\RelationManagers;
 use App\Models\GovernmentEntity;
@@ -62,7 +63,9 @@ class GovernmentEntityResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                    ->badge()
+                    ->color('primary'),
                 Tables\Columns\TextColumn::make('website')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('state_id')
@@ -72,7 +75,9 @@ class GovernmentEntityResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
-                    ->searchable(),
+                    ->searchable()
+                    ->badge()
+                    ->color(fn($state) => $state->color()),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -83,7 +88,7 @@ class GovernmentEntityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-               SelectFilter::make('status')
+                SelectFilter::make('status')
                     ->label('Status')
                     ->options([
                         'active' => 'Active',

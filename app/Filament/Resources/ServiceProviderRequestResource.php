@@ -21,7 +21,7 @@ class ServiceProviderRequestResource extends Resource
 {
     protected static ?string $model = ServiceProviderRequest::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
 
     public static function form(Form $form): Form
     {
@@ -88,7 +88,9 @@ class ServiceProviderRequestResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                       ->badge()
+                    ->color('primary'),
                 Tables\Columns\TextColumn::make('whatsapp')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('facebook')

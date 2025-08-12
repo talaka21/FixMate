@@ -29,7 +29,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('filament/admin/auth')
             ->authGuard('admin')
             ->login()
-            ->Profile()
+             ->profile(isSimple: false)
             ->colors([
                 'primary' => Color::Purple,
             ])

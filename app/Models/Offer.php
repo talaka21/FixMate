@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Offer extends Model
@@ -17,7 +18,9 @@ class Offer extends Model
       protected $casts = [
         'start_date' => 'date',
         'expire_date' => 'date',
+        'status'=>stateStatusEnum::class,
     ];
+
 
     public function serviceProvider()
     {
