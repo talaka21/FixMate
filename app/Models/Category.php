@@ -11,7 +11,8 @@ class Category extends Model implements HasMedia
 {
         use InteractsWithMedia;
     protected $fillable = [
-        'name',
+        'name_ar',
+        'name_en',
    'description',
    'thumbnail',
    'status'

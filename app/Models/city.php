@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class city extends Model
 {
     protected $fillable = [
-        'name',
+        'name_ar',
+        'name_en',
         'status'
     ];
 

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('subcategories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name_en');
+            $table->string('name_ar');
             $table->string('description');
             $table->string('thumbnail')->nullable();
             $table->string('status')->default('active');

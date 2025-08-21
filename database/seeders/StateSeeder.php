@@ -14,9 +14,20 @@ class StateSeeder extends Seeder
     public function run(): void
     {
        DB::table('states')->insert([
-            ['name' => 'Damascus', 'status' => 'active'],
-            ['name' => 'Aleppo', 'status' => 'active'],
-            ['name' => 'Homs', 'status' => 'inactive'],
+           
+    [
+        'name_en' => 'Syria',
+        'name_ar' => 'سوريا',
+    ],
+    [
+        'name_en' => 'Lebanon',
+        'name_ar' => 'لبنان',
+    ],
+    [
+        'name_en' => 'United Arab Emirates',
+        'name_ar' => 'الإمارات العربية المتحدة',
+    ],
+
         ]);
     }
 }

@@ -48,7 +48,7 @@ class SubCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name_en')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
@@ -60,9 +60,9 @@ class SubCategoryResource extends Resource
                     ->color(function ($state) {
                         return $state->color();
                     }),
-               Tables\Columns\TextColumn::make('category.name')
-    ->label('Category')
-    ->sortable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Category')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -79,11 +79,11 @@ class SubCategoryResource extends Resource
                         'active' => 'Active',
                         'inactive' => 'Inactive',
                     ]),
-                     SelectFilter::make('category_id')
-    ->label('Category')
-    ->options(function () {
-        return Category::pluck('name', 'id')->toArray();
-    })
+                SelectFilter::make('category_id')
+                    ->label('Category')
+                    ->options(function () {
+                        return Category::pluck('name_en', 'id')->toArray();
+                    })
 
             ])
             ->actions([
@@ -91,9 +91,7 @@ class SubCategoryResource extends Resource
                 // Tables\Actions\ViewAction::make()->label('View Details'),
                 Tables\Actions\deleteAction::make()->label('Edit'),
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make()->label('Add New Subcategory'),
-            ])
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

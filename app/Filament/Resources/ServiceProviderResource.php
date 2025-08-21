@@ -128,16 +128,16 @@ class ServiceProviderResource extends Resource
                     ->numeric()
                     ->label('views')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category_id')
+                Tables\Columns\TextColumn::make('category.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subcategory_id')
+                Tables\Columns\TextColumn::make('subcategory.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('state_id')
+                Tables\Columns\TextColumn::make('state.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
+                Tables\Columns\TextColumn::make('city.name_en')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -156,19 +156,19 @@ class ServiceProviderResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')
                     ->label('name category')
-                    ->options(fn() => \App\Models\Category::pluck('name', 'id')->toArray()),
+                    ->options(fn() => \App\Models\Category::pluck('name_en', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('subcategory_id')
                     ->label('subcategory')
-                    ->options(fn() => \App\Models\Subcategory::pluck('name', 'id')->toArray()),
+                    ->options(fn() => \App\Models\Subcategory::pluck('name_en', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('state_id')
                     ->label('state')
-                    ->options(fn() => \App\Models\State::pluck('name', 'id')->toArray()),
+                    ->options(fn() => \App\Models\State::pluck('name_en', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label('city')
-                    ->options(fn() => \App\Models\City::pluck('name', 'id')->toArray()),
+                    ->options(fn() => \App\Models\City::pluck('name_en', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('tags')
                     ->label('tag')

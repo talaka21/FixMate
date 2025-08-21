@@ -13,59 +13,22 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-       DB::table('categories')->delete();
+              // حذف البيانات القديمة أولًا
+        DB::table('categories')->delete();
+
 
         $categories = [
-            [
-                'name' => 'Plumbing',
-                'description' => 'Services related to water pipes, leaks, and bathroom installations.',
-                'thumbnail' => 'uploads/categories/plumbing.jpg',
-                'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Electrical',
-                'description' => 'Electrical wiring, lighting installation, and troubleshooting.',
-                'thumbnail' => 'uploads/categories/electrical.jpg',
-                'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Air Conditioning',
-                'description' => 'AC installation, repair, and maintenance services.',
-                'thumbnail' => 'uploads/categories/ac.jpg',
-                'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Painting',
-                'description' => 'Wall painting, decorative finishes, and surface preparations.',
-                'thumbnail' => 'uploads/categories/painting.jpg',
-                'status' => 'inactive',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Appliance Repair',
-                'description' => 'Fixing household appliances like washing machines, ovens, and fridges.',
-                'thumbnail' => 'uploads/categories/appliance_repair.jpg',
-                'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Carpentry',
-                'description' => 'Furniture assembly, wood repairs, and door installations.',
-                'thumbnail' => 'uploads/categories/carpentry.jpg',
-                'status' => 'active',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+            ['name_en' => 'Healthcare',     'name_ar' => 'الرعاية الصحية', 'description' => 'Services related to hospitals, clinics, pharmacies, and emergency care.'],
+            ['name_en' => 'Education',      'name_ar' => 'التعليم',       'description' => 'Services related to schools, universities, and vocational training.'],
+            ['name_en' => 'Transportation', 'name_ar' => 'النقل',         'description' => 'Services for public transport, vehicle registration, and driving licenses.'],
+            ['name_en' => 'Finance',        'name_ar' => 'المالية',       'description' => 'Banking, taxes, and investment related services.'],
+            ['name_en' => 'Legal',          'name_ar' => 'القانونية',     'description' => 'Court services, notary, and legal aid services.'],
+            ['name_en' => 'Housing',        'name_ar' => 'السكن',         'description' => 'Services for real estate, utilities, and building permits.'],
+            ['name_en' => 'Business',       'name_ar' => 'الأعمال',       'description' => 'Services for company registration, licenses, and trade activities.'],
         ];
+
         DB::table('categories')->insert($categories);
+    }
 
     }
-}
+

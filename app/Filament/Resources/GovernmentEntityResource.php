@@ -25,7 +25,7 @@ class GovernmentEntityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('entity_name')
+                Forms\Components\TextInput::make('name_en')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
@@ -57,7 +57,7 @@ class GovernmentEntityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('entity_name')
+                Tables\Columns\TextColumn::make('name_en')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
@@ -68,10 +68,10 @@ class GovernmentEntityResource extends Resource
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('website')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('state_id')
+                Tables\Columns\TextColumn::make('state.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
+                Tables\Columns\TextColumn::make('city.name_en')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')

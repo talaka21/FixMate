@@ -100,16 +100,16 @@ class ServiceProviderRequestResource extends Resource
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('category_id')
+                Tables\Columns\TextColumn::make('category.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subcategory_id')
+                Tables\Columns\TextColumn::make('subcategory.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('state_id')
+                Tables\Columns\TextColumn::make('state.name_en')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city_id')
+                Tables\Columns\TextColumn::make('city.name_en')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

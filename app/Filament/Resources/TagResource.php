@@ -60,8 +60,9 @@ class TagResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('service_providers_count')
-                    ->label('service_providers')
+                Tables\Columns\TextColumn::make('serviceProviders.provider_name')
+                    ->label('Services Provider')
+
                     ->sortable(),
             ])
             ->filters([

@@ -64,7 +64,8 @@
   <section class="hero d-flex flex-column align-items-center justify-content-center">
     <h1>Boost Your Business with Confidence</h1>
     <p>Professional solutions crafted just for you</p>
-    <a href="#signup" class="btn btn-signup">Sign Up Now</a>
+  <a href="{{  route('register.form') }}" class="btn btn-signup">Sign Up Now</a>
+
   </section>
 
   <!-- Features Section -->

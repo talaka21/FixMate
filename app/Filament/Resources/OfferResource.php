@@ -71,7 +71,7 @@ class OfferResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('service_provider_id')
+                Tables\Columns\TextColumn::make('serviceProvider.provider_name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('start_date')

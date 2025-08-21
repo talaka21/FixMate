@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class state extends Model
 {
     protected $fillable = [
-    'name',
-    'status'
+        'name_ar',
+        'name_en',
+        'status'
     ];
     protected $casts = [
-       'status'=>stateStatusEnum::class,
+        'status' => stateStatusEnum::class,
     ];
 
     public function cities()

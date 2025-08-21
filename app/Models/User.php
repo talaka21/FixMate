@@ -7,6 +7,8 @@ use App\Enum\UserEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\HasAvatar;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -28,8 +30,10 @@ class User extends Authenticatable
         'status',
         'email',
         'password',
+
     ];
 
+     
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('states', function (Blueprint $table) {
+        Schema::create('create_languages', function (Blueprint $table) {
             $table->id();
-        $table->string('name')->nullable();
-$table->string('name_en');
-$table->string('name_ar');
-            $table->string('status')->default('active');
-            $table->timestamps();
+             $table->string('code'); // 'en', 'ar'
+    $table->string('name'); // 'English', 'Arabic'
+    $table->timestamps();
+         
         });
     }
 
@@ -26,6 +25,6 @@ $table->string('name_ar');
      */
     public function down(): void
     {
-        Schema::dropIfExists('states');
+        Schema::dropIfExists('create_languages');
     }
 };
