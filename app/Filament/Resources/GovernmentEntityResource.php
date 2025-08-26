@@ -14,6 +14,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Pixelpeter\FilamentLanguageTabs\Forms\Components\LanguageTabs;
 
 class GovernmentEntityResource extends Resource
 {
@@ -25,12 +26,14 @@ class GovernmentEntityResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name_en')
+                 LanguageTabs::make([
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255)
                     ->default(null),
+                   ]),
                 Forms\Components\FileUpload::make('image')
                     ->image(),
                 Forms\Components\TextInput::make('phone')
@@ -57,7 +60,7 @@ class GovernmentEntityResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_en')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
@@ -68,10 +71,10 @@ class GovernmentEntityResource extends Resource
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('website')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('state.name_en')
+                Tables\Columns\TextColumn::make('state.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city.name_en')
+                Tables\Columns\TextColumn::make('city.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')

@@ -80,10 +80,10 @@ class UserResource extends Resource
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('email'),
                 Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('state.name_en')
+                Tables\Columns\TextColumn::make('state.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city.name_en')
+                Tables\Columns\TextColumn::make('city.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
@@ -109,11 +109,11 @@ class UserResource extends Resource
                     ]),
                 Tables\Filters\SelectFilter::make('state_id')
                     ->label('state')
-                    ->options(fn() => state::pluck('name_en', 'id')->toArray()),
+                    ->options(fn() => state::pluck('name', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label('city')
-                    ->options(fn() => city::pluck('name_en', 'id')->toArray()),
+                    ->options(fn() => city::pluck('name', 'id')->toArray()),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

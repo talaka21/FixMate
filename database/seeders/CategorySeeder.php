@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,22 +14,84 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-              // حذف البيانات القديمة أولًا
-        DB::table('categories')->delete();
-
-
-        $categories = [
-            ['name_en' => 'Healthcare',     'name_ar' => 'الرعاية الصحية', 'description' => 'Services related to hospitals, clinics, pharmacies, and emergency care.'],
-            ['name_en' => 'Education',      'name_ar' => 'التعليم',       'description' => 'Services related to schools, universities, and vocational training.'],
-            ['name_en' => 'Transportation', 'name_ar' => 'النقل',         'description' => 'Services for public transport, vehicle registration, and driving licenses.'],
-            ['name_en' => 'Finance',        'name_ar' => 'المالية',       'description' => 'Banking, taxes, and investment related services.'],
-            ['name_en' => 'Legal',          'name_ar' => 'القانونية',     'description' => 'Court services, notary, and legal aid services.'],
-            ['name_en' => 'Housing',        'name_ar' => 'السكن',         'description' => 'Services for real estate, utilities, and building permits.'],
-            ['name_en' => 'Business',       'name_ar' => 'الأعمال',       'description' => 'Services for company registration, licenses, and trade activities.'],
+   $categories = [
+            [
+                'name' => [
+                    'en' => 'Healthcare',
+                    'ar' => 'الرعاية الصحية',
+                ],
+                'description' => [
+                    'en' => 'Services related to hospitals, clinics, pharmacies, and emergency care.',
+                    'ar' => 'خدمات متعلقة بالمستشفيات والعيادات والصيدليات والرعاية الطارئة.',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Education',
+                    'ar' => 'التعليم',
+                ],
+                'description' => [
+                    'en' => 'Services related to schools, universities, and vocational training.',
+                    'ar' => 'خدمات متعلقة بالمدارس والجامعات والتدريب المهني.',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Transportation',
+                    'ar' => 'النقل',
+                ],
+                'description' => [
+                    'en' => 'Services for public transport, vehicle registration, and driving licenses.',
+                    'ar' => 'خدمات النقل العام وتسجيل المركبات ورخص القيادة.',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Finance',
+                    'ar' => 'المالية',
+                ],
+                'description' => [
+                    'en' => 'Banking, taxes, and investment related services.',
+                    'ar' => 'الخدمات المصرفية والضرائب والخدمات المتعلقة بالاستثمار.',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Legal',
+                    'ar' => 'القانونية',
+                ],
+                'description' => [
+                    'en' => 'Court services, notary, and legal aid services.',
+                    'ar' => 'خدمات المحاكم والتوثيق والمساعدة القانونية.',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Housing',
+                    'ar' => 'السكن',
+                ],
+                'description' => [
+                    'en' => 'Services for real estate, utilities, and building permits.',
+                    'ar' => 'خدمات العقارات والمرافق وتصاريح البناء.',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Business',
+                    'ar' => 'الأعمال',
+                ],
+                'description' => [
+                    'en' => 'Services for company registration, licenses, and trade activities.',
+                    'ar' => 'خدمات تسجيل الشركات والتراخيص والأنشطة التجارية.',
+                ],
+            ],
         ];
 
-        DB::table('categories')->insert($categories);
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
+    }
     }
 
-    }
+
 

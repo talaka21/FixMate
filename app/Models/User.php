@@ -30,10 +30,10 @@ class User extends Authenticatable
         'status',
         'email',
         'password',
-
+'verify_code'
     ];
 
-     
+
     /**
      * The attributes that should be hidden for serialization.
      *

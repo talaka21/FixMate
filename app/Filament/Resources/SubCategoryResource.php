@@ -48,7 +48,7 @@ class SubCategoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_en')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
@@ -82,7 +82,7 @@ class SubCategoryResource extends Resource
                 SelectFilter::make('category_id')
                     ->label('Category')
                     ->options(function () {
-                        return Category::pluck('name_en', 'id')->toArray();
+                        return Category::pluck('name', 'id')->toArray();
                     })
 
             ])

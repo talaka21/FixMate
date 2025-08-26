@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\state;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,21 +14,29 @@ class StateSeeder extends Seeder
      */
     public function run(): void
     {
-       DB::table('states')->insert([
-           
-    [
-        'name_en' => 'Syria',
-        'name_ar' => 'سوريا',
-    ],
-    [
-        'name_en' => 'Lebanon',
-        'name_ar' => 'لبنان',
-    ],
-    [
-        'name_en' => 'United Arab Emirates',
-        'name_ar' => 'الإمارات العربية المتحدة',
-    ],
+$states = [
+            [
+                'name' => [
+                    'en' => 'Syria',
+                    'ar' => 'سوريا',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'Lebanon',
+                    'ar' => 'لبنان',
+                ],
+            ],
+            [
+                'name' => [
+                    'en' => 'United Arab Emirates',
+                    'ar' => 'الإمارات العربية المتحدة',
+                ],
+            ],
+        ];
 
-        ]);
-    }
+        foreach ($states as $state) {
+            State::create($state);
+        }
+}
 }

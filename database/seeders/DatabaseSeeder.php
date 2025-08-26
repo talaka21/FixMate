@@ -23,13 +23,13 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SubCategorySeeder::class,
             TagSeeder::class,
-          ServiceProviderSeeder::class,
-          ServiceProviderRequestSeeder::class,
-        SliderSeeder::class,
-        OfferSeeder::class,
-        governmentEntitieSeeder::class,
-        UserSeeder::class,
-        NotificationSeeder::class,
+            ServiceProviderSeeder::class,
+            ServiceProviderRequestSeeder::class,
+            SliderSeeder::class,
+            OfferSeeder::class,
+            governmentEntitieSeeder::class,
+            UserSeeder::class,
+            NotificationSeeder::class,
         ]);
     }
 }

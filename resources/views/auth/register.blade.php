@@ -118,7 +118,7 @@
         <input type="text" name="first_name" placeholder="First Name" required>
         <input type="text" name="last_name" placeholder="Last Name" required>
         <input type="text" name="phone_number" placeholder="Phone Number" maxlength="10" required>
-        <input type="email" name="email" placeholder="Email" required> {{-- ✅ إضافة البريد الإلكتروني --}}
+        <input type="email" name="email" placeholder="Email" required>
 
         <select name="state_id" id="state" required>
             <option value="">Select State</option>
@@ -132,6 +132,14 @@
         </select>
 
         <input type="password" name="password" placeholder="Password" required>
+        <!-- رابط نسيان كلمة السر -->
+<div style="text-align: right; margin-bottom: 10px;">
+    <a href="{{ route('ForgotPassword') }}" style="font-size: 13px; color: #a864a8; text-decoration: none;">
+        Forgot Password?
+    </a>
+</div>
+
+<input type="password" name="password_confirmation" placeholder="Confirm Password" required>
         <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
 
         <label>

@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
 
 class GovernmentEntity extends Model
 {
+     use HasTranslations;
     protected $fillable = [
-        'name_ar',
-        'name_en',
+        'name',
         'description',
         'image',
         'phone',
@@ -18,6 +20,7 @@ class GovernmentEntity extends Model
         'city_id',
         'status',
     ];
+     public $translatable = ['name', 'description'];
     protected $casts = [
         'status' => stateStatusEnum::class,
     ];

@@ -4,17 +4,20 @@ namespace App\Models;
 
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
+
 
 class Subcategory extends Model
 {
+     use HasTranslations;
     protected $fillable = [
-        'name_ar',
-        'name_en',
+        'name',
         'description',
         'thumbnail',
         'status',
         'category_id',
     ];
+     public $translatable = ['name', 'description']; 
     protected $casts = [
         'status' => stateStatusEnum::class,
     ];

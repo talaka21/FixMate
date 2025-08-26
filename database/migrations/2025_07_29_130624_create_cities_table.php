@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
-            // $table->string('name')->nullable();
-            $table->string('name_en');
-            $table->string('name_ar');
-            $table->foreignId('state_id')->references('id')->on('states');
+            $table->json('name');
+             $table->foreignId('state_id')->references('id')->on('states');
             $table->string('status')->default('active');
             $table->timestamps();
         });

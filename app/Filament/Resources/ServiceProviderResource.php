@@ -64,7 +64,7 @@ class ServiceProviderResource extends Resource
                     ->required()
                     ->default(now()->startOfDay())
                     ->beforeOrEqual(now()),
-                Forms\Components\DatePicker::make('contract_end')
+                Forms\Components\DatePicker::make('contractd')
                     ->required()
                     ->after(fn($get) => $get('contract_start')),
                 Forms\Components\TextInput::make('status')
@@ -117,7 +117,7 @@ class ServiceProviderResource extends Resource
                 Tables\Columns\TextColumn::make('contract_start')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('contract_end')
+                Tables\Columns\TextColumn::make('contractd')
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
@@ -128,16 +128,16 @@ class ServiceProviderResource extends Resource
                     ->numeric()
                     ->label('views')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('category.name_en')
+                Tables\Columns\TextColumn::make('category.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('subcategory.name_en')
+                Tables\Columns\TextColumn::make('subcategory.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('state.name_en')
+                Tables\Columns\TextColumn::make('state.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('city.name_en')
+                Tables\Columns\TextColumn::make('city.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -156,19 +156,19 @@ class ServiceProviderResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')
                     ->label('name category')
-                    ->options(fn() => \App\Models\Category::pluck('name_en', 'id')->toArray()),
+                    ->options(fn() => \App\Models\Category::pluck('name', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('subcategory_id')
                     ->label('subcategory')
-                    ->options(fn() => \App\Models\Subcategory::pluck('name_en', 'id')->toArray()),
+                    ->options(fn() => \App\Models\Subcategory::pluck('name', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('state_id')
                     ->label('state')
-                    ->options(fn() => \App\Models\State::pluck('name_en', 'id')->toArray()),
+                    ->options(fn() => \App\Models\State::pluck('name', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('city_id')
                     ->label('city')
-                    ->options(fn() => \App\Models\City::pluck('name_en', 'id')->toArray()),
+                    ->options(fn() => \App\Models\City::pluck('name', 'id')->toArray()),
 
                 Tables\Filters\SelectFilter::make('tags')
                     ->label('tag')

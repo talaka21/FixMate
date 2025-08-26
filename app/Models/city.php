@@ -4,15 +4,17 @@ namespace App\Models;
 
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class city extends Model
 {
+       use HasTranslations;
     protected $fillable = [
-        'name_ar',
-        'name_en',
+        'name',
         'status'
     ];
 
+     public $translatable = ['name'];
     protected $casts = [
         'status' => stateStatusEnum::class,
     ];

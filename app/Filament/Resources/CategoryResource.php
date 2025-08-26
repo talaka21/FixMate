@@ -14,6 +14,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Pixelpeter\FilamentLanguageTabs\Forms\Components\LanguageTabs;
 
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -31,35 +32,35 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
+           ->schema([
+            LanguageTabs::make([
                 Forms\Components\TextInput::make('name')
+                    ->label('Name')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('description')
+                    ->label('Description')
                     ->required()
                     ->maxLength(255),
-                SpatieMediaLibraryFileUpload::make('thumbnail')
-                    ->collection('thumbnails')
-                    ->image()
-                    ->required(),
+            ]),
 
-                // SpatieMediaLibraryFileUpload::make('thumbnail')
-                //     ->collection('thumbnails')
-                //     ->image()
-                //     ->required(),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('active'),
+            SpatieMediaLibraryFileUpload::make('thumbnail')
+                ->collection('thumbnails')
+                ->image()
+                ->required(),
 
-            ]);
+            Forms\Components\TextInput::make('status')
+                ->required()
+                ->maxLength(255)
+                ->default('active'),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_en')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),

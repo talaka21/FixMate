@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('government_entities', function (Blueprint $table) {
             $table->id();
-            $table->string('name_en');
-            $table->string('name_ar');
-            $table->string('description');
+            $table->json('name');
+            $table->json('description');
             $table->string('image')->nullable();
             $table->string('phone')->default('');
             $table->string('website')->nullable();
