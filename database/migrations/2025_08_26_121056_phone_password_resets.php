@@ -9,17 +9,18 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-   {
+   public function up(): void
+{
+    if (!Schema::hasTable('phone_password_resets')) {
         Schema::create('phone_password_resets', function (Blueprint $table) {
-             $table->id();
-              $table->string('phone_number')->index(); // رقم الهاتف
-            $table->string('token');                // كود إعادة التعيين
+            $table->id();
+            $table->string('phone_number')->index();
+            $table->string('token');
             $table->timestamp('created_at')->nullable();
-
-
         });
     }
+}
+
    /**
      * Reverse the migrations.
      */

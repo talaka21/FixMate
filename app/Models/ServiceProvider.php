@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Enum\ServiceProviderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Translatable\HasTranslations;
 class ServiceProvider extends Model
 {
 
-
+  use HasTranslations;
     protected  $fillable =[
         'provider_name',
         'shop_name',
@@ -34,6 +34,7 @@ class ServiceProvider extends Model
            'status'=>ServiceProviderEnum::class,
     ];
 
+    public $translatable = ['name', 'description'];
 
     public function category()
     {

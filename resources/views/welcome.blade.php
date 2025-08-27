@@ -121,6 +121,44 @@
     </div>
   </section>
 
+  <!-- Categories Section -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="mb-4" style="color:#872b87; font-weight:bold;">
+        {{ __('Our Categories') }}
+      </h2>
+      <div class="row">
+        @foreach($categories->take(6) as $category)
+          <div class="col-md-4 col-sm-6 mb-4">
+            <div class="card shadow-sm h-100 text-center">
+              <div class="card-body">
+                <h5 class="card-title" style="color:#a864a8;">
+                  {{ $category->getTranslation('name', app()->getLocale()) }}
+                </h5>
+                <p class="card-text">
+                  {{ Str::limit($category->getTranslation('description', app()->getLocale()), 100) }}
+                </p>
+                <a href="{{ route('categories.show', $category->id) }}"
+                   class="btn btn-sm"
+                   style="background-color:#872b87; color:#fff; border-radius:30px;">
+                  {{ __('View Details') }}
+                </a>
+              </div>
+            </div>
+          </div>
+        @endforeach
+      </div>
+
+      <div class="mt-4">
+        <a href="{{ route('categories.index') }}"
+           class="btn btn-outline-primary"
+           style="border-color:#872b87; color:#872b87; border-radius:30px;">
+          {{ __('View All Categories') }}
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Testimonials Section -->
   <section class="py-5 bg-light">
     <div class="container text-center">
