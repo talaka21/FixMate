@@ -73,46 +73,44 @@
         text-decoration: none;
     }
 
-</style>
+  </style>
 
-<div class="form-container">
-    <h2>Login</h2>
+  <div class="form-container">
+      <h2>Login</h2>
 
-    {{-- عرض الأخطاء --}}
-    @if ($errors->any())
-        <div class="alert-error">
-            <ul style="margin: 0; padding-left: 20px;">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+      {{-- Display Errors --}}
+      @if ($errors->any())
+          <div class="alert-error">
+              <ul style="margin: 0; padding-left: 20px;">
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
 
-    <form method="POST" action="{{ route('login.submit') }}">
-        @csrf
-        <input type="text" name="phone" placeholder="Phone Number" required maxlength="10">
+      <form method="POST" action="{{ route('login.submit') }}">
+          @csrf
+          <input type="text" name="phone" placeholder="Phone Number" required maxlength="10">
 
-        <input type="password" name="password" placeholder="Password" id="password" required>
-        <label class="show-password">
-            <input type="checkbox" onclick="togglePassword()"> Show Password
-        </label>
+          <input type="password" name="password" placeholder="Password" id="password" required>
+          <label class="show-password">
+              <input type="checkbox" onclick="togglePassword()"> Show Password
+          </label>
 
-        <button type="submit">Sign In</button>
-    </form>
+          <button type="submit">Sign In</button>
+      </form>
 
-    <div class="links">
-        <a href="{{ route('forgot-password.form') }}">Forgot Password?</a>
-     <a href="{{ route('register.form') }}">Become a Seller</a>
+      <div class="links">
+          <a href="{{ route('forgot-password.form') }}">Forgot Password?</a>
+          <a href="{{ route('service_providers.create') }}">Become a Seller</a>
+      </div>
+  </div>
 
-    </div>
-</div>
-
-<script>
-    function togglePassword() {
-        var x = document.getElementById("password");
-        x.type = x.type === "password" ? "text" : "password";
-    }
-</script>
-
+  <script>
+      function togglePassword() {
+          var x = document.getElementById("password");
+          x.type = x.type === "password" ? "text" : "password";
+      }
+  </script>
 </div>

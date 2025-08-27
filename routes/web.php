@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ServiceProviderController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,3 +68,6 @@ Route::get('/reset-password/{phone}', [ResetPasswordController::class, 'showForm
 // إرسال كلمة المرور الجديدة
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])
     ->name('auth.passwordReset.update');
+//service provider
+Route::get('/service-providers/create', [ServiceProviderController::class, 'create'])->name('service_providers.create');
+Route::post('/service-providers', [ServiceProviderController::class, 'store'])->name('service_providers.store');

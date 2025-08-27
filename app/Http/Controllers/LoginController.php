@@ -20,33 +20,57 @@ class LoginController extends Controller
     // تنفيذ عملية تسجيل الدخول
     public function login(Request $request)
     {
+        // ✅ التحقق من الإدخال
+        $request->validate([
+            'phone'    => 'required|string|max:10',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                // لازم يحتوي على حرف صغير، حرف كبير، رقم ورمز
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&]/',
+            ],
+        ], [
+            'phone.required'    => 'رقم الهاتف مطلوب.',
+            'phone.max'         => 'رقم الهاتف يجب ألا يتجاوز 10 أرقام.',
+            'password.required' => 'كلمة المرور مطلوبة.',
+            'password.min'      => 'كلمة المرور يجب أن تكون 8 محارف على الأقل.',
+            'password.regex'    => 'كلمة المرور يجب أن تحتوي على أحرف كبيرة وصغيرة وأرقام ورموز.',
+        ]);
 
-    $request->validate([
-        'phone' => 'required|digits:10',
-        'password' => 'required|string|min:8',
-    ]);
+        // ✅ جلب بيانات الاعتماد
+        $credentials = $request->only('phone', 'password');
 
-    // البحث عن المستخدم
-    $user = User::where('phone_number', $request->phone)->first();
+        // ✅ جلب المستخدم
+        $user = User::where('phone_number', $credentials['phone'])->first();
 
-    // 1. الحساب غير موجود
-    if (!$user) {
-        return back()->withErrors(['phone' => '❌ رقم الهاتف غير مسجل لدينا.']);
-    }
+        if (!$user) {
+            return back()->withErrors(['phone' => 'الحساب غير موجود.']);
+        }
 
-    // 2. الحساب غير مفعّل
-    if (!$user->is_verified) {
-        return redirect()->route('verify.form', ['phone' => $request->phone]);
-    }
+        // ✅ تحقق من كلمة المرور
+        if (!Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors(['password' => 'كلمة المرور غير صحيحة.']);
+        }
 
-    // 3. الحساب موجود ومفعل
-    if (Hash::check($request->password, $user->password)) {
-        // ✅ كلمة السر صحيحة → تسجيل دخول + توجيه للـ welcome
-        Auth::login($user);
-        return redirect()->route('welcome');
-    }
+        // ✅ تحقق من حالة الحساب
+        switch ($user->status) {
+            case 'inactive':
+                return redirect()->route('verify.form', ['phone' => $user->phone_number]);
 
-    // ❌ كلمة السر خاطئة
-    return back()->withErrors(['password' => '❌ كلمة المرور غير صحيحة.']);
+            case 'suspended':
+                return back()->withErrors(['phone' => 'تم إيقاف الحساب، تواصل مع الدعم.']);
+
+            case 'active':
+                // تسجيل دخول ناجح
+                Auth::login($user);
+                return redirect()->route('welcome');
+
+            default:
+                return back()->withErrors(['phone' => 'حالة الحساب غير معروفة.']);
+        }
     }
 }

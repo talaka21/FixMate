@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\PhonePasswordReset;
+use App\Helpers\PhoneHelper;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class VerificationController extends Controller
-{public function show(Request $request)
+{
+    // عرض صفحة إدخال الكود
+    public function show(Request $request)
     {
         $phone = $request->phone;
         return view('auth.verify', compact('phone'));
@@ -20,32 +24,37 @@ class VerificationController extends Controller
             'phone' => 'required|string'
         ]);
 
-        // توليد كود عشوائي 4 أرقام
+        // تنسيق الرقم للصيغة الدولية (+963 أو +966)
+        $phone = PhoneHelper::formatToInternational($request->phone, '+963');
+
+        // توليد كود عشوائي
         $verificationCode = rand(1000, 9999);
 
-        // تخزين الكود بالجلسة
-    // تخزين الكود بالـ database
-    $verificationCode::updateOrCreate(
-        ['phone' => $request->phone],
-        [
-            'code'       => $verificationCode,
-            'verify' => Carbon::now()->addMinutes(30) // صلاحيةدقائق
-        ]
-      )  ;
+        // تخزين أو تحديث في جدول phone_password_resets
+        PhonePasswordReset::updateOrCreate(
+            ['phone_number' => $phone],
+            [
+                'token'      => $verificationCode,
+                'created_at' => Carbon::now()
+            ]
+        );
 
+        // إعداد البيانات للإرسال
         $params = [
-            'token' => 'qdpk7glscua7qb44',
-            'to'    => $request->phone,
+            'token' => config('services.ultramsg.token'),
+            'to'    => $phone,
             'body'  => "كود التحقق الخاص بك هو: $verificationCode",
         ];
 
+        // طلب cURL
         $curl = curl_init();
         curl_setopt_array($curl, [
-            CURLOPT_URL            => "https://api.ultramsg.com/instanceXXXX/messages/chat", // غيّر instanceXXXX برقم الInstance تبعك
+            CURLOPT_URL            => "https://api.ultramsg.com/".config('services.ultramsg.instance')."/messages/chat",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CUSTOMREQUEST  => "POST",
             CURLOPT_POSTFIELDS     => http_build_query($params),
             CURLOPT_HTTPHEADER     => ["Content-Type: application/x-www-form-urlencoded"],
+            CURLOPT_TIMEOUT        => 30, // 30 ثانية
         ]);
 
         $response = curl_exec($curl);
@@ -56,49 +65,79 @@ class VerificationController extends Controller
             return back()->withErrors(['phone' => "خطأ بالإرسال: $err"]);
         }
 
-        // رجع للمستخدم صفحة إدخال الكود
-        return redirect()->route('verify.form')->with('success', 'تم إرسال رمز التحقق');
+        return redirect()->route('verify.form', ['phone' => $request->phone])
+            ->with('success', 'تم إرسال رمز التحقق');
     }
-
-
 
     // التحقق من الكود المدخل
     public function verify(Request $request)
     {
-          $request->validate([
-        'phone'             => 'required|string',
-        'verification_code' => 'required|digits:4',
-    ]);
+        $request->validate([
+            'phone'             => 'required|string',
+            'verification_code' => 'required|digits:4',
+        ]);
 
-    // ✅ ابحث عن المستخدم حسب رقم الهاتف و الكود
-    $user = User::where('phone_number', $request->phone)->first();
-    // dd($user->verify_code,$request->verification_code);
-    if($user->verify_code = $request->verification_code){
-        return redirect()->route('welcome')->with('success', 'تم التحقق بنجاح 🎉');
+        $phone = PhoneHelper::formatToInternational($request->phone, '+963');
+
+        // البحث عن الكود والتحقق من صلاحيته (30 دقيقة)
+        $record = PhonePasswordReset::where('phone_number', $phone)
+            ->where('token', $request->verification_code)
+            ->where('created_at', '>=', Carbon::now()->subMinutes(30))
+            ->first();
+
+        if ($record) {
+            return redirect()->route('welcome')->with('success', 'تم التحقق بنجاح 🎉');
+        }
+
+        return back()->withErrors(['verification_code' => 'الكود غير صحيح أو منتهي']);
     }
 
-    return back()->withErrors(['verification_code' => 'الكود غير صحيح']);
-}
-public function resend(Request $request)
-{
-    $request->validate([
-        'phone' => 'required|string'
-    ]);
+    // إعادة إرسال الكود
+    public function resend(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string'
+        ]);
 
-    $user = User::where('phone_number', $request->phone)->first();
+        $phone = PhoneHelper::formatToInternational($request->phone, '+963');
 
-    if (!$user) {
-        return response()->json(['message' => 'المستخدم غير موجود'], 404);
+        // توليد كود جديد
+        $newCode = rand(1000, 9999);
+
+        PhonePasswordReset::updateOrCreate(
+            ['phone_number' => $phone],
+            [
+                'token'      => $newCode,
+                'created_at' => Carbon::now()
+            ]
+        );
+
+        // إرسال الكود عبر UltraMsg
+        $params = [
+            'token' => config('services.ultramsg.token'),
+            'to'    => $phone,
+            'body'  => "كود تحقق جديد هو: $newCode",
+        ];
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_URL            => "https://api.ultramsg.com/".config('services.ultramsg.instance')."/messages/chat",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST  => "POST",
+            CURLOPT_POSTFIELDS     => http_build_query($params),
+            CURLOPT_HTTPHEADER     => ["Content-Type: application/x-www-form-urlencoded"],
+            CURLOPT_TIMEOUT        => 30,
+        ]);
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+        curl_close($curl);
+
+        if ($err) {
+            return back()->withErrors(['phone' => "خطأ بالإرسال: $err"]);
+        }
+
+        return redirect()->route('verify.form', ['phone' => $request->phone])
+            ->with('success', 'تم إرسال كود جديد ✅');
     }
-
-    // ✅ توليد كود جديد
-    $newCode = rand(1000, 9999);
-    $user->update(['verify_code' => $newCode]);
-
-    // هون بتستدعي API الإرسال (SMS أو WhatsApp)
-    // sendVerificationCode($user->phone_number, $newCode);
-
-    return response()->json(['message' => 'تم إرسال كود جديد ✅']);
-}
-
 }
