@@ -133,15 +133,14 @@
 
         <input type="password" name="password" placeholder="Password" required>
         <!-- رابط نسيان كلمة السر -->
-<div style="text-align: right; margin-bottom: 10px;">
-    <a href="{{ route('ForgotPassword') }}" style="font-size: 13px; color: #a864a8; text-decoration: none;">
-        Forgot Password?
-    </a>
-</div>
+{{-- <div style="text-align: right; margin-bottom: 10px;">
+   <a href="{{ route('forgot-password.form') }}" style="font-size: 13px; color: #a864a8; text-decoration: none;">
+    Forgot Password?
+</a>
+</div> --}}
 
 <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
-        <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
-
+    
         <label>
             <input type="checkbox" name="terms" required>
             I agree to the Terms and Conditions

@@ -30,20 +30,36 @@
       margin-top: 15px;
     }
 
-    .btn-signup {
-      background-color: #fff;
-      color: #a864a8;
-      border: 2px solid #a864a8;
+    .btn-signup, .btn-signin {
       padding: 12px 30px;
       font-size: 1.1rem;
       border-radius: 50px;
       transition: 0.3s ease-in-out;
-      margin-top: 20px;
+      margin-top: 10px;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .btn-signup {
+      background-color: #fff;
+      color: #a864a8;
+      border: 2px solid #a864a8;
     }
 
     .btn-signup:hover {
       background-color: #a864a8;
       color: white;
+    }
+
+    .btn-signin {
+      background-color: #6c63ff;
+      color: white;
+      border: 2px solid #6c63ff;
+    }
+
+    .btn-signin:hover {
+      background-color: #5750d4;
+      border-color: #5750d4;
     }
 
     .card-title {
@@ -64,8 +80,12 @@
   <section class="hero d-flex flex-column align-items-center justify-content-center">
     <h1>Boost Your Business with Confidence</h1>
     <p>Professional solutions crafted just for you</p>
-  <a href="{{  route('register.form') }}" class="btn btn-signup">Sign Up Now</a>
 
+    <!-- Sign Up Button -->
+    <a href="{{ route('register.form') }}" class="btn btn-signup">Sign Up Now</a>
+
+    <!-- Sign In Button -->
+    <a href="{{ route('login') }}" class="btn btn-signin">Sign In</a>
   </section>
 
   <!-- Features Section -->
