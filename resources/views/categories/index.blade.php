@@ -44,6 +44,12 @@
             color: #872b87;
             font-weight: bold;
         }
+
+        .category-img {
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
@@ -63,14 +69,32 @@
             @foreach($categories as $category)
                 <div class="col-md-4 col-sm-6 mb-4">
                     <div class="card category-card h-100 text-center shadow-sm">
+
+                        {{-- صورة الكاتيجوري --}}
+                        @if($category->getFirstMediaUrl('thumbnails'))
+                            <img src="{{ $category->getFirstMediaUrl('thumbnails') }}"
+                                 class="img-fluid mb-3 category-img"
+                                 alt="{{ $category->name }}">
+                        @else
+                            <img src="{{ asset('images/default.png') }}"
+                                 class="img-fluid mb-3 category-img"
+                                 alt="default">
+                        @endif
+
                         <div class="card-body">
+                            {{-- عنوان الكاتيجوري --}}
                             <h5 class="card-title category-title">
                                 {{ $category->getTranslation('name', app()->getLocale()) }}
                             </h5>
+
+                            {{-- وصف الكاتيجوري --}}
                             <p class="card-text">
                                 {{ Str::limit($category->getTranslation('description', app()->getLocale()), 100) }}
                             </p>
-                            <a href="{{ route('categories.show', $category->id) }}" class="btn btn-primary">
+
+                            {{-- زر التفاصيل --}}
+                            <a href="{{ route('categories.show', $category->id) }}"
+                               class="btn btn-primary">
                                 {{ __('View Details') }}
                             </a>
                         </div>

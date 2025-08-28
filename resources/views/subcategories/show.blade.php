@@ -1,4 +1,3 @@
-<div>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -27,11 +26,16 @@
             text-decoration: none;
             color: inherit;
         }
+        .subcategory-img {
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Navbar بسيطة -->
+    <!-- Navbar -->
     <nav class="navbar navbar-light bg-light mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ route('categories.index') }}">
@@ -46,6 +50,13 @@
             {{ $category->getTranslation('name', app()->getLocale()) }}
         </h2>
 
+        {{-- صورة التصنيف الأساسي --}}
+        <div class="mb-4">
+            <img src="{{ $category->thumbnail_url }}"
+                 class="img-fluid rounded shadow-sm"
+                 alt="{{ $category->name }}">
+        </div>
+
         <p>{{ $category->getTranslation('description', app()->getLocale()) }}</p>
 
         {{-- التصنيفات الفرعية --}}
@@ -56,9 +67,9 @@
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="card shadow-sm h-100 text-center">
                             <a href="{{ route('subcategories.show', $sub->id) }}">
-                                @if($sub->thumbnail)
-                                    <img src="{{ $sub->thumbnail }}" class="card-img-top" alt="Subcategory">
-                                @endif
+                                <img src="{{ $sub->thumbnail_url }}"
+                                     class="card-img-top subcategory-img"
+                                     alt="{{ $sub->name }}">
                                 <div class="card-body">
                                     <h6 class="card-title">
                                         {{ $sub->getTranslation('name', app()->getLocale()) }}
@@ -80,5 +91,3 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-</div>

@@ -32,28 +32,31 @@ class CategoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-           ->schema([
-            LanguageTabs::make([
-                Forms\Components\TextInput::make('name')
-                    ->label('Name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->label('Description')
-                    ->required()
-                    ->maxLength(255),
-            ]),
+            ->schema([
+                LanguageTabs::make([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Name')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\TextInput::make('description')
+                        ->label('Description')
+                        ->required()
+                        ->maxLength(255),
+                ]),
 
-            SpatieMediaLibraryFileUpload::make('thumbnail')
-                ->collection('thumbnails')
-                ->image()
-                ->required(),
+                SpatieMediaLibraryFileUpload::make('thumbnail')
+                    ->collection('thumbnails')
+                    ->image()
+                    ->disk('public')
+                    ->directory('categories')
+                    ->preserveFilenames()
+                    ->required(),
 
-            Forms\Components\TextInput::make('status')
-                ->required()
-                ->maxLength(255)
-                ->default('active'),
-        ]);
+                Forms\Components\TextInput::make('status')
+                    ->required()
+                    ->maxLength(255)
+                    ->default('active'),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -67,7 +70,7 @@ class CategoryResource extends Resource
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Thumbnail')
                     ->getStateUsing(fn($record) => $record->getFirstMediaUrl('thumbnails'))
-                    ->disk('public')
+                    // ->disk('public')
                     ->circular(),
                 Tables\Columns\TextColumn::make('subcategories_count')
                     ->label('Subcategories Count'),

@@ -108,23 +108,29 @@
         <label>Image</label>
         <input type="file" name="image">
 
-        <label>Category *</label>
-        <select name="category_id">
-            <option value="">-- Select Category --</option>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected':'' }}>{{ $category->name }}</option>
-            @endforeach
-        </select>
-        @error('category_id') <p class="error">{{ $message }}</p> @enderror
+       <label>Category *</label>
+<select name="category_id" {{ isset($category) ? 'disabled' : '' }}>
+    @if(isset($category))
+        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+    @else
+        <option value="">-- Select Category --</option>
+        @foreach($categories as $cat)
+            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected':'' }}>{{ $cat->name }}</option>
+        @endforeach
+    @endif
+</select>
 
-        <label>Subcategory *</label>
-        <select name="subcategory_id">
-            <option value="">-- Select Subcategory --</option>
-            @foreach($subcategories as $subcategory)
-                <option value="{{ $subcategory->id }}" {{ old('subcategory_id') == $subcategory->id ? 'selected':'' }}>{{ $subcategory->name }}</option>
-            @endforeach
-        </select>
-        @error('subcategory_id') <p class="error">{{ $message }}</p> @enderror
+<label>Subcategory *</label>
+<select name="subcategory_id" {{ isset($subcategory) ? 'disabled' : '' }}>
+    @if(isset($subcategory))
+        <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
+    @else
+        <option value="">-- Select Subcategory --</option>
+        @foreach($subcategories as $sub)
+            <option value="{{ $sub->id }}" {{ old('subcategory_id') == $sub->id ? 'selected':'' }}>{{ $sub->name }}</option>
+        @endforeach
+    @endif
+</select>
 
         <label>State *</label>
         <select name="state_id">

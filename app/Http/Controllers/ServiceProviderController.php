@@ -39,32 +39,50 @@ class ServiceProviderController extends Controller
 
         // الترتيب حسب المشاهدات
         if ($request->sort == 'views') {
-            $query->orderByDesc('views_count');
+            $query->orderByDesc('views');
         }
 
         // جلب البيانات
         $providers = $query->paginate(12);
 
-        return view('service_providers.index', [
-            'providers' => $providers,
-            'categories' => Category::all(),
-            'subcategories' => Subcategory::all(),
-            'states' => State::all(),
-            'cities' => City::all(),
-        ]);
+    return view('service_providers.index', [
+    'providers' => $providers,
+    'categories' => Category::all(),
+    'subcategories' => Subcategory::all(),
+    'states' => State::all(),
+    'cities' => City::all(),
+]);
+
     }
 
     /**
      * عرض صفحة الفورم
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('service_providers.create', [
-            'categories' => Category::all(),
-            'subcategories' => Subcategory::all(),
-            'states' => State::all(),
-            'cities' => City::all(),
-        ]);
+            $states = State::all();
+    $cities = City::all();
+
+    $subcategory = null;
+    $category = null;
+
+    // إذا جاء المستخدم من صفحة Subcategory معينة
+    if ($request->filled('subcategory_id')) {
+        $subcategory = Subcategory::find($request->subcategory_id);
+        if ($subcategory) {
+            $category = $subcategory->category;
+        }
+    }
+return view('service_providers.create', [
+    'states' => $states,
+    'cities' => $cities,
+    'subcategory' => $subcategory,
+    'category' => $category,
+    'categories' => $subcategory ? collect([$category]) : Category::all(),
+    'subcategories' => $subcategory ? collect([$subcategory]) : Subcategory::all(),
+]);
+
+
     }
 
     /**
@@ -72,40 +90,72 @@ class ServiceProviderController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'provider_name' => 'required|string|max:255',
-            'shop_name'     => 'required|string|max:255',
-            'description'   => 'required|string',
-            'phone'         => 'required|string|max:20',
-            'category_id'   => 'required|exists:categories,id',
-            'subcategory_id'=> 'required|exists:subcategories,id',
-            'state_id'      => 'required|exists:states,id',
-            'city_id'       => 'required|exists:cities,id',
-            'image'         => 'nullable|image|max:2048',
-        ]);
+      $request->validate([
+        'provider_name'  => 'required|string|max:255',
+        'shop_name'      => 'required|string|max:255',
+        'description'    => 'required|string',
+        'phone'          => 'required|string|max:20',
+        'category_id'    => 'required|exists:categories,id',
+        'subcategory_id' => 'required|exists:subcategories,id',
+        'state_id'       => 'required|exists:states,id',
+        'city_id'        => 'required|exists:cities,id',
+        'image'          => 'nullable|image|max:2048',
+    ]);
 
-        $data = $request->all();
+    $data = $request->all();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('providers', 'public');
-        }
+    if ($request->hasFile('image')) {
+        $data['image'] = $request->file('image')->store('providers', 'public');
+    }
 
-        ServiceProvider::create($data);
+    $provider = ServiceProvider::create($data);
 
-        return redirect()->route('service_providers.create')
-            ->with('success', 'Your request has been submitted successfully!');
+    // رجع المستخدم عصفحة تفاصيل الـ Subcategory
+    return redirect()->route('subcategories.show', $provider->subcategory_id)
+        ->with('success', 'Your request has been submitted successfully!');
     }
 
     /**
      * عرض تفاصيل مزود خدمة
      */
-    public function show(ServiceProvider $service_provider)
+    public function show(Subcategory $subcategory)
     {
         // زيادة عداد المشاهدات
-        $service_provider->increment('views_count');
+         $providers = $subcategory->serviceProviders()->with(['category', 'subcategory'])->get();
 
-        return view('service_providers.show', [
-            'provider' => $service_provider
-        ]);
+        $locale = app()->getLocale();
+
+        // تجهيز الترجمة للاسم والوصف
+        $subcategoryName = is_array($subcategory->name)
+            ? ($subcategory->name[$locale] ?? $subcategory->name['en'] ?? '')
+            : $subcategory->name;
+
+        $subcategoryDescription = is_array($subcategory->description)
+            ? ($subcategory->description[$locale] ?? $subcategory->description['en'] ?? '')
+            : $subcategory->description;
+
+        return view('subcategories.show', compact(
+            'subcategory',
+            'subcategoryName',
+            'subcategoryDescription',
+            'providers'
+        ));
     }
+public function bySubcategory(Subcategory $subcategory)
+{
+    $service_providers = ServiceProvider::with(['category','subcategory','state','city'])
+        ->where('subcategory_id', $subcategory->id)
+        ->latest()
+        ->paginate(12); // أو ->get()
+
+    return view('service_providers.index', [
+        'service_providers' => $service_providers,
+        'subcategory' => $subcategory,
+    ]);
 }
+
+
+
+
+    }
+

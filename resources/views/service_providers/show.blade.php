@@ -46,11 +46,12 @@
 
     @php
         $locale = app()->getLocale();
-        // جلب الترجمة من JSON أو fallback للإنجليزية
+        // Category name
         $categoryName = is_array($provider->category?->name)
             ? ($provider->category?->name[$locale] ?? $provider->category?->name['en'] ?? '')
             : $provider->category?->name;
 
+        // Subcategory name
         $subcategoryName = is_array($provider->subcategory?->name)
             ? ($provider->subcategory?->name[$locale] ?? $provider->subcategory?->name['en'] ?? '')
             : $provider->subcategory?->name;
@@ -68,8 +69,27 @@
         @endif
 
         <!-- Related Category & Subcategory -->
-        <p><strong>{{ __('Category:') }}</strong> {{ $categoryName }}</p>
-        <p><strong>{{ __('Subcategory:') }}</strong> {{ $subcategoryName }}</p>
+        <p>
+            <strong>{{ __('Category:') }}</strong>
+            @if($provider->category)
+                <a href="{{ route('categories.show', $provider->category->id) }}">
+                    {{ $categoryName }}
+                </a>
+            @else
+                {{ __('N/A') }}
+            @endif
+        </p>
+
+        <p>
+            <strong>{{ __('Subcategory:') }}</strong>
+            @if($provider->subcategory)
+                <a href="{{ route('subcategories.show', $provider->subcategory->id) }}">
+                    {{ $subcategoryName }}
+                </a>
+            @else
+                {{ __('N/A') }}
+            @endif
+        </p>
 
         <!-- Gallery -->
         @if($provider->gallery && count($provider->gallery) > 0)
@@ -88,8 +108,8 @@
         <p>{{ $provider->description }}</p>
 
         <!-- Location -->
-        <p><strong>{{ __('State:') }}</strong> {{ $provider->state?->name }}</p>
-        <p><strong>{{ __('City:') }}</strong> {{ $provider->city?->name }}</p>
+        <p><strong>{{ __('State:') }}</strong> {{ $provider->state?->name ?? __('N/A') }}</p>
+        <p><strong>{{ __('City:') }}</strong> {{ $provider->city?->name ?? __('N/A') }}</p>
 
         <!-- Tags -->
         @if($provider->tags && $provider->tags->count() > 0)

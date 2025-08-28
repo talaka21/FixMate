@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OfferController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\VerificationController;
@@ -9,6 +10,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\GovernmentEntityController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
 
@@ -89,7 +91,19 @@ Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categ
 Route::get('/subcategories', [SubcategoryController::class, 'index'])->name('subcategories.index');
 Route::get('/subcategories/{subcategory}', [SubcategoryController::class, 'show'])
     ->name('subcategories.show');
+// جلب كل الـ service providers تبع subcategory
+Route::get('/subcategories/{subcategory}/providers', [ServiceProviderController::class, 'bySubcategory'])
+    ->name('subcategories.providers');
 
 // Route باستخدام id (يدوي)
 Route::get('/subcategories/id/{id}', [SubcategoryController::class, 'showById'])
     ->name('subcategories.showById');
+
+    //offers
+
+Route::get('/offers', [OfferController::class, 'index'])->name('offers.index');
+Route::get('/offers/{offer}', [OfferController::class, 'show'])->name('offers.show');
+
+//GovernmentEntity
+Route::get('/government-entities', [GovernmentEntityController::class, 'index'])->name('government-entities.index');
+

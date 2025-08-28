@@ -14,6 +14,8 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Pixelpeter\FilamentLanguageTabs\Forms\Components\LanguageTabs;
 
 class SubCategoryResource extends Resource
 {
@@ -23,25 +25,39 @@ class SubCategoryResource extends Resource
 
     public static function form(Form $form): Form
     {
+
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('thumbnail')
-                    ->maxLength(255)
-                    ->default(null),
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('active'),
-                Forms\Components\select::make('category_name')
-                    ->searchable()
-                    ->required(),
-            ]);
+            ->schema(
+                [
+                    LanguageTabs::make([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('description')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\Select::make('category_id')
+                            ->label('Category')
+                            ->options(Category::pluck('name', 'id')->toArray())
+                            ->searchable()
+                            ->required(),
+
+
+                    ]),
+                    SpatieMediaLibraryFileUpload::make('thumbnail')
+                        ->collection('thumbnails')
+                        ->image()
+                        ->disk('public')
+                        ->directory('subcategories')
+                        ->preserveFilenames()
+                        ->required(),
+                    Forms\Components\TextInput::make('status')
+                        ->required()
+                        ->maxLength(255)
+                        ->default('active'),
+
+                ]
+            );
     }
 
     public static function table(Table $table): Table
@@ -52,17 +68,23 @@ class SubCategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('thumbnail')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('thumbnail')
+                    ->label('Thumbnail')
+                    ->getStateUsing(fn($record) => $record->getFirstMediaUrl('thumbnails'))
+                    ->disk('public')
+                    ->circular(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable()
                     ->badge()
                     ->color(function ($state) {
                         return $state->color();
                     }),
-                Tables\Columns\TextColumn::make('category.name')
+                Tables\Columns\TextColumn::make('category_id')
                     ->label('Category')
-                    ->sortable(),
+                    ->formatStateUsing(fn($state, $record) => $record->category?->getTranslation('name', app()->getLocale()))
+                    ->sortable()
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -80,10 +102,15 @@ class SubCategoryResource extends Resource
                         'inactive' => 'Inactive',
                     ]),
                 SelectFilter::make('category_id')
-                    ->label('Category')
+                    ->label(__('Category'))
                     ->options(function () {
-                        return Category::pluck('name', 'id')->toArray();
-                    })
+                        return Category::all()
+                            ->mapWithKeys(fn($cat) => [
+                                $cat->id => $cat->getTranslation('name', app()->getLocale())
+                            ])
+                            ->toArray();
+                    }),
+
 
             ])
             ->actions([

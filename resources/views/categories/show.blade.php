@@ -30,7 +30,7 @@
 </head>
 <body>
 
-    <!-- Navbar بسيطة -->
+    <!-- Navbar -->
     <nav class="navbar navbar-light bg-light mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ route('categories.index') }}">
@@ -55,9 +55,6 @@
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="card shadow-sm h-100 text-center">
                             <a href="{{ route('subcategories.show', $sub->id) }}">
-                                @if($sub->thumbnail)
-                                    <img src="{{ $sub->thumbnail }}" class="card-img-top" alt="Subcategory">
-                                @endif
                                 <div class="card-body">
                                     <h6 class="card-title">
                                         {{ $sub->getTranslation('name', app()->getLocale()) }}

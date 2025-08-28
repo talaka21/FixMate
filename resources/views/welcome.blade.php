@@ -87,7 +87,15 @@
     <!-- Sign In Button -->
     <a href="{{ route('login') }}" class="btn btn-signin">Sign In</a>
   </section>
-
+<!-- View Offers Button -->
+  <a href="{{ route('offers.index') }}"
+     class="btn mt-3"
+     style="background-color:#8b4b8b; color:#fff; padding:12px 30px; border-radius:50px; font-size:1.1rem; text-decoration:none; transition:0.3s;">
+     🎁 View Offers
+  </a>
+  <!-- Government Entities Button -->
+  <a href="{{ route('government-entities.index') }}" class="btn btn-signup">Government Entities</a>
+</section>
   <!-- Features Section -->
   <section class="py-5 text-center">
     <div class="container">
@@ -120,7 +128,6 @@
       </div>
     </div>
   </section>
-
   <!-- Categories Section -->
   <section class="py-5">
     <div class="container text-center">
@@ -131,6 +138,13 @@
         @foreach($categories->take(6) as $category)
           <div class="col-md-4 col-sm-6 mb-4">
             <div class="card shadow-sm h-100 text-center">
+
+              <!-- صورة التصنيف -->
+              <img src="{{ $category->thumbnail_url }}"
+                   class="card-img-top"
+                   alt="{{ $category->name }}"
+                   style="height:200px; object-fit:cover;">
+
               <div class="card-body">
                 <h5 class="card-title" style="color:#a864a8;">
                   {{ $category->getTranslation('name', app()->getLocale()) }}
@@ -158,6 +172,7 @@
       </div>
     </div>
   </section>
+
 
   <!-- Testimonials Section -->
   <section class="py-5 bg-light">

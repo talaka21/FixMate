@@ -13,6 +13,7 @@ class Category extends Model implements HasMedia
 {
      use HasTranslations;
     use InteractsWithMedia;
+
     protected $fillable = [
         'name',
         'description',
@@ -41,5 +42,26 @@ class Category extends Model implements HasMedia
     {
         return $this->hasMany(ServiceProviderRequest::class);
     }
-    
+
+public function getThumbnailUrlAttribute()
+{
+    // إذا عنده صورة محفوظة بالميديا
+    if ($this->hasMedia('thumbnails')) {
+        return $this->getFirstMediaUrl('thumbnails');
+    }
+
+    // إذا موجود default.png بمجلد storage/app/public
+    if (file_exists(storage_path('app/public/default.png'))) {
+        return asset('storage/default.png');
+    }
+
+    // إذا موجود default.png بمجلد public/images
+    if (file_exists(public_path('images/default.png'))) {
+        return asset('images/default.png');
+    }
+
+    // آخر حل → Placeholder من الإنترنت (مثلاً صور مجانية من placeholder.com)
+    return 'https://via.placeholder.com/300x200.png?text=No+Image';
+}
+
 }
