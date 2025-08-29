@@ -356,20 +356,47 @@ $government_entities = [
             'ar' => 'تنظم أعمال مجلس الوزراء والسياسات الحكومية.',
         ],
     ],
-];
+];  // جلب كل الولايات
+         $states = DB::table('states')->pluck('id');
 
-// جلب كل المدن
-$all_cities = DB::table('cities')->pluck('id');
+        foreach ($states as $state_id) {
+            $cities = DB::table('cities')->where('state_id', $state_id)->pluck('id');
+            $cityCount = $cities->count();
 
-// إدراج كل جهة لكل مدينة
-foreach ($government_entities as $entity) {
-    foreach ($all_cities as $city_id) {
-        GovernmentEntity::create(array_merge($entity, [
-            'state_id' => DB::table('cities')->where('id', $city_id)->value('state_id'),
-            'city_id'  => $city_id
-        ]));
+            // نولد 10 أرقام خاصة بالـ state
+            $phones = $this->generatePhones($state_id, 10);
+
+            if ($cityCount > 0) {
+                foreach ($government_entities as $index => $entity) {
+                    $city_id = $cities[$index % $cityCount]; // توزيع دائري
+                    $phone   = $phones[$index % count($phones)];
+
+                    GovernmentEntity::create(array_merge($entity, [
+                        'state_id' => $state_id,
+                        'city_id'  => $city_id,
+                        'phone'    => $phone,
+                    ]));
+                }
+            } else {
+                foreach ($government_entities as $index => $entity) {
+                    $phone   = $phones[$index % count($phones)];
+
+                    GovernmentEntity::create(array_merge($entity, [
+                        'state_id' => $state_id,
+                        'city_id'  => null,
+                        'phone'    => $phone,
+                    ]));
+                }
+            }
+        }
     }
-}
 
-}
+    private function generatePhones($state_id, $count = 10): array
+    {
+        $phones = [];
+        for ($i = 0; $i < $count; $i++) {
+            $phones[] = '09' . str_pad($state_id, 2, '0', STR_PAD_LEFT) . rand(1000000, 9999999);
+        }
+        return $phones;
+    }
 }

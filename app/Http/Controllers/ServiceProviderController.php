@@ -88,9 +88,9 @@ return view('service_providers.create', [
     /**
      * تخزين مزود خدمة جديد
      */
-    public function store(Request $request)
-    {
-      $request->validate([
+   public function store(Request $request)
+{
+    $request->validate([
         'provider_name'  => 'required|string|max:255',
         'shop_name'      => 'required|string|max:255',
         'description'    => 'required|string',
@@ -110,46 +110,31 @@ return view('service_providers.create', [
 
     $provider = ServiceProvider::create($data);
 
-    // رجع المستخدم عصفحة تفاصيل الـ Subcategory
-    return redirect()->route('subcategories.show', $provider->subcategory_id)
+    // رجّع المستخدم لصفحة مزودي الخدمة ضمن السب كاتيجوري
+    return redirect()->route('subcategories.providers', $provider->subcategory_id)
         ->with('success', 'Your request has been submitted successfully!');
-    }
+}
 
     /**
      * عرض تفاصيل مزود خدمة
      */
-    public function show(Subcategory $subcategory)
-    {
-        // زيادة عداد المشاهدات
-         $providers = $subcategory->serviceProviders()->with(['category', 'subcategory'])->get();
-
-        $locale = app()->getLocale();
-
-        // تجهيز الترجمة للاسم والوصف
-        $subcategoryName = is_array($subcategory->name)
-            ? ($subcategory->name[$locale] ?? $subcategory->name['en'] ?? '')
-            : $subcategory->name;
-
-        $subcategoryDescription = is_array($subcategory->description)
-            ? ($subcategory->description[$locale] ?? $subcategory->description['en'] ?? '')
-            : $subcategory->description;
-
-        return view('subcategories.show', compact(
-            'subcategory',
-            'subcategoryName',
-            'subcategoryDescription',
-            'providers'
-        ));
-    }
-public function bySubcategory(Subcategory $subcategory)
+    public function show(ServiceProvider $serviceProvider)
 {
-    $service_providers = ServiceProvider::with(['category','subcategory','state','city'])
+    $serviceProvider->increment('views');
+
+    return view('service_providers.show', compact('serviceProvider'));
+}
+public function bySubcategory($id)
+{
+    $subcategory = Subcategory::findOrFail($id);
+
+    $providers = ServiceProvider::with(['category','subcategory','state','city'])
         ->where('subcategory_id', $subcategory->id)
         ->latest()
-        ->paginate(12); // أو ->get()
+        ->paginate(12);
 
     return view('service_providers.index', [
-        'service_providers' => $service_providers,
+        'providers'   => $providers,
         'subcategory' => $subcategory,
     ]);
 }

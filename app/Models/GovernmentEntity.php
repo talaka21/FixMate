@@ -4,12 +4,14 @@ namespace App\Models;
 
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
 use Spatie\Translatable\HasTranslations;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-
-class GovernmentEntity extends Model
+class GovernmentEntity extends Model  implements HasMedia
 {
-     use HasTranslations;
+  use HasTranslations;
+    use InteractsWithMedia;
     protected $fillable = [
         'name',
         'description',

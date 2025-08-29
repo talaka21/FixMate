@@ -36,14 +36,13 @@ class SubCategoryResource extends Resource
                         Forms\Components\TextInput::make('description')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Select::make('category_id')
-                            ->label('Category')
-                            ->options(Category::pluck('name', 'id')->toArray())
-                            ->searchable()
-                            ->required(),
-
 
                     ]),
+                        Forms\Components\Select::make('category_id')
+                    ->label('Category')
+                    ->relationship('category', 'name') // بيعتمد على العلاقة مباشرة
+                    ->searchable()
+                    ->required(),
                     SpatieMediaLibraryFileUpload::make('thumbnail')
                         ->collection('thumbnails')
                         ->image()

@@ -50,13 +50,6 @@
             {{ $category->getTranslation('name', app()->getLocale()) }}
         </h2>
 
-        {{-- صورة التصنيف الأساسي --}}
-        <div class="mb-4">
-            <img src="{{ $category->thumbnail_url }}"
-                 class="img-fluid rounded shadow-sm"
-                 alt="{{ $category->name }}">
-        </div>
-
         <p>{{ $category->getTranslation('description', app()->getLocale()) }}</p>
 
         {{-- التصنيفات الفرعية --}}
@@ -66,14 +59,19 @@
                 @foreach($category->subcategories as $sub)
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="card shadow-sm h-100 text-center">
-                            <a href="{{ route('subcategories.show', $sub->id) }}">
-                                <img src="{{ $sub->thumbnail_url }}"
-                                     class="card-img-top subcategory-img"
-                                     alt="{{ $sub->name }}">
+                            <a href="{{ route('subcategories.providers', $sub->id) }}">
+                                @if($sub->thumbnail_url)
+                                    <img src="{{ $sub->thumbnail_url }}"
+                                         class="card-img-top subcategory-img"
+                                         alt="{{ $sub->name }}">
+                                @endif
                                 <div class="card-body">
                                     <h6 class="card-title">
                                         {{ $sub->getTranslation('name', app()->getLocale()) }}
                                     </h6>
+                                    <p class="text-muted small">
+                                        {{ Str::limit($sub->getTranslation('description', app()->getLocale()), 60) }}
+                                    </p>
                                 </div>
                             </a>
                         </div>

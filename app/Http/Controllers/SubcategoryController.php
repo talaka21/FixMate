@@ -14,12 +14,12 @@ class SubcategoryController extends Controller
 
         // تمريرها إلى الـ View
         return view('subcategories.index', compact('subcategories'));
-    }public function show(Subcategory $subcategory)
+    }
+public function show(\App\Models\ServiceProvider $serviceProvider)
 {
-    // جلب الـ Service Providers المرتبطين بالـ Subcategory
-    $providers = $subcategory->serviceProviders()->with(['category', 'subcategory'])->get();
-
-    // لا حاجة لجلب كل Subcategories من نفس الكاتيجوري إذا الهدف عرض الـ providers فقط
-    return view('subcategories.show', compact('subcategory', 'providers'));
+    $serviceProvider->load(['category','subcategory','state','city']);
+    return view('service_providers.show', compact('serviceProvider'));
 }
+
+
 }

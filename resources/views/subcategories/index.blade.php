@@ -55,11 +55,22 @@
         <a href="{{ url('locale/en') }}">English</a>
     </div>
 
-    @foreach($subcategories as $subcategory)
-        <div class="subcategory-card">
-            <h2>{{ $subcategory->getTranslation('name', app()->getLocale()) }}</h2>
-            <p><strong>{{ __('الوصف') }}:</strong> {{ $subcategory->getTranslation('description', app()->getLocale()) }}</p>
-        </div>
-    @endforeach
+   @foreach($subcategories as $subcategory)
+    <div class="subcategory-card">
+        {{-- عرض الصورة --}}
+        @if($subcategory->hasMedia('thumbnails'))
+            <img src="{{ $subcategory->getFirstMediaUrl('thumbnails') }}"
+                 alt="{{ $subcategory->getTranslation('name', app()->getLocale()) }}"
+                 style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
+        @endif
+
+        {{-- الاسم --}}
+        <h2>{{ $subcategory->getTranslation('name', app()->getLocale()) }}</h2>
+
+        {{-- الوصف --}}
+        <p><strong>{{ __('الوصف') }}:</strong> {{ $subcategory->getTranslation('description', app()->getLocale()) }}</p>
+    </div>
+@endforeach
+
 </body>
 </html>

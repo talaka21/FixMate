@@ -54,7 +54,21 @@
                 @foreach($category->subcategories as $sub)
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="card shadow-sm h-100 text-center">
-                            <a href="{{ route('subcategories.show', $sub->id) }}">
+                            <a href="{{ route('subcategories.providers', $sub->id) }}">
+                                {{-- صورة التصنيف الفرعي --}}
+                                @if($sub->hasMedia('thumbnails'))
+                                    <img src="{{ $sub->getFirstMediaUrl('thumbnails') }}"
+                                         alt="{{ $sub->getTranslation('name', app()->getLocale()) }}"
+                                         class="card-img-top"
+                                         style="height:200px; object-fit:cover; border-bottom:1px solid #eee;">
+                                @else
+                                    {{-- صورة افتراضية إذا ما في صورة --}}
+                                    <img src="{{ asset('images/default-sub.png') }}"
+                                         alt="default"
+                                         class="card-img-top"
+                                         style="height:200px; object-fit:cover; border-bottom:1px solid #eee;">
+                                @endif
+
                                 <div class="card-body">
                                     <h6 class="card-title">
                                         {{ $sub->getTranslation('name', app()->getLocale()) }}
@@ -66,7 +80,7 @@
                 @endforeach
             </div>
         @endif
-    </div>
+    </div> <!-- ← سكّرنا container هنا -->
 
     <!-- Footer -->
     <footer class="text-center py-4 bg-light mt-5">

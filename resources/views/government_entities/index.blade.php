@@ -1,5 +1,4 @@
-<div>
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -59,21 +58,30 @@
                 <div class="card entity-card shadow-sm h-100 text-center p-3">
 
                     <!-- Thumbnail -->
-                    @if($entity->thumbnail)
-                        <img src="{{ asset('storage/'.$entity->thumbnail) }}" class="img-fluid mb-3" alt="{{ $entity->name }}" style="max-height:120px; object-fit:contain;">
+                    @if($entity->getFirstMediaUrl('thumbnails'))
+                        <img src="{{ $entity->getFirstMediaUrl('thumbnails') }}" class="img-fluid mb-3" alt="{{ $entity->getTranslation('name', app()->getLocale()) }}" style="max-height:120px; object-fit:contain;">
                     @else
                         <img src="https://via.placeholder.com/150x100.png?text=No+Image" class="img-fluid mb-3" alt="No Image">
                     @endif
 
                     <!-- Name -->
-                    <h5 class="mb-3" style="color:#8b4b8b;">{{ $entity->name }}</h5>
+                    <h5 class="mb-2" style="color:#8b4b8b;">
+                        {{ $entity->getTranslation('name', app()->getLocale()) }}
+                    </h5>
+
+                    <!-- Description -->
+                    @if($entity->description)
+                        <p class="text-muted mb-3">
+                            {{ Str::limit($entity->getTranslation('description', app()->getLocale()), 100) }}
+                        </p>
+                    @endif
 
                     <!-- Phones -->
-     <div class="mb-2">
-              @foreach(explode(',', $entity->phone) as $phone)
-                <a href="tel:{{ trim($phone) }}" class="btn btn-sm btn-outline-success m-1">📞 Call</a>
-          @endforeach
-     </div>
+                    <div class="mb-2">
+                        @foreach(explode(',', $entity->phone) as $phone)
+                            <a href="tel:{{ trim($phone) }}" class="btn btn-sm btn-outline-success m-1">📞 Call</a>
+                        @endforeach
+                    </div>
 
                     <!-- Social Links -->
                     <div>
@@ -101,5 +109,3 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </body>
 </html>
-
-</div>

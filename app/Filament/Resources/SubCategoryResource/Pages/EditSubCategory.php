@@ -8,12 +8,11 @@ use Filament\Resources\Pages\EditRecord;
 
 class EditSubCategory extends EditRecord
 {
-    protected static string $resource = SubCategoryResource::class;
+   protected static string $resource = SubCategoryResource::class;
 
-    protected function getHeaderActions(): array
+    // هون منحدد التوجه بعد الحفظ
+    protected function getRedirectUrl(): string
     {
-        return [
-            Actions\DeleteAction::make(),
-        ];
+        return $this->getResource()::getUrl('index');
     }
 }

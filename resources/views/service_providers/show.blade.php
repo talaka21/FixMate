@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $provider->shop_name }}</title>
+    <title>{{ $serviceProvider->shop_name }}</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -47,32 +47,32 @@
     @php
         $locale = app()->getLocale();
         // Category name
-        $categoryName = is_array($provider->category?->name)
-            ? ($provider->category?->name[$locale] ?? $provider->category?->name['en'] ?? '')
-            : $provider->category?->name;
+        $categoryName = is_array($serviceProvider->category?->name)
+            ? ($serviceProvider->category?->name[$locale] ?? $serviceProvider->category?->name['en'] ?? '')
+            : $serviceProvider->category?->name;
 
         // Subcategory name
-        $subcategoryName = is_array($provider->subcategory?->name)
-            ? ($provider->subcategory?->name[$locale] ?? $provider->subcategory?->name['en'] ?? '')
-            : $provider->subcategory?->name;
+        $subcategoryName = is_array($serviceProvider->subcategory?->name)
+            ? ($serviceProvider->subcategory?->name[$locale] ?? $serviceProvider->subcategory?->name['en'] ?? '')
+            : $serviceProvider->subcategory?->name;
     @endphp
 
     <div class="container py-5">
         <!-- Shop Name -->
-        <h2 class="mb-3 page-header">{{ $provider->shop_name }}</h2>
+        <h2 class="mb-3 page-header">{{ $serviceProvider->shop_name }}</h2>
 
         <!-- Thumbnail -->
-        @if($provider->image)
+        @if($serviceProvider->image)
             <div class="mb-4">
-                <img src="{{ asset('storage/' . $provider->image) }}" class="img-fluid rounded shadow-sm" alt="Shop">
+                <img src="{{ asset('storage/' . $serviceProvider->image) }}" class="img-fluid rounded shadow-sm" alt="Shop">
             </div>
         @endif
 
         <!-- Related Category & Subcategory -->
         <p>
             <strong>{{ __('Category:') }}</strong>
-            @if($provider->category)
-                <a href="{{ route('categories.show', $provider->category->id) }}">
+            @if($serviceProvider->category)
+                <a href="{{ route('categories.show', $serviceProvider->category->id) }}">
                     {{ $categoryName }}
                 </a>
             @else
@@ -82,8 +82,8 @@
 
         <p>
             <strong>{{ __('Subcategory:') }}</strong>
-            @if($provider->subcategory)
-                <a href="{{ route('subcategories.show', $provider->subcategory->id) }}">
+            @if($serviceProvider->subcategory)
+                <a href="{{ route('subcategories.show', $serviceProvider->subcategory->id) }}">
                     {{ $subcategoryName }}
                 </a>
             @else
@@ -92,10 +92,10 @@
         </p>
 
         <!-- Gallery -->
-        @if($provider->gallery && count($provider->gallery) > 0)
+        @if($serviceProvider->gallery && count($serviceProvider->gallery) > 0)
             <h5 class="mt-4">{{ __('Gallery') }}</h5>
             <div class="row gallery">
-                @foreach($provider->gallery as $image)
+                @foreach($serviceProvider->gallery as $image)
                     <div class="col-md-3 col-6 mb-3">
                         <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded shadow-sm" alt="Gallery">
                     </div>
@@ -105,17 +105,17 @@
 
         <!-- Description -->
         <h5 class="mt-4">{{ __('Description') }}</h5>
-        <p>{{ $provider->description }}</p>
+        <p>{{ $serviceProvider->description }}</p>
 
         <!-- Location -->
-        <p><strong>{{ __('State:') }}</strong> {{ $provider->state?->name ?? __('N/A') }}</p>
-        <p><strong>{{ __('City:') }}</strong> {{ $provider->city?->name ?? __('N/A') }}</p>
+        <p><strong>{{ __('State:') }}</strong> {{ $serviceProvider->state?->name ?? __('N/A') }}</p>
+        <p><strong>{{ __('City:') }}</strong> {{ $serviceProvider->city?->name ?? __('N/A') }}</p>
 
         <!-- Tags -->
-        @if($provider->tags && $provider->tags->count() > 0)
+        @if($serviceProvider->tags && $serviceProvider->tags->count() > 0)
             <h5 class="mt-4">{{ __('Tags') }}</h5>
             <div>
-                @foreach($provider->tags as $tag)
+                @foreach($serviceProvider->tags as $tag)
                     <span class="badge bg-info text-dark">{{ $tag->name }}</span>
                 @endforeach
             </div>
@@ -124,25 +124,25 @@
         <!-- Contact Details -->
         <h5 class="mt-4">{{ __('Contact Details') }}</h5>
         <div class="contact-icons">
-            @if($provider->phone)
-                <a href="tel:{{ $provider->phone }}" class="btn btn-outline-primary"> 📞 {{ __('Call') }} </a>
+            @if($serviceProvider->phone)
+                <a href="tel:{{ $serviceProvider->phone }}" class="btn btn-outline-primary"> 📞 {{ __('Call') }} </a>
             @endif
-            @if($provider->whatsapp)
-                <a href="https://wa.me/{{ $provider->whatsapp }}?text=Welcome%20to%20FixMate%20App!" target="_blank" class="btn btn-outline-success"> 💬 WhatsApp </a>
+            @if($serviceProvider->whatsapp)
+                <a href="https://wa.me/{{ $serviceProvider->whatsapp }}?text=Welcome%20to%20FixMate%20App!" target="_blank" class="btn btn-outline-success"> 💬 WhatsApp </a>
             @endif
-            @if($provider->facebook)
-                <a href="{{ $provider->facebook }}" target="_blank" class="btn btn-outline-primary"> 📘 Facebook </a>
+            @if($serviceProvider->facebook)
+                <a href="{{ $serviceProvider->facebook }}" target="_blank" class="btn btn-outline-primary"> 📘 Facebook </a>
             @endif
-            @if($provider->instagram)
-                <a href="{{ $provider->instagram }}" target="_blank" class="btn btn-outline-danger"> 📷 Instagram </a>
+            @if($serviceProvider->instagram)
+                <a href="{{ $serviceProvider->instagram }}" target="_blank" class="btn btn-outline-danger"> 📷 Instagram </a>
             @endif
         </div>
 
         <!-- Offers -->
-        @if($provider->offers && $provider->offers->count() > 0)
+        @if($serviceProvider->offers && $serviceProvider->offers->count() > 0)
             <h5 class="mt-4">{{ __('Offers') }}</h5>
             <div class="row">
-                @foreach($provider->offers as $offer)
+                @foreach($serviceProvider->offers as $offer)
                     @if($offer->is_active)
                         <div class="col-md-4 col-sm-6 mb-3">
                             <div class="card shadow-sm h-100">

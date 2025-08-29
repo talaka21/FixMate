@@ -72,7 +72,6 @@
         color: #a864a8;
         text-decoration: none;
     }
-
   </style>
 
   <div class="form-container">
@@ -103,7 +102,13 @@
 
       <div class="links">
           <a href="{{ route('forgot-password.form') }}">Forgot Password?</a>
-          <a href="{{ route('service_providers.create') }}">Become a Seller</a>
+
+          {{-- زر Become a Seller حسب حالة تسجيل الدخول --}}
+         @auth
+    <a href="{{ route('service_providers.create') }}">Become a Seller</a>
+@else
+    <a href="{{ route('login') }}">Become a Seller</a>
+@endauth
       </div>
   </div>
 
