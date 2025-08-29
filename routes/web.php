@@ -16,7 +16,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
 
 // الصفحة الرئيسية
-Route::get('/', function () {
+Route::get('/welcome', function () {
     $categories = Category::all(); // جلب كل التصنيفات
     return view('welcome', compact('categories')); // تمريرهم للواجهة
 })->name('welcome');
@@ -81,7 +81,8 @@ Route::get('/government-entities', [GovernmentEntityController::class, 'index'])
 Route::get('/logout-confirm', [LogoutController::class, 'confirm'])->name('logout.confirm');
 
 // تنفيذ تسجيل الخروج
-Route::post('/logout', action: [LogoutController::class, 'logout'])->name('logout');
+Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

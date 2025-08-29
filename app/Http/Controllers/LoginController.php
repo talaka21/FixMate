@@ -19,6 +19,7 @@ class LoginController extends Controller
     }
 
     // تنفيذ عملية تسجيل الدخول
+     // تنفيذ عملية تسجيل الدخول
     public function login(Request $request)
     {
         $request->validate([
@@ -46,19 +47,19 @@ class LoginController extends Controller
             return back()->withErrors(['password' => 'كلمة المرور غير صحيحة.']);
         }
 
-   if ($user->status === 'active') {
-    Auth::login($user);
-    return redirect()->route('welcome');
-}
+        // التحقق من حالة الحساب
+        if ($user->status === 'inactive') {
+            return redirect()->route('verify.form', ['phone' => $user->phone_number]);
+        }
 
-if ($user->status === 'inactive') {
-    return redirect()->route('verify.form', ['phone' => $user->phone_number]);
-}
+        if ($user->status === 'suspended') {
+            return back()->withErrors(['phone' => 'تم إيقاف الحساب، تواصل مع الدعم.']);
+        }
 
-if ($user->status === 'suspended') {
-    return back()->withErrors(['phone' => 'تم إيقاف الحساب، تواصل مع الدعم.']);
-}
-
+        // تسجيل الدخول بحالة النجاح
+        Auth::login($user);
+        return redirect()->route('welcome');
+    }
 
     }
-}
+

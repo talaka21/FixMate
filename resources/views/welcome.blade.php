@@ -55,9 +55,10 @@
                      onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     Logout
                   </a>
-                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-                    @csrf
-                  </form>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+  @csrf
+</form>
+
                 </li>
               </ul>
             </li>
@@ -122,7 +123,7 @@
               <img src="{{ $category->thumbnail_url }}" class="card-img-top" alt="{{ $category->name }}" style="height:200px; object-fit:cover; border-top-left-radius:15px; border-top-right-radius:15px;">
               <div class="card-body">
                 <h5 class="card-title">{{ $category->getTranslation('name', app()->getLocale()) }}</h5>
-                <p class="card-text">{{ \Illuminate\Support\Str::limit($category->getTranslation('description', app()->getLocale()), 100) }}</p>
+                <p class="card-text">{{ Str::limit($category->getTranslation('description', app()->getLocale()), 100) }}</p>
                 <a href="{{ route('categories.show', $category->id) }}" class="btn btn-sm btn-offers">View Details</a>
               </div>
             </div>
@@ -166,4 +167,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+{{ dd($categories) }}
+
 </html>
