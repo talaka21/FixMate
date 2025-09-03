@@ -21,9 +21,15 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereId($value)
@@ -32,6 +38,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin withoutRole($roles, $guard = null)
  */
 	class Admin extends \Eloquent {}
 }
@@ -71,6 +79,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
  */
 	class Category extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $user_name
+ * @property string $phone_number
+ * @property string $message
+ * @property \App\Enum\ContactStatuEnum $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereUserName($value)
+ */
+	class ContactRequest extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -440,7 +471,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereVerifyCode($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Filament\Models\Contracts\HasAvatar {}
 }
 
 namespace App\Models{

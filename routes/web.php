@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\VerificationController;
@@ -16,7 +17,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
 
 // الصفحة الرئيسية
-Route::get('/welcome', function () {
+Route::get('/', function () {
     $categories = Category::all(); // جلب كل التصنيفات
     return view('welcome', compact('categories')); // تمريرهم للواجهة
 })->name('welcome');
@@ -83,8 +84,12 @@ Route::get('/logout-confirm', [LogoutController::class, 'confirm'])->name('logou
 // تنفيذ تسجيل الخروج
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+// });

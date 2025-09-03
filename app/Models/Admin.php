@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Support\Facades\Storage;
-
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
-
+ use HasRoles;
     protected $fillable = [
     'email',
     'password',

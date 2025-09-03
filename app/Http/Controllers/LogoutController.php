@@ -20,6 +20,6 @@ class LogoutController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login'); // لازم يكون عندك route اسمه login
+        return redirect()->route('welcome'); // لازم يكون عندك route اسمه login
     }
 }

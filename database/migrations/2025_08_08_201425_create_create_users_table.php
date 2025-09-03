@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('phone_number', 10)->unique();
             $table->string('email')->unique();
-
             $table->string('image')->nullable();
               $table->foreignId('state_id')->references('id')->on('states');
              $table->foreignId('city_id')->constrained()->onDelete('cascade');

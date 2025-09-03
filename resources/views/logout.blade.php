@@ -1,5 +1,4 @@
-<div>
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
@@ -17,26 +16,16 @@
 
   <div class="box">
     <h2>هل أنت متأكد أنك تريد تسجيل الخروج؟</h2>
-    <button class="yes" onclick="logout()">نعم، تسجيل الخروج</button>
-    <button class="no" onclick="stay()">لا</button>
+
+    <!-- زر نعم (خروج) -->
+    <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+        @csrf
+        <button type="submit" class="yes">نعم، تسجيل الخروج</button>
+    </form>
+
+    <!-- زر لا (رجوع) -->
+    <button class="no" onclick="window.history.back()">لا</button>
   </div>
 
-  <script>
-    function logout() {
-      // هنا امسح بيانات الجلسة أو التوكن
-      localStorage.clear();
-      sessionStorage.clear();
-
-      // توجيه المستخدم إلى صفحة تسجيل الدخول
-      window.location.href = "login.html";
-    }
-
-    function stay() {
-      // ببساطة إغلاق النافذة أو الرجوع للصفحة السابقة
-      window.history.back();
-    }
-  </script>
 </body>
 </html>
-
-</div>

@@ -51,14 +51,10 @@
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item" href="#"
-                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <!-- بدل الفورم المخفي بخط واحد يودّي لصفحة التأكيد -->
+                  <a class="dropdown-item" href="{{ route('logout.confirm') }}">
                     Logout
                   </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
-  @csrf
-</form>
-
                 </li>
               </ul>
             </li>
@@ -167,7 +163,4 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-{{ dd($categories) }}
-
 </html>

@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Support\Facades\Storage;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -81,6 +81,12 @@ public function city()
 public function state()
 {
     return $this->belongsTo(State::class);
+}
+
+    // 🔑 لعرض الصورة في Filament
+   public function getFilamentAvatarUrl(): ?string
+{
+    return $this->image ? Storage::url($this->image) : null;
 }
 
 }
