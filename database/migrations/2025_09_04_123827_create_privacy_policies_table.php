@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact_requests', function (Blueprint $table) {
+        Schema::create('privacy_policies', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name');
-            $table->string('phone_number');
-            $table->text('message');
-            $table->string('status')->default('unread');
+             $table->longText('content');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact_requests');
+        Schema::dropIfExists('privacy_policies');
     }
 };

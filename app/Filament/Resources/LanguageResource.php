@@ -23,7 +23,23 @@ class LanguageResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('name')
+                    ->label('Language Name')
+                    ->required(),
+                Forms\Components\TextInput::make('code')
+                    ->label('Language Code')
+                    ->required()
+                    ->maxLength(2),
+                Forms\Components\Select::make('language')
+                    ->label('Select Language')
+                    ->options([
+                        'en' => 'English',
+                        'ar' => 'Arabic',
+                    ])
+                    ->default('en')
+                    ->required()
+                 ->dehydrated(false)
+
             ]);
     }
 
@@ -31,10 +47,10 @@ class LanguageResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')->label('Language Name'),
- Tables\Columns\TextColumn::make('code')->label('Code'),
-
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('code'),
             ])
+
             ->filters([
                 //
             ])

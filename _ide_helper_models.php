@@ -14,6 +14,29 @@
 namespace App\Models{
 /**
  * @property int $id
+ * @property string $content
+ * @property string $phone
+ * @property string|null $facebook
+ * @property string|null $instagram
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereFacebook($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereInstagram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereUpdatedAt($value)
+ */
+	class AboutUs extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
  * @property string $email
  * @property string $name
  * @property string $phone
@@ -118,6 +141,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\city $city
+ * @property-read mixed $thumbnail_url
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
  * @property-read \App\Models\state $state
@@ -146,9 +170,19 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @property int $id
+ * @property string $name
+ * @property string $code
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Language newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Language newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Language query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Language whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Language whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Language whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Language whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Language whereUpdatedAt($value)
  */
 	class Language extends \Eloquent {}
 }
@@ -228,6 +262,23 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereToken($value)
  */
 	class PhonePasswordReset extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property int $id
+ * @property string $content
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PrivacyPolicy whereUpdatedAt($value)
+ */
+	class PrivacyPolicy extends \Eloquent {}
 }
 
 namespace App\Models{

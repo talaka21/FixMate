@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\VerificationphoneController;
+use App\Models\AboutUs;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
@@ -15,11 +18,13 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GovernmentEntityController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
+  use App\Http\Controllers\ContactRequestController;
 
 // الصفحة الرئيسية
 Route::get('/', function () {
+        $about = AboutUs::first();
     $categories = Category::all(); // جلب كل التصنيفات
-    return view('welcome', compact('categories')); // تمريرهم للواجهة
+    return view('welcome', compact('about','categories')); // تمريرهم للواجهة
 })->name('welcome');
 
 // Route::get('/', function () {
@@ -93,3 +98,18 @@ Route::get('/dashboard', function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 // });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/privacy-policy/edit', [PrivacyPolicyController::class, 'edit'])->name('privacy.edit');
+    Route::post('/privacy-policy/update', [PrivacyPolicyController::class, 'update'])->name('privacy.update');
+});
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])  ->name('privacy-policy');
+;
+
+
+Route::get('/about-us', [AboutUsController::class, 'show'])
+    ->name('about-us');
+
+
+
+Route::get('/contact-us', [ContactRequestController::class, 'create'])->name('contact.create');
+Route::post('/contact-us', [ContactRequestController::class, 'store'])->name('contact.send');

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contact_requests', function (Blueprint $table) {
+        Schema::create('about_us', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name');
-            $table->string('phone_number');
-            $table->text('message');
-            $table->string('status')->default('unread');
+               $table->text('content'); // النص عن الشركة
+    $table->string('phone', 10); // رقم الهاتف بحد أقصى 10 أرقام
+    $table->string('facebook')->nullable(); // رابط فيسبوك
+    $table->string('instagram')->nullable(); // رابط انستقرام
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contact_requests');
+        Schema::dropIfExists('about_us');
     }
 };

@@ -69,8 +69,8 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('thumbnail')
                     ->label('Thumbnail')
-                    ->getStateUsing(fn($record) => $record->getFirstMediaUrl('thumbnails'))
-                    // ->disk('public')
+                   ->getStateUsing(fn($record) => $record->getFirstMediaUrl('thumbnails'))
+                    // -> disk('public')
                     ->circular(),
                 Tables\Columns\TextColumn::make('subcategories_count')
                     ->label('Subcategories Count'),

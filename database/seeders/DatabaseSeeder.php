@@ -27,9 +27,12 @@ class DatabaseSeeder extends Seeder
             // ServiceProviderRequestSeeder::class,
             // SliderSeeder::class,
             // OfferSeeder::class,
-governmentEntitieSeeder::class,
+// governmentEntitieSeeder::class,
             // UserSeeder::class,
             // NotificationSeeder::class,
+            // LanguagesTableSeeder::class
+            // PrivacyPolicySeeder::class
+            AboutUsSeeder::class
         ]);
     }
 }

@@ -30,14 +30,18 @@
         .btn-back:hover {
             background-color: #733a73;
         }
-        .icon-btn {
+
+        /* تعديل الكود هنا */
+        .social-links .icon-btn {
             border: none;
             background: transparent;
             font-size: 1.3rem;
             margin: 0 5px;
         }
-        .icon-btn.facebook { color: #3b5998; }
-        .icon-btn.instagram { color: #E1306C; }
+        /* تعديل الكود هنا */
+
+        .social-links .icon-btn.facebook { color: #3b5998; }
+        .social-links .icon-btn.instagram { color: #E1306C; }
     </style>
 </head>
 <body>
@@ -47,7 +51,6 @@
         <a href="{{ url('/') }}" class="btn btn-back">← Back</a>
     </div>
 
-    <!-- Search -->
     <form method="GET" action="{{ route('government-entities.index') }}" class="mb-4">
         <input type="text" name="search" class="form-control" placeholder="Search by Entity Name..." value="{{ request('search') }}">
     </form>
@@ -57,34 +60,31 @@
             <div class="col-md-4 mb-4">
                 <div class="card entity-card shadow-sm h-100 text-center p-3">
 
-                    <!-- Thumbnail -->
-                    @if($entity->getFirstMediaUrl('thumbnails'))
-                        <img src="{{ $entity->getFirstMediaUrl('thumbnails') }}" class="img-fluid mb-3" alt="{{ $entity->getTranslation('name', app()->getLocale()) }}" style="max-height:120px; object-fit:contain;">
-                    @else
-                        <img src="https://via.placeholder.com/150x100.png?text=No+Image" class="img-fluid mb-3" alt="No Image">
-                    @endif
+                    @php
+                        // تحقق من وجود الصورة في الحقل image
+                        $storagePath = 'storage/' . ($entity->image ?? '');
+                        $imageUrl = file_exists(public_path($storagePath)) ? asset($storagePath) : 'https://via.placeholder.com/150x100.png?text=No+Image';
+                    @endphp
 
-                    <!-- Name -->
+                    <img src="{{ $imageUrl }}" class="img-fluid mb-3" alt="{{ $entity->getTranslation('name', app()->getLocale()) }}" style="max-height:120px; object-fit:contain;">
+
                     <h5 class="mb-2" style="color:#8b4b8b;">
                         {{ $entity->getTranslation('name', app()->getLocale()) }}
                     </h5>
 
-                    <!-- Description -->
                     @if($entity->description)
                         <p class="text-muted mb-3">
                             {{ Str::limit($entity->getTranslation('description', app()->getLocale()), 100) }}
                         </p>
                     @endif
 
-                    <!-- Phones -->
                     <div class="mb-2">
                         @foreach(explode(',', $entity->phone) as $phone)
                             <a href="tel:{{ trim($phone) }}" class="btn btn-sm btn-outline-success m-1">📞 Call</a>
                         @endforeach
                     </div>
 
-                    <!-- Social Links -->
-                    <div>
+                    <div class="social-links">
                         @if($entity->facebook_url)
                             <a href="{{ $entity->facebook_url }}" target="_blank" class="icon-btn facebook"><i class="bi bi-facebook"></i></a>
                         @endif
@@ -99,13 +99,11 @@
         @endforelse
     </div>
 
-    <!-- Pagination -->
     <div class="mt-4">
         {{ $entities->links() }}
     </div>
 </div>
 
-<!-- Bootstrap Icons -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </body>
 </html>
