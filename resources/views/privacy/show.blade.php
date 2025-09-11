@@ -8,15 +8,14 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <div class="container mx-auto py-8 px-4">
-        <h1 class="text-2xl font-bold mb-6">Privacy Policy</h1>
-        <div class="prose max-w-none bg-white shadow rounded-lg p-6">
-            <p>
-                This is the privacy policy text.
-                You can update it later from the admin panel.
-            </p>
-        </div>
+   <div class="container mx-auto py-8 px-4">
+    <h1 class="text-2xl font-bold mb-6">{{ __('privacy_policy') }}</h1>
+    <div class="prose max-w-none bg-white shadow rounded-lg p-6">
+        <p>{{ __('privacy_policy_text') }}</p>
+        <p>{{ __('privacy_policy_update_info') }}</p>
     </div>
+</div>
+
 
 </body>
 </html>

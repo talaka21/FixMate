@@ -14,12 +14,13 @@
 namespace App\Models{
 /**
  * @property int $id
- * @property string $content
+ * @property array<array-key, mixed> $content
  * @property string $phone
  * @property string|null $facebook
  * @property string|null $instagram
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs query()
@@ -28,6 +29,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereFacebook($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereInstagram($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AboutUs whereUpdatedAt($value)
  */
@@ -48,6 +53,7 @@ namespace App\Models{
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin permission($permissions, $without = false)
@@ -56,6 +62,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Admin wherePhone($value)
@@ -113,11 +123,16 @@ namespace App\Models{
  * @property \App\Enum\ContactStatuEnum $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ContactRequest whereStatus($value)
@@ -202,6 +217,7 @@ namespace App\Models{
  * @property-read \App\Models\User|null $createdByUser
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent|null $target
  * @property-read \App\Models\User|null $targetUser
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification query()
@@ -209,6 +225,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereCreatedBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereIsRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereMessage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereSendAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereTargetId($value)
@@ -231,6 +251,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\ServiceProvider $serviceProvider
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer query()
@@ -238,6 +259,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereExpireDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereServiceProviderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereStartDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereStatus($value)
@@ -253,11 +278,16 @@ namespace App\Models{
  * @property string $phone_number
  * @property string $token
  * @property string|null $created_at
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PhonePasswordReset whereToken($value)
  */
@@ -370,6 +400,7 @@ namespace App\Models{
  * @property-read \App\Models\city $city
  * @property-read \App\Models\state $state
  * @property-read \App\Models\Subcategory $subcategory
+ * @property-read mixed $translations
  * @method static \Database\Factories\ServiceProviderRequestFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest newQuery()
@@ -383,6 +414,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereInstagram($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereIsRead($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereProviderName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProviderRequest whereShopName($value)
@@ -406,12 +441,17 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $creator
  * @property-read \App\Models\ServiceProvider $serviceProvider
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereServiceProviderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Slider whereTitle($value)
@@ -467,11 +507,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ServiceProvider> $serviceProviders
  * @property-read int|null $service_providers_count
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Tag whereUpdatedAt($value)
@@ -491,6 +536,7 @@ namespace App\Models{
  * @property int $city_id
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string $password
+ * @property bool $notifications_enabled
  * @property \App\Enum\UserEnum $status
  * @property string|null $verify_code
  * @property string|null $remember_token
@@ -502,6 +548,7 @@ namespace App\Models{
  * @property-read int|null $notifications_count
  * @property-read \App\Models\ServiceProviderRequest|null $serviceProviderRequest
  * @property-read \App\Models\state $state
+ * @property-read mixed $translations
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -513,7 +560,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLocales(string $column, array $locales)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereNotificationsEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
@@ -564,11 +616,16 @@ namespace App\Models{
  * @property string $phone_number
  * @property string $token
  * @property string|null $created_at
+ * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereJsonContainsLocale(string $column, string $locale, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereJsonContainsLocales(string $column, array $locales, ?mixed $value, string $operand = '=')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereLocale(string $column, string $locale)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereLocales(string $column, array $locales)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets wherePhoneNumber($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|password_resets whereToken($value)
  */

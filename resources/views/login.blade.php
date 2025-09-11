@@ -75,7 +75,7 @@
   </style>
 
   <div class="form-container">
-      <h2>Login</h2>
+      <h2>{{ __('login') }}</h2>
 
       {{-- Display Errors --}}
       @if ($errors->any())
@@ -90,25 +90,19 @@
 
       <form method="POST" action="{{ route('login.submit') }}">
           @csrf
-          <input type="text" name="phone" placeholder="Phone Number" required maxlength="10">
+          <input type="text" name="phone" placeholder="{{ __('phone_number') }}" required maxlength="10">
 
-          <input type="password" name="password" placeholder="Password" id="password" required>
+          <input type="password" name="password" placeholder="{{ __('password') }}" id="password" required>
           <label class="show-password">
-              <input type="checkbox" onclick="togglePassword()"> Show Password
+              <input type="checkbox" onclick="togglePassword()"> {{ __('show_password') }}
           </label>
 
-          <button type="submit">Sign In</button>
+          <button type="submit">{{ __('sign_in') }}</button>
       </form>
 
       <div class="links">
-          <a href="{{ route('forgot-password.form') }}">Forgot Password?</a>
-
-          {{-- زر Become a Seller حسب حالة تسجيل الدخول --}}
-         @auth
-    <a href="{{ route('service_providers.create') }}">Become a Seller</a>
-@else
-    <a href="{{ route('login') }}">Become a Seller</a>
-@endauth
+          <a href="{{ route('forgot-password.form') }}">{{ __('forgot_password') }}</a>
+          <a href="{{ route('service_providers.create') }}">{{ __('become_seller') }}</a>
       </div>
   </div>
 

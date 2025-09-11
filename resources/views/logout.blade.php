@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تسجيل الخروج</title>
+  <title>{{ __('logout') }}</title>
   <style>
     body { font-family: Tahoma, Arial; text-align: center; padding: 50px; }
     .box { border: 1px solid #ddd; padding: 30px; border-radius: 10px; display: inline-block; }
@@ -15,16 +15,16 @@
 <body>
 
   <div class="box">
-    <h2>هل أنت متأكد أنك تريد تسجيل الخروج؟</h2>
+    <h2>{{ __('are_you_sure_logout') }}</h2>
 
     <!-- زر نعم (خروج) -->
     <form method="POST" action="{{ route('logout') }}" style="display:inline;">
         @csrf
-        <button type="submit" class="yes">نعم، تسجيل الخروج</button>
+        <button type="submit" class="yes">{{ __('yes_logout') }}</button>
     </form>
 
     <!-- زر لا (رجوع) -->
-    <button class="no" onclick="window.history.back()">لا</button>
+    <button class="no" onclick="window.history.back()">{{ __('no_back') }}</button>
   </div>
 
 </body>

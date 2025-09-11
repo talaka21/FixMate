@@ -1,10 +1,9 @@
-<div>
-  <!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offers - FixMate</title>
+    <title>{{ __('offers') }} - FixMate</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -36,15 +35,15 @@
 <body>
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>🎁 Available Offers</h1>
-        <a href="{{ url('/') }}" class="btn btn-back">⬅ Back</a>
+        <h1>🎁 {{ __('available_offers') }}</h1>
+        <a href="{{ url('/') }}" class="btn btn-back">⬅ {{ __('back') }}</a>
     </div>
 
     <!-- Search Form -->
     <form method="GET" action="{{ route('offers.index') }}" class="mb-4">
         <div class="input-group">
-            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Search by Shop Name...">
-            <button class="btn btn-back" type="submit">🔍 Search</button>
+            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="{{ __('search_shop') }}">
+            <button class="btn btn-back" type="submit">🔍 {{ __('search') }}</button>
         </div>
     </form>
 
@@ -53,29 +52,27 @@
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm offer-card h-100">
                     @if($offer->image)
-                        <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top" alt="Offer Image">
+                        <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top" alt="{{ __('offer_image') }}">
                     @else
-                        <img src="https://via.placeholder.com/400x250?text=No+Image" class="card-img-top" alt="No Image">
+                        <img src="https://via.placeholder.com/400x250?text=No+Image" class="card-img-top" alt="{{ __('no_image') }}">
                     @endif
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ $offer->title }}</h5>
                         <p class="text-muted">
-                            🏪 {{ $offer->serviceProvider->shop_name ?? 'Unknown Shop' }}
+                            🏪 {{ $offer->serviceProvider->shop_name ?? __('unknown_shop') }}
                         </p>
                         <a href="{{ route('service_providers.show', $offer->serviceProvider->id) }}"
                            class="btn btn-sm"
                            style="background-color:#8b4b8b; color:#fff; border-radius:30px;">
-                           View Provider
+                           {{ __('view_provider') }}
                         </a>
                     </div>
                 </div>
             </div>
         @empty
-            <p class="text-center text-muted">No offers available.</p>
+            <p class="text-center text-muted">{{ __('no_offers') }}</p>
         @endforelse
     </div>
 </div>
 </body>
 </html>
-
-</div>

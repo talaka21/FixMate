@@ -58,7 +58,7 @@ class LoginController extends Controller
 
         // تسجيل الدخول بحالة النجاح
         Auth::login($user);
-        return redirect()->route('welcome');
+       return redirect()->intended(route('welcome'));
     }
 
     }

@@ -39,12 +39,12 @@
     <nav class="navbar navbar-light bg-light mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ route('categories.index') }}">
-                ← {{ __('Back to Categories') }}
+                ← {{ __('back_to_categories') }}
             </a>
         </div>
     </nav>
 
-    <!-- محتوى الصفحة -->
+    <!-- Page Content -->
     <div class="container py-5">
         <h2 class="mb-3 category-header">
             {{ $category->getTranslation('name', app()->getLocale()) }}
@@ -52,9 +52,9 @@
 
         <p>{{ $category->getTranslation('description', app()->getLocale()) }}</p>
 
-        {{-- التصنيفات الفرعية --}}
+        {{-- Subcategories --}}
         @if($category->subcategories && $category->subcategories->count() > 0)
-            <h4 class="mt-4">{{ __('Subcategories') }}</h4>
+            <h4 class="mt-4">{{ __('subcategories') }}</h4>
             <div class="row">
                 @foreach($category->subcategories as $sub)
                     <div class="col-md-4 col-sm-6 mb-3">

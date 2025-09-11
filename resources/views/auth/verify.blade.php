@@ -69,36 +69,34 @@
 </style>
 
 <div class="verify-container">
-    <h2>Verify Your Phone</h2>
-    <p>We sent a verification code to: <strong>{{ $phone }}</strong></p>
+    <h2>{{ __('verify_your_phone') }}</h2>
+    <p>{{ __('verification_sent_to') }} <strong>{{ $phone }}</strong></p>
 
     <!-- Success Message -->
     @if(session('success'))
-        <p style="color: green">{{ session('success') }}</p>
+        <p style="color: green">{{ __('success_message') }}</p>
     @endif
 
     <!-- Submit form -->
     <form method="POST" action="{{ route('verify.code') }}">
-    @csrf
-    <!-- مهم: رقم الهاتف حتى نعرف أي مستخدم نتحقق منه -->
-    <input type="hidden" name="phone" value="{{ $phone }}">
-
-    <input type="text" name="verification_code" placeholder="أدخل رمز التحقق"
-           required maxlength="4" inputmode="numeric" pattern="[0-9]*">
-    <button type="submit">✔️ تأكيد</button>
-</form>
+        @csrf
+        <input type="hidden" name="phone" value="{{ $phone }}">
+        <input type="text" name="verification_code" placeholder="{{ __('enter_verification_code') }}"
+               required maxlength="4" inputmode="numeric" pattern="[0-9]*">
+        <button type="submit">{{ __('confirm') }}</button>
+    </form>
 
     <!-- Error Message -->
     @if($errors->has('verification_code'))
-        <p style="color:red">{{ $errors->first('verification_code') }}</p>
+        <p style="color:red">{{ __('error_message') }}</p>
     @endif
 
     <!-- Resend button -->
-    <button id="resendBtn" type="button" onclick="resendCode()">🔄 Resend Code</button>
+    <button id="resendBtn" type="button" onclick="resendCode()">{{ __('resend_code') }}</button>
     <small id="timerMsg" class="note"></small>
 
     <!-- Back button -->
-    <button type="button" onclick="window.history.back()">🔙 Back</button>
+    <button type="button" onclick="window.history.back()">{{ __('back') }}</button>
 </div>
 
 <script>
@@ -118,7 +116,7 @@
         })
         .then(res => res.json())
         .then(data => {
-            document.getElementById("timerMsg").innerText = data.message || "New code sent to your phone.";
+            document.getElementById("timerMsg").innerText = data.message || "{{ __('new_code_sent') }}";
         });
 
         // تعطيل الزر دقيقتين
@@ -132,7 +130,7 @@
 
         const interval = setInterval(() => {
             counter--;
-            timerMsg.innerText = "يمكنك إعادة الإرسال بعد " + counter + " ثانية";
+            timerMsg.innerText = "{{ __('resend_after_seconds', ['seconds' => ':seconds']) }}".replace(':seconds', counter);
 
             if (counter <= 0) {
                 clearInterval(interval);

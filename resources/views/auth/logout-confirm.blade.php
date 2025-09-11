@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout</title>
+    <title>{{ __('yes_logout') }}</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
@@ -61,12 +61,12 @@
 </head>
 <body>
     <div class="box">
-        <h2>Are you sure you want to logout?</h2>
+        <h2>{{ __('logout_confirm') }}</h2>
         <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="yes">Yes, Logout</button>
+            <button type="submit" class="yes">{{ __('yes_logout') }}</button>
         </form>
-        <button class="no" onclick="window.history.back()">No, Stay</button>
+        <button class="no" onclick="window.history.back()">{{ __('no_stay') }}</button>
     </div>
 </body>
 </html>

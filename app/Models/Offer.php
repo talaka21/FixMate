@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Translatable\HasTranslations;
 class Offer extends Model
 {
+       use HasTranslations;
      protected $fillable = [
         'title',
         'image',

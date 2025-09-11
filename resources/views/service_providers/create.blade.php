@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <title>Register as Service Provider</title>
+    <title>{{ __('register_provider') }}</title>
     <style>
         body {
             font-family: "Tahoma", sans-serif;
@@ -35,88 +35,107 @@
     </style>
 </head>
 <body>
-    <h1>🌟 Register as Service Provider</h1>
+    <h1>{{ __('register_provider') }}</h1>
 
+    {{-- Success Message --}}
     @if(session('success'))
-        <p class="success">{{ session('success') }}</p>
+        <p class="success">{{ __('success_message') }}</p>
     @endif
 
-    <form action="{{ route('service-providers.store') }}" method="POST" enctype="multipart/form-data">
+    {{-- Form Start --}}
+    <form action="{{ route('service_providers.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <label>Provider Name *</label>
-        <input type="text" name="name" value="{{ old('name') }}">
-        @error('name') <p class="error">{{ $message }}</p> @enderror
+        <label>{{ __('provider_name') }}</label>
+        <input type="text" name="provider_name" value="{{ old('provider_name') }}">
+        @error('provider_name') <p class="error">{{ $message }}</p> @enderror
 
-        <label>Shop Name *</label>
+        <label>{{ __('shop_name') }}</label>
         <input type="text" name="shop_name" value="{{ old('shop_name') }}">
         @error('shop_name') <p class="error">{{ $message }}</p> @enderror
 
-        <label>Description *</label>
+        <label>{{ __('description') }}</label>
         <textarea name="description">{{ old('description') }}</textarea>
         @error('description') <p class="error">{{ $message }}</p> @enderror
 
-        <label>Phone *</label>
+        <label>{{ __('phone') }}</label>
         <input type="text" name="phone" value="{{ old('phone') }}">
         @error('phone') <p class="error">{{ $message }}</p> @enderror
 
-        <label>WhatsApp</label>
+        <label>{{ __('whatsapp') }}</label>
         <input type="text" name="whatsapp" value="{{ old('whatsapp') }}">
 
-        <label>Facebook</label>
+        <label>{{ __('facebook') }}</label>
         <input type="url" name="facebook" value="{{ old('facebook') }}">
 
-        <label>Instagram</label>
+        <label>{{ __('instagram') }}</label>
         <input type="url" name="instagram" value="{{ old('instagram') }}">
 
-        <label>Image</label>
+        <label>{{ __('image') }}</label>
         <input type="file" name="image">
 
-        <label>Category *</label>
-        <select name="category_id" {{ isset($category) ? 'disabled' : '' }}>
-            @if(isset($category))
-                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
-            @else
-                <option value="">-- Select Category --</option>
-                @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected':'' }}>{{ $cat->name }}</option>
-                @endforeach
-            @endif
+        <label>{{ __('category') }}</label>
+        <select name="category_id" id="category">
+            <option value="">{{ __('select_category') }}</option>
+            @foreach($categories as $cat)
+                <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected':'' }}>{{ $cat->name }}</option>
+            @endforeach
         </select>
         @error('category_id') <p class="error">{{ $message }}</p> @enderror
 
-        <label>Subcategory *</label>
-        <select name="subcategory_id" {{ isset($subcategory) ? 'disabled' : '' }}>
-            @if(isset($subcategory))
-                <option value="{{ $subcategory->id }}" selected>{{ $subcategory->name }}</option>
-            @else
-                <option value="">-- Select Subcategory --</option>
-                @foreach($subcategories as $sub)
-                    <option value="{{ $sub->id }}" {{ old('subcategory_id') == $sub->id ? 'selected':'' }}>{{ $sub->name }}</option>
-                @endforeach
-            @endif
+        <label>{{ __('subcategory') }}</label>
+        <select name="subcategory_id" id="subcategory">
+            <option value="">{{ __('select_subcategory') }}</option>
         </select>
         @error('subcategory_id') <p class="error">{{ $message }}</p> @enderror
 
-        <label>State *</label>
-        <select name="state_id">
-            <option value="">-- Select State --</option>
+        <label>{{ __('state') }}</label>
+        <select name="state_id" id="state">
+            <option value="">{{ __('select_state') }}</option>
             @foreach($states as $state)
                 <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected':'' }}>{{ $state->name }}</option>
             @endforeach
         </select>
         @error('state_id') <p class="error">{{ $message }}</p> @enderror
 
-        <label>City *</label>
-        <select name="city_id">
-            <option value="">-- Select City --</option>
-            @foreach($cities as $city)
-                <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected':'' }}>{{ $city->name }}</option>
-            @endforeach
+        <label>{{ __('city') }}</label>
+        <select name="city_id" id="city">
+            <option value="">{{ __('select_city') }}</option>
         </select>
         @error('city_id') <p class="error">{{ $message }}</p> @enderror
 
-        <button type="submit">🚀 Submit Request</button>
+        <button type="submit">{{ __('submit_request') }}</button>
     </form>
+    {{-- Form End --}}
+
+    {{-- jQuery AJAX --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Fetch Subcategories based on Category
+        $('#category').on('change', function () {
+            let categoryId = $(this).val();
+            if (categoryId) {
+                $.get('/get-subcategories/' + categoryId, function (data) {
+                    $('#subcategory').empty().append('<option value="">' + "{{ __('select_subcategory') }}" + '</option>');
+                    $.each(data, function (key, sub) {
+                        $('#subcategory').append('<option value="' + sub.id + '">' + sub.name + '</option>');
+                    });
+                });
+            }
+        });
+
+        // Fetch Cities based on State
+        $('#state').on('change', function () {
+            let stateId = $(this).val();
+            if (stateId) {
+                $.get('/get-cities/' + stateId, function (data) {
+                    $('#city').empty().append('<option value="">' + "{{ __('select_city') }}" + '</option>');
+                    $.each(data, function (key, city) {
+                        $('#city').append('<option value="' + city.id + '">' + city.name + '</option>');
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

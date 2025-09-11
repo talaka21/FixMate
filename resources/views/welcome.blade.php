@@ -57,6 +57,9 @@
       </button>
     </div>
   </nav>
+<a href="{{ route('change.lang', 'en') }}" class="px-3 py-1 border rounded">English</a>
+<a href="{{ route('change.lang', 'ar') }}" class="px-3 py-1 border rounded">العربية</a>
+
 
 
   <!-- Hero Section -->
@@ -98,37 +101,36 @@
   </section>
 
   <!-- Categories Section -->
-  <section class="py-16 bg-white">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl font-bold text-[#872b87] mb-10">Our Categories</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        @foreach(($categories ?? collect())->take(6) as $category)
-          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-            <img src="{{ $category->thumbnail_url }}" class="w-full h-48 object-cover rounded-t-xl" alt="{{ $category->name }}">
-            <div class="p-6">
-              <h5 class="text-xl font-bold text-[#a864a8] mb-2">{{ $category->getTranslation('name', app()->getLocale()) }}</h5>
-              <p class="text-gray-600 mb-4">{{ Str::limit($category->getTranslation('description', app()->getLocale()), 100) }}</p>
-              <a href="{{ route('categories.show', $category->id) }}" class="inline-block bg-[#8b4b8b] text-white py-2 px-6 rounded-full font-semibold hover:bg-[#732f73] transition-colors duration-300">View Details</a>
-            </div>
+<section class="py-16 bg-white">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold text-[#872b87] mb-10">Explore Our Categories</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      @foreach(($categories ?? collect())->take(6) as $category)
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <img src="{{ $category->thumbnail_url }}" class="w-full h-48 object-cover rounded-t-xl" alt="{{ $category->getTranslation('name', 'en') }}">
+          <div class="p-6">
+            <h5 class="text-xl font-bold text-[#a864a8] mb-2">{{ $category->getTranslation('name', 'en') }}</h5>
+            <p class="text-gray-600 mb-4">{{ Str::limit($category->getTranslation('description', 'en'), 120) }}</p>
+            <a href="{{ route('categories.show', $category->id) }}" class="inline-block bg-[#8b4b8b] text-white py-2 px-6 rounded-full font-semibold hover:bg-[#732f73] transition-colors duration-300">View Details</a>
           </div>
-        @endforeach
-      </div>
-      <div class="mt-12">
-        <a href="{{ route('categories.index') }}" class="inline-block border border-[#872b87] text-[#872b87] py-3 px-8 rounded-full font-semibold hover:bg-[#872b87] hover:text-white transition-colors duration-300">
-          View All Categories
-        </a>
-      </div>
+        </div>
+      @endforeach
     </div>
-  </section>
+    <div class="mt-12">
+      <a href="{{ route('categories.index') }}" class="inline-block border border-[#872b87] text-[#872b87] py-3 px-8 rounded-full font-semibold hover:bg-[#872b87] hover:text-white transition-colors duration-300">
+        View All Categories
+      </a>
+    </div>
+  </div>
+</section>
 
-
-<!-- About Us Section (Interactive Buttons) -->
+<!-- About Us Section -->
 <section class="py-16 bg-[#f6edf9]">
   <div class="container mx-auto px-4 text-center">
     <h2 class="text-3xl font-bold text-[#872b87] mb-6">About Us</h2>
 
     <div class="prose max-w-3xl mx-auto mb-8">
-      {!! nl2br(e($about?->content ?? 'No About Us content available')) !!}
+      {!! nl2br(e($about?->getTranslation('content', 'en') ?? 'No About Us content available.')) !!}
     </div>
 
     <div class="flex justify-center items-center gap-6 mt-4">
@@ -155,6 +157,7 @@
     </div>
   </div>
 </section>
+
 <!-- Contact Us Section -->
 <section class="py-16 bg-white">
   <div class="container mx-auto px-4 max-w-xl text-center">
@@ -177,14 +180,14 @@
 
         <label class="block mb-2 font-semibold text-left">Name</label>
         <input type="text" name="user_name" value="{{ auth()->user()?->name ?? '' }}"
-               class="mb-4 p-2 border rounded w-full" required>
+               class="mb-4 p-2 border rounded w-full" placeholder="Enter your name" required>
 
         <label class="block mb-2 font-semibold text-left">Phone Number</label>
         <input type="text" name="phone_number" value="{{ auth()->user()?->phone ?? '' }}"
-               maxlength="10" class="mb-4 p-2 border rounded w-full" required>
+               maxlength="10" class="mb-4 p-2 border rounded w-full" placeholder="Enter your phone number" required>
 
         <label class="block mb-2 font-semibold text-left">Message</label>
-        <textarea name="message" class="mb-4 p-2 border rounded w-full" required></textarea>
+        <textarea name="message" class="mb-4 p-2 border rounded w-full" placeholder="Type your message here" required></textarea>
 
         <button type="submit"
                 class="bg-purple-600 text-white py-2 px-6 rounded disabled:opacity-50 w-full"
@@ -199,13 +202,13 @@
     const form = document.getElementById('contactForm');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Toggle form display when clicking the button
+    // Toggle form display
     showBtn.addEventListener('click', () => {
       formContainer.classList.toggle('hidden');
       showBtn.textContent = formContainer.classList.contains('hidden') ? 'Contact Us' : 'Close Form';
     });
 
-    // Enable submit button when all fields are filled correctly
+    // Enable submit button when all fields are filled
     form.addEventListener('input', () => {
         const name = form.user_name.value.trim();
         const phone = form.phone_number.value.trim();
@@ -215,16 +218,13 @@
   </script>
 </section>
 
-
-
-
-  <!-- Footer -->
-  <footer class="text-center py-6 text-gray-500 text-sm border-t border-gray-200">
-    <p>
-      © 2025 FixMate. All rights reserved. |
-      <a href="{{ route('privacy-policy') }}" class="text-[#872b87] hover:underline">Privacy Policy</a>
-    </p>
-  </footer>
+<!-- Footer -->
+<footer class="text-center py-6 text-gray-500 text-sm border-t border-gray-200">
+  <p>
+    © 2025 FixMate. All rights reserved. |
+    <a href="{{ route('privacy-policy') }}" class="text-[#872b87] hover:underline">View our Privacy Policy</a>
+  </p>
+</footer>
 
 </body>
 </html>

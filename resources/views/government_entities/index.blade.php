@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Government Entities - FixMate</title>
+    <title>{{ __('government_entities') }} - FixMate</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -30,16 +30,12 @@
         .btn-back:hover {
             background-color: #733a73;
         }
-
-        /* تعديل الكود هنا */
         .social-links .icon-btn {
             border: none;
             background: transparent;
             font-size: 1.3rem;
             margin: 0 5px;
         }
-        /* تعديل الكود هنا */
-
         .social-links .icon-btn.facebook { color: #3b5998; }
         .social-links .icon-btn.instagram { color: #E1306C; }
     </style>
@@ -47,12 +43,12 @@
 <body>
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Government Entities</h1>
-        <a href="{{ url('/') }}" class="btn btn-back">← Back</a>
+        <h1>{{ __('government_entities') }}</h1>
+        <a href="{{ url('/') }}" class="btn btn-back">← {{ __('back') }}</a>
     </div>
 
     <form method="GET" action="{{ route('government-entities.index') }}" class="mb-4">
-        <input type="text" name="search" class="form-control" placeholder="Search by Entity Name..." value="{{ request('search') }}">
+        <input type="text" name="search" class="form-control" placeholder="{{ __('search_entity') }}" value="{{ request('search') }}">
     </form>
 
     <div class="row">
@@ -61,7 +57,6 @@
                 <div class="card entity-card shadow-sm h-100 text-center p-3">
 
                     @php
-                        // تحقق من وجود الصورة في الحقل image
                         $storagePath = 'storage/' . ($entity->image ?? '');
                         $imageUrl = file_exists(public_path($storagePath)) ? asset($storagePath) : 'https://via.placeholder.com/150x100.png?text=No+Image';
                     @endphp
@@ -80,7 +75,7 @@
 
                     <div class="mb-2">
                         @foreach(explode(',', $entity->phone) as $phone)
-                            <a href="tel:{{ trim($phone) }}" class="btn btn-sm btn-outline-success m-1">📞 Call</a>
+                            <a href="tel:{{ trim($phone) }}" class="btn btn-sm btn-outline-success m-1">📞 {{ __('call') }}</a>
                         @endforeach
                     </div>
 
@@ -95,7 +90,7 @@
                 </div>
             </div>
         @empty
-            <p class="text-muted text-center">No Government Entities Found</p>
+            <p class="text-muted text-center">{{ __('no_entities_found') }}</p>
         @endforelse
     </div>
 

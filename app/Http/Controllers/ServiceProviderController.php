@@ -94,7 +94,7 @@ return view('service_providers.create', [
         'provider_name'  => 'required|string|max:255',
         'shop_name'      => 'required|string|max:255',
         'description'    => 'required|string',
-        'phone'          => 'required|string|max:20',
+        'phone'          => 'required|string|max:10',
         'category_id'    => 'required|exists:categories,id',
         'subcategory_id' => 'required|exists:subcategories,id',
         'state_id'       => 'required|exists:states,id',
@@ -139,7 +139,17 @@ public function bySubcategory($id)
     ]);
 }
 
+public function getSubcategories($category_id)
+{
+    $subcategories = Subcategory::where('category_id', $category_id)->get();
+    return response()->json($subcategories);
+}
 
+public function getCities($state_id)
+{
+    $cities = City::where('state_id', $state_id)->get();
+    return response()->json($cities);
+}
 
 
     }

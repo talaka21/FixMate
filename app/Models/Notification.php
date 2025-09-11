@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Enum\NotificationEnum;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\Translatable\HasTranslations;
 class Notification extends Model
 {
+   use HasTranslations;
   protected $fillable = [
         'title',
         'message',

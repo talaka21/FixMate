@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ __('Available Categories') }}</title>
+    <title>{{ __('available_categories') }}</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@
 
     <!-- Categories -->
     <div class="container py-5">
-        <h2 class="mb-4 text-center page-title">{{ __('Available Categories') }}</h2>
+        <h2 class="mb-4 text-center page-title">{{ __('available_categories') }}</h2>
 
         <div class="row">
             @foreach($categories as $category)
@@ -95,7 +95,7 @@
                             {{-- زر التفاصيل --}}
                             <a href="{{ route('categories.show', $category->id) }}"
                                class="btn btn-primary">
-                                {{ __('View Details') }}
+                                {{ __('view_details') }}
                             </a>
                         </div>
                     </div>

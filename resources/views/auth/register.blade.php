@@ -131,22 +131,33 @@
             <option value="">Select City</option>
         </select>
 
-        <input type="password" name="password" placeholder="Password" required>
-        <!-- رابط نسيان كلمة السر -->
-{{-- <div style="text-align: right; margin-bottom: 10px;">
-   <a href="{{ route('forgot-password.form') }}" style="font-size: 13px; color: #a864a8; text-decoration: none;">
-    Forgot Password?
-</a>
-</div> --}}
+     <input type="text" name="first_name" placeholder="{{ __('first_name') }}" required>
+<input type="text" name="last_name" placeholder="{{ __('last_name') }}" required>
+<input type="text" name="phone_number" placeholder="{{ __('phone_number') }}" maxlength="10" required>
+<input type="email" name="email" placeholder="{{ __('email') }}" required>
 
-<input type="password" name="password_confirmation" placeholder="Confirm Password" required>
-    
-        <label>
-            <input type="checkbox" name="terms" required>
-            I agree to the Terms and Conditions
-        </label>
+<select name="state_id" id="state" required>
+    <option value="">{{ __('select_state') }}</option>
+    @foreach($states as $state)
+        <option value="{{ $state->id }}">{{ $state->name }}</option>
+    @endforeach
+</select>
 
-        <button type="submit">Register</button>
+<select name="city_id" id="city" required>
+    <option value="">{{ __('select_city') }}</option>
+</select>
+
+<input type="password" name="password" placeholder="{{ __('password') }}" required>
+
+<input type="password" name="password_confirmation" placeholder="{{ __('confirm_password') }}" required>
+
+<label>
+    <input type="checkbox" name="terms" required>
+    {{ __('terms_and_conditions') }}
+</label>
+
+<button type="submit">{{ __('register') }}</button>
+
     </form>
 </div>
 

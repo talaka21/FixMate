@@ -39,19 +39,17 @@
     <nav class="navbar navbar-light bg-light mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ route('service_providers.index') }}">
-                ← {{ __('Back to Service Providers') }}
+                ← {{ __('back_to_providers') }}
             </a>
         </div>
     </nav>
 
     @php
         $locale = app()->getLocale();
-        // Category name
         $categoryName = is_array($serviceProvider->category?->name)
             ? ($serviceProvider->category?->name[$locale] ?? $serviceProvider->category?->name['en'] ?? '')
             : $serviceProvider->category?->name;
 
-        // Subcategory name
         $subcategoryName = is_array($serviceProvider->subcategory?->name)
             ? ($serviceProvider->subcategory?->name[$locale] ?? $serviceProvider->subcategory?->name['en'] ?? '')
             : $serviceProvider->subcategory?->name;
@@ -64,56 +62,56 @@
         <!-- Thumbnail -->
         @if($serviceProvider->image)
             <div class="mb-4">
-                <img src="{{ asset('storage/' . $serviceProvider->image) }}" class="img-fluid rounded shadow-sm" alt="Shop">
+                <img src="{{ asset('storage/' . $serviceProvider->image) }}" class="img-fluid rounded shadow-sm" alt="{{ __('shop_image') }}">
             </div>
         @endif
 
-        <!-- Related Category & Subcategory -->
+        <!-- Category & Subcategory -->
         <p>
-            <strong>{{ __('Category:') }}</strong>
+            <strong>{{ __('category') }}</strong>
             @if($serviceProvider->category)
                 <a href="{{ route('categories.show', $serviceProvider->category->id) }}">
                     {{ $categoryName }}
                 </a>
             @else
-                {{ __('N/A') }}
+                {{ __('na') }}
             @endif
         </p>
 
         <p>
-            <strong>{{ __('Subcategory:') }}</strong>
+            <strong>{{ __('subcategory') }}</strong>
             @if($serviceProvider->subcategory)
                 <a href="{{ route('subcategories.show', $serviceProvider->subcategory->id) }}">
                     {{ $subcategoryName }}
                 </a>
             @else
-                {{ __('N/A') }}
+                {{ __('na') }}
             @endif
         </p>
 
         <!-- Gallery -->
         @if($serviceProvider->gallery && count($serviceProvider->gallery) > 0)
-            <h5 class="mt-4">{{ __('Gallery') }}</h5>
+            <h5 class="mt-4">{{ __('gallery') }}</h5>
             <div class="row gallery">
                 @foreach($serviceProvider->gallery as $image)
                     <div class="col-md-3 col-6 mb-3">
-                        <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded shadow-sm" alt="Gallery">
+                        <img src="{{ asset('storage/' . $image) }}" class="img-fluid rounded shadow-sm" alt="{{ __('gallery_image') }}">
                     </div>
                 @endforeach
             </div>
         @endif
 
         <!-- Description -->
-        <h5 class="mt-4">{{ __('Description') }}</h5>
+        <h5 class="mt-4">{{ __('description') }}</h5>
         <p>{{ $serviceProvider->description }}</p>
 
         <!-- Location -->
-        <p><strong>{{ __('State:') }}</strong> {{ $serviceProvider->state?->name ?? __('N/A') }}</p>
-        <p><strong>{{ __('City:') }}</strong> {{ $serviceProvider->city?->name ?? __('N/A') }}</p>
+        <p><strong>{{ __('state') }}</strong> {{ $serviceProvider->state?->name ?? __('na') }}</p>
+        <p><strong>{{ __('city') }}</strong> {{ $serviceProvider->city?->name ?? __('na') }}</p>
 
         <!-- Tags -->
         @if($serviceProvider->tags && $serviceProvider->tags->count() > 0)
-            <h5 class="mt-4">{{ __('Tags') }}</h5>
+            <h5 class="mt-4">{{ __('tags') }}</h5>
             <div>
                 @foreach($serviceProvider->tags as $tag)
                     <span class="badge bg-info text-dark">{{ $tag->name }}</span>
@@ -121,11 +119,11 @@
             </div>
         @endif
 
-        <!-- Contact Details -->
-        <h5 class="mt-4">{{ __('Contact Details') }}</h5>
+        <!-- Contact -->
+        <h5 class="mt-4">{{ __('contact_details') }}</h5>
         <div class="contact-icons">
             @if($serviceProvider->phone)
-                <a href="tel:{{ $serviceProvider->phone }}" class="btn btn-outline-primary"> 📞 {{ __('Call') }} </a>
+                <a href="tel:{{ $serviceProvider->phone }}" class="btn btn-outline-primary"> 📞 {{ __('call') }} </a>
             @endif
             @if($serviceProvider->whatsapp)
                 <a href="https://wa.me/{{ $serviceProvider->whatsapp }}?text=Welcome%20to%20FixMate%20App!" target="_blank" class="btn btn-outline-success"> 💬 WhatsApp </a>
@@ -140,13 +138,13 @@
 
         <!-- Offers -->
         @if($serviceProvider->offers && $serviceProvider->offers->count() > 0)
-            <h5 class="mt-4">{{ __('Offers') }}</h5>
+            <h5 class="mt-4">{{ __('offers') }}</h5>
             <div class="row">
                 @foreach($serviceProvider->offers as $offer)
                     @if($offer->is_active)
                         <div class="col-md-4 col-sm-6 mb-3">
                             <div class="card shadow-sm h-100">
-                                <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top" alt="Offer">
+                                <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top" alt="{{ __('offer_image') }}">
                             </div>
                         </div>
                     @endif

@@ -88,34 +88,32 @@
   </style>
 </head>
 <body>
-
 <div class="verify-container">
-  <h2>التحقق من رقم الهاتف</h2>
-  <p>تم إرسال رمز التحقق إلى الرقم: <strong>{{ $phone }}</strong></p>
+  <h2>{{ __('phone_verification') }}</h2>
+  <p>{{ __('verification_sent') }} <strong>{{ $phone }}</strong></p>
 
   <!-- الأخطاء -->
   @if ($errors->any())
-      <p class="error-msg">❌ {{ $errors->first() }}</p>
+      <p class="error-msg">❌ {{ __('error_message') }}</p>
   @endif
 
   <!-- رسالة نجاح -->
   @if (session('success'))
-      <p class="success-msg">{{ session('success') }}</p>
+      <p class="success-msg">{{ __('success_message') }}</p>
   @endif
 
   <!-- إدخال الرمز -->
- <form method="POST" action="{{ route('auth.verificationPhone.check') }}">
+  <form method="POST" action="{{ route('auth.verificationPhone.check') }}">
     @csrf
     <input type="hidden" name="phone" value="{{ $phone }}">
-
-    <input type="text" name="verification_code" placeholder="ادخل رمز التحقق" required>
-    <button type="submit">تحقق</button>
-</form>
-
+    <input type="text" name="verification_code" placeholder="{{ __('enter_verification_code') }}" required>
+    <button type="submit">{{ __('verify') }}</button>
+  </form>
 
   <!-- زر رجوع -->
-  <button class="btn-secondary" onclick="window.history.back()">رجوع</button>
+  <button class="btn-secondary" onclick="window.history.back()">{{ __('back') }}</button>
 </div>
+
 
 </body>
 </html>

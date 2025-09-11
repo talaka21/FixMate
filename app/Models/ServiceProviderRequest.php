@@ -5,11 +5,11 @@ namespace App\Models;
 use App\Enum\statusServiceProviderRequestEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Spatie\Translatable\HasTranslations;
 class ServiceProviderRequest extends Model
 {
     use HasFactory;
-
+   use HasTranslations;
     protected $fillable = [
         'provider_name',
         'shop_name',

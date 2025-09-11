@@ -18,10 +18,9 @@ class SetUserLanguage
      */
     public function handle(Request $request, Closure $next): Response
     {
-         $user = Auth::user();
-        $locale = $user?->language ?? 'en'; // English افتراضي
-        App::setLocale($locale);
-
-        return $next($request);
+            if (session()->has('locale')) {
+        app()->setLocale(session('locale'));
+    }
+    return $next($request);
     }
 }

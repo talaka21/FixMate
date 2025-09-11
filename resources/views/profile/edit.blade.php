@@ -16,38 +16,41 @@
             @csrf
             @method('PUT')
 
-            <!-- الاسم الأول -->
+        <div class="container mt-5">
+    <div class="card shadow p-4">
+        <h3 class="mb-4 text-center">{{ __('profile') }}</h3>
+
+        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
             <div class="mb-3">
-                <label class="form-label">الاسم الأول</label>
+                <label class="form-label">{{ __('first_name') }}</label>
                 <input type="text" name="first_name" class="form-control" value="{{ old('first_name', $user->first_name) }}" required>
             </div>
 
-            <!-- الاسم الأخير -->
             <div class="mb-3">
-                <label class="form-label">الاسم الأخير</label>
+                <label class="form-label">{{ __('last_name') }}</label>
                 <input type="text" name="last_name" class="form-control" value="{{ old('last_name', $user->last_name) }}" required>
             </div>
 
-            <!-- رقم الهاتف -->
             <div class="mb-3">
-                <label class="form-label">رقم الهاتف</label>
+                <label class="form-label">{{ __('phone_number') }}</label>
                 <input type="text" class="form-control" value="{{ $user->phone }}" readonly>
             </div>
 
-            <!-- الصورة -->
             <div class="mb-3">
-                <label class="form-label">الصورة الشخصية</label>
+                <label class="form-label">{{ __('profile_image') }}</label>
                 <input type="file" name="image" class="form-control">
                 @if($user->image)
                     <img src="{{ asset('storage/' . $user->image) }}" alt="profile" class="mt-2 rounded-circle" width="100">
                 @endif
             </div>
 
-            <!-- المحافظة -->
             <div class="mb-3">
-                <label class="form-label">المحافظة</label>
+                <label class="form-label">{{ __('state') }}</label>
                 <select id="state" name="state_id" class="form-select" required>
-                    <option value="">اختر المحافظة</option>
+                    <option value="">{{ __('select_state') }}</option>
                     @foreach($states as $state)
                         <option value="{{ $state->id }}" {{ $user->state_id == $state->id ? 'selected' : '' }}>
                             {{ $state->getTranslation('name', 'ar') }}
@@ -56,11 +59,10 @@
                 </select>
             </div>
 
-            <!-- المدينة -->
             <div class="mb-3">
-                <label class="form-label">المدينة</label>
+                <label class="form-label">{{ __('city') }}</label>
                 <select id="city" name="city_id" class="form-select" required>
-                    <option value="">اختر المدينة</option>
+                    <option value="">{{ __('select_city') }}</option>
                     @foreach($cities[$user->state_id] ?? [] as $city)
                         <option value="{{ $city->id }}" {{ $user->city_id == $city->id ? 'selected' : '' }}>
                             {{ $city->name['ar'] }}
@@ -69,11 +71,11 @@
                 </select>
             </div>
 
-            <!-- زر الحفظ -->
-            <button type="submit" id="saveBtn" class="btn btn-primary w-100" disabled>حفظ</button>
+            <button type="submit" id="saveBtn" class="btn btn-primary w-100" disabled>{{ __('save') }}</button>
         </form>
     </div>
 </div>
+
 
 <script>
     // البيانات من Laravel

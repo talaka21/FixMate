@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
   <meta charset="UTF-8">
-  <title>إعادة تعيين كلمة المرور</title>
+  <title>{{ __('reset_password') }}</title>
   <style>
     body {
       background-color: #f5f5f5;
@@ -73,26 +73,26 @@
 <body>
 
 <div class="reset-container">
-  <h2>إعادة تعيين كلمة المرور</h2>
+  <h2>{{ __('reset_password') }}</h2>
 
   @if ($errors->any())
-      <p class="error-msg">{{ $errors->first() }}</p>
+      <p class="error-msg">{{ __('error_message') }}</p>
   @endif
 
   @if (session('success'))
-      <p class="success-msg">{{ session('success') }}</p>
+      <p class="success-msg">{{ __('success_message') }}</p>
   @endif
 
   <form method="POST" action="{{ route('auth.passwordReset.update') }}">
     @csrf
 
-    <!-- phone جاي من URL /reset-password/{phone} -->
+    <!-- phone from URL /reset-password/{phone} -->
     <input type="hidden" name="phone" value="{{ $phone }}">
 
-    <input type="password" name="password" placeholder="كلمة المرور الجديدة" required>
-    <input type="password" name="password_confirmation" placeholder="تأكيد كلمة المرور" required>
+    <input type="password" name="password" placeholder="{{ __('new_password') }}" required>
+    <input type="password" name="password_confirmation" placeholder="{{ __('confirm_password') }}" required>
 
-    <button type="submit" class="btn-primary">حفظ كلمة المرور</button>
+    <button type="submit" class="btn-primary">{{ __('save_password') }}</button>
   </form>
 </div>
 

@@ -34,12 +34,12 @@
     <nav class="navbar navbar-light bg-light mb-4">
         <div class="container">
             <a class="navbar-brand" href="{{ route('categories.index') }}">
-                ← {{ __('Back to Categories') }}
+                ← {{ __('back_to_categories') }}
             </a>
         </div>
     </nav>
 
-    <!-- محتوى الصفحة -->
+    <!-- Page Content -->
     <div class="container py-5">
         <h2 class="mb-3 category-header">
             {{ $category->getTranslation('name', app()->getLocale()) }}
@@ -47,22 +47,22 @@
 
         <p>{{ $category->getTranslation('description', app()->getLocale()) }}</p>
 
-        {{-- التصنيفات الفرعية --}}
+        {{-- Subcategories --}}
         @if($category->subcategories && $category->subcategories->count() > 0)
-            <h4 class="mt-4">{{ __('Subcategories') }}</h4>
+            <h4 class="mt-4">{{ __('subcategories') }}</h4>
             <div class="row">
                 @foreach($category->subcategories as $sub)
                     <div class="col-md-4 col-sm-6 mb-3">
                         <div class="card shadow-sm h-100 text-center">
                             <a href="{{ route('subcategories.providers', $sub->id) }}">
-                                {{-- صورة التصنيف الفرعي --}}
+                                {{-- Subcategory Image --}}
                                 @if($sub->hasMedia('thumbnails'))
                                     <img src="{{ $sub->getFirstMediaUrl('thumbnails') }}"
                                          alt="{{ $sub->getTranslation('name', app()->getLocale()) }}"
                                          class="card-img-top"
                                          style="height:200px; object-fit:cover; border-bottom:1px solid #eee;">
                                 @else
-                                    {{-- صورة افتراضية إذا ما في صورة --}}
+                                    {{-- Default Image --}}
                                     <img src="{{ asset('images/default-sub.png') }}"
                                          alt="default"
                                          class="card-img-top"
@@ -80,7 +80,7 @@
                 @endforeach
             </div>
         @endif
-    </div> <!-- ← سكّرنا container هنا -->
+    </div> <!-- container -->
 
     <!-- Footer -->
     <footer class="text-center py-4 bg-light mt-5">

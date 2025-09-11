@@ -3,6 +3,7 @@
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\ProfileController;
@@ -10,6 +11,8 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\VerificationphoneController;
+use App\Http\Middleware\SetLocale;
+use App\Http\Middleware\SetSessionLocale;
 use App\Models\AboutUs;
 use App\Models\Category;
 use Illuminate\Support\Facades\Route;
@@ -19,13 +22,27 @@ use App\Http\Controllers\GovernmentEntityController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
   use App\Http\Controllers\ContactRequestController;
+use App\Http\Middleware\SetUserLanguage;
 
-// الصفحة الرئيسية
-Route::get('/', function () {
+
+// استخدم Middleware واحد أو عدة Middleware مع بعض
+
+Route::middleware([SetLocale::class])->group(function () {
+    Route::get('/', function () {
         $about = AboutUs::first();
-    $categories = Category::all(); // جلب كل التصنيفات
-    return view('welcome', compact('about','categories')); // تمريرهم للواجهة
-})->name('welcome');
+        $categories = Category::all();
+        return view('welcome', compact('about', 'categories'));
+    })->name('welcome');
+});
+
+
+Route::get('/locale/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'ar'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('change.lang');
+
 
 // Route::get('/', function () {
 //     return "Welcome Page Test ✅";
@@ -61,7 +78,20 @@ Route::get('/reset-password/{phone}', [ResetPasswordController::class, 'showForm
 Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('auth.passwordReset.update');
 
 // Service Providers (مع حماية auth)
-Route::resource('service_providers', ServiceProviderController::class)->middleware('auth');
+// routes/web.php
+
+Route::resource('service_providers', ServiceProviderController::class)
+    ->only(['create', 'store']);
+
+// باقي العمليات للمسجلين دخول فقط
+Route::middleware('auth')->group(function () {
+    Route::resource('service_providers', ServiceProviderController::class)
+        ->only(['index', 'show']);
+});
+
+// routes/web.php
+Route::get('/get-subcategories/{category_id}', [ServiceProviderController::class, 'getSubcategories']);
+Route::get('/get-cities/{state_id}', [ServiceProviderController::class, 'getCities']);
 
 // Subcategories -> Providers
 Route::get('/subcategories/{subcategory}/providers', [ServiceProviderController::class, 'bySubcategory'])
@@ -103,7 +133,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/privacy-policy/update', [PrivacyPolicyController::class, 'update'])->name('privacy.update');
 });
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'show'])  ->name('privacy-policy');
-;
+
 
 
 Route::get('/about-us', [AboutUsController::class, 'show'])
@@ -113,3 +143,23 @@ Route::get('/about-us', [AboutUsController::class, 'show'])
 
 Route::get('/contact-us', [ContactRequestController::class, 'create'])->name('contact.create');
 Route::post('/contact-us', [ContactRequestController::class, 'store'])->name('contact.send');
+
+Route::get('/lang/{locale}', function ($locale) {
+    // التأكد من أن اللغة مسموح بها فقط
+    if (in_array($locale, ['en', 'ar'])) {
+        // حفظ اللغة في الجلسة
+        session(['locale' => $locale]);
+
+        // تعيين اللغة فورياً للطلب الحالي
+        App::setLocale($locale);
+    }
+
+    // العودة للصفحة السابقة
+    return redirect()->back();
+})->name('change.lang');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/notifications/settings', [NotificationController::class, 'settings'])->name('notifications.settings');
+    Route::post('/notifications/settings', [NotificationController::class, 'updateSettings'])->name('notifications.settings.update');
+});

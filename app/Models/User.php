@@ -9,11 +9,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable implements HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable  ,HasTranslations;
 
     /**
      * The attributes that are mass assignable.
@@ -30,10 +31,13 @@ class User extends Authenticatable implements HasAvatar
         'status',
         'email',
         'password',
-'verify_code'
+'verify_code',
+    'notifications_enabled',
     ];
 
-
+    protected $casts = [
+        'notifications_enabled' => 'boolean', 
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *

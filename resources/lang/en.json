@@ -1,0 +1,168 @@
+{
+  "forgot_password": "Forgot Password",
+  "success": "Password reset link sent successfully.",
+  "invalid_phone": "Invalid phone number.",
+  "phone_placeholder": "Enter your phone number",
+  "back": "Back",
+  "reset": "Reset",
+
+   "logout_confirm": "Are you sure you want to logout?",
+  "yes_logout": "Yes, Logout",
+  "no_stay": "No, Stay",
+
+ "reset_password": "Reset Password",
+  "new_password": "New Password",
+  "confirm_password": "Confirm Password",
+  "save_password": "Save Password",
+  "error_message": "An error occurred, please try again.",
+  "success_message": "Password changed successfully.",
+
+
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "phone_number": "Phone Number",
+  "email": "Email",
+  "select_state": "Select State",
+  "select_city": "Select City",
+  "password": "Password",
+  "terms_and_conditions": "I agree to the Terms and Conditions",
+  "register": "Register",
+
+   "verify_your_phone": "Verify Your Phone",
+  "verification_sent_to": "We sent a verification code to:",
+  "enter_verification_code": "Enter verification code",
+  "confirm": "✔️ Confirm",
+  "resend_code": "🔄 Resend Code",
+  "new_code_sent": "New code sent to your phone.",
+  "resend_after_seconds": "You can resend after :seconds seconds",
+
+"phone_verification": "Phone Verification",
+  "verification_sent": "A verification code has been sent to:",
+  "verify": "Verify",
+
+  "available_categories": "Available Categories",
+    "view_details": "View Details",
+
+  "back_to_categories": "Back to Categories",
+  "subcategories": "Subcategories",
+
+  "contact_us": "Contact Us",
+  "name": "Name",
+
+  "message": "Message",
+  "send": "Send",
+
+    "government_entities": "Government Entities",
+  "search_entity": "Search by Entity Name...",
+  "call": "Call",
+  "no_entities_found": "No Government Entities Found",
+
+"offers": "Offers",
+  "available_offers": "Available Offers",
+  "search_shop": "Search by Shop Name...",
+  "search": "Search",
+  "offer_image": "Offer Image",
+  "no_image": "No Image",
+  "unknown_shop": "Unknown Shop",
+  "view_provider": "View Provider",
+  "no_offers": "No offers available.",
+
+   "shop": "Shop",
+  "start_date": "Start Date",
+  "end_date": "End Date",
+
+   "edit_privacy_policy": "Edit Privacy Policy",
+  "privacy_policy": "Privacy Policy",
+  "privacy_policy_required": "Privacy policy field shouldn’t be empty.",
+  "save": "Save",
+  "privacy_policy_updated": "Privacy Policy updated successfully!",
+
+
+  "privacy_policy_text": "This is the privacy policy text.",
+  "privacy_policy_update_info": "You can update it later from the admin panel.",
+
+   "profile": "Profile",
+  "profile_image": "Profile Image",
+  "state": "State",
+  "city": "City",
+
+  "back_home": "⬅ Back to Home",
+  "service_providers": "🌟 Service Providers (:count)",
+  "no_providers": "No providers available in this category yet.",
+
+
+  "register_provider": "🌟 Register as Service Provider",
+  "provider_name": "Provider Name *",
+  "shop_name": "Shop Name *",
+  "description": "Description *",
+  "phone": "Phone *",
+  "whatsapp": "WhatsApp",
+  "facebook": "Facebook",
+  "instagram": "Instagram",
+  "image": "Image",
+  "category": "Category *",
+  "subcategory": "Subcategory *",
+  "select_category": "-- Select Category --",
+  "select_subcategory": "-- Select Subcategory --",
+  "submit_request": "🚀 Submit Request",
+
+   "back_to_providers": "Back to Service Providers",
+  "shop_image": "Shop Image",
+  "gallery": "Gallery",
+  "gallery_image": "Gallery Image",
+  "tags": "Tags",
+  "contact_details": "Contact Details",
+  "na": "N/A",
+
+
+  "subcategories_list": "Subcategories List",
+  "arabic": "Arabic",
+  "english": "English",
+
+    "fixmate_dashboard": "FixMate Dashboard",
+  "home": "Home",
+  "devices": "Devices",
+  "messages": "Messages",
+  "campaigns": "Campaigns",
+  "settings": "Settings",
+  "welcome_user": "Welcome, :name",
+  "dashboard": "Dashboard",
+  "dashboard_intro": "This is an example dashboard layout 👌",
+  "dashboard_content": "You can place tables, charts, or any content here.",
+
+    "login": "Login",
+  "show_password": "Show Password",
+  "sign_in": "Sign In",
+  "become_seller": "Become a Seller",
+
+   "logout": "Logout",
+  "are_you_sure_logout": "Are you sure you want to log out?",
+  "no_back": "No, Go Back",
+
+
+  "fixmate_title": "FixMate - Your Trusted Partner",
+  "fixmate": "FixMate",
+  "categories": "Categories",
+  "government": "Government",
+  "hero_title": "Boost Your Business with Confidence",
+  "hero_subtitle": "Professional solutions crafted just for you",
+  "why_choose_fixmate": "Why Choose FixMate?",
+  "expertise": "Expertise",
+  "expertise_desc": "Our experienced team delivers fast and effective solutions tailored to your needs.",
+  "support": "24/7 Support",
+  "support_desc": "Our dedicated team is always here to ensure you have the best experience.",
+  "pricing": "Flexible Pricing",
+  "pricing_desc": "Affordable plans designed for small startups and large enterprises alike.",
+  "our_categories": "Our Categories",
+  "view_all_categories": "View All Categories",
+  "about_us": "About Us",
+  "no_about_content": "No About Us content available",
+  "call_us": "Call Us",
+  "close_form": "Close Form",
+
+  "all_rights_reserved": "All rights reserved"
+
+
+
+}
+

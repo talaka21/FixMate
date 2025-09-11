@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>{{ __('التصنيفات الفرعية') }}</title>
+    <title>{{ __('subcategories') }}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -47,30 +47,30 @@
     </style>
 </head>
 <body>
-    <h1>{{ __('قائمة التصنيفات الفرعية') }}</h1>
+    <h1>{{ __('subcategories_list') }}</h1>
 
-    <!-- زر تغيير اللغة -->
+    <!-- Language Switch -->
     <div class="language-switcher">
-        <a href="{{ url('locale/ar') }}">العربية</a>
-        <a href="{{ url('locale/en') }}">English</a>
+        <a href="{{ url('locale/ar') }}">{{ __('arabic') }}</a>
+        <a href="{{ url('locale/en') }}">{{ __('english') }}</a>
     </div>
 
    @foreach($subcategories as $subcategory)
     <div class="subcategory-card">
-        {{-- عرض الصورة --}}
+        {{-- Thumbnail --}}
         @if($subcategory->hasMedia('thumbnails'))
             <img src="{{ $subcategory->getFirstMediaUrl('thumbnails') }}"
                  alt="{{ $subcategory->getTranslation('name', app()->getLocale()) }}"
                  style="max-width: 100%; height: auto; border-radius: 8px; margin-bottom: 10px;">
         @endif
 
-        {{-- الاسم --}}
+        {{-- Name --}}
         <h2>{{ $subcategory->getTranslation('name', app()->getLocale()) }}</h2>
 
-        {{-- الوصف --}}
-        <p><strong>{{ __('الوصف') }}:</strong> {{ $subcategory->getTranslation('description', app()->getLocale()) }}</p>
+        {{-- Description --}}
+        <p><strong>{{ __('description') }}:</strong> {{ $subcategory->getTranslation('description', app()->getLocale()) }}</p>
     </div>
-@endforeach
+   @endforeach
 
 </body>
 </html>
