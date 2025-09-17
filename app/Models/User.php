@@ -10,8 +10,10 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Translatable\HasTranslations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements HasAvatar
+class User extends Authenticatable implements  HasAvatar
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable  ,HasTranslations;
@@ -36,7 +38,7 @@ class User extends Authenticatable implements HasAvatar
     ];
 
     protected $casts = [
-        'notifications_enabled' => 'boolean', 
+        'notifications_enabled' => 'boolean',
     ];
     /**
      * The attributes that should be hidden for serialization.

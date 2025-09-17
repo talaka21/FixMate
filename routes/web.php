@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OfferController;
@@ -27,15 +28,13 @@ use App\Http\Middleware\SetUserLanguage;
 
 // استخدم Middleware واحد أو عدة Middleware مع بعض
 
-Route::middleware([SetLocale::class])->group(function () {
-    Route::get('/', function () {
-        $about = AboutUs::first();
-        $categories = Category::all();
-        return view('welcome', compact('about', 'categories'));
-    })->name('welcome');
-});
+Route::get('/', function () {
+    $about = AboutUs::first();
+    $categories = Category::all();
+    return view('welcome', compact('about', 'categories'));
+})->name('welcome');
 
-
+// تغيير اللغة
 Route::get('/locale/{locale}', function ($locale) {
     if (in_array($locale, ['en', 'ar'])) {
         session(['locale' => $locale]);
@@ -163,3 +162,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/settings', [NotificationController::class, 'settings'])->name('notifications.settings');
     Route::post('/notifications/settings', [NotificationController::class, 'updateSettings'])->name('notifications.settings.update');
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/api/states', [ProfileController::class, 'states'])->name('api.states'); // optional
+    Route::get('/api/cities', [ProfileController::class, 'cities'])->name('api.cities'); // ?state_id=#
+});
+
+//change-password
+Route::middleware('auth')->group(function () {
+    Route::get('profile/change-password', [ProfileController::class, 'showChangePasswordForm'])->name('profile.change-password');
+    Route::post('profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.update-password');
+  Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
+Route::get('lang/{locale}', [LanguageController::class, 'change'])->name('change.lang');

@@ -5,19 +5,15 @@
   "phone_placeholder": "Enter your phone number",
   "back": "Back",
   "reset": "Reset",
-
-   "logout_confirm": "Are you sure you want to logout?",
+  "logout_confirm": "Are you sure you want to logout?",
   "yes_logout": "Yes, Logout",
   "no_stay": "No, Stay",
-
- "reset_password": "Reset Password",
+  "reset_password": "Reset Password",
   "new_password": "New Password",
   "confirm_password": "Confirm Password",
   "save_password": "Save Password",
   "error_message": "An error occurred, please try again.",
   "success_message": "Password changed successfully.",
-
-
   "first_name": "First Name",
   "last_name": "Last Name",
   "phone_number": "Phone Number",
@@ -27,37 +23,29 @@
   "password": "Password",
   "terms_and_conditions": "I agree to the Terms and Conditions",
   "register": "Register",
-
-   "verify_your_phone": "Verify Your Phone",
+  "verify_your_phone": "Verify Your Phone",
   "verification_sent_to": "We sent a verification code to:",
   "enter_verification_code": "Enter verification code",
   "confirm": "✔️ Confirm",
   "resend_code": "🔄 Resend Code",
   "new_code_sent": "New code sent to your phone.",
   "resend_after_seconds": "You can resend after :seconds seconds",
-
-"phone_verification": "Phone Verification",
+  "phone_verification": "Phone Verification",
   "verification_sent": "A verification code has been sent to:",
   "verify": "Verify",
-
   "available_categories": "Available Categories",
-    "view_details": "View Details",
-
+  "view_details": "View Details",
   "back_to_categories": "Back to Categories",
   "subcategories": "Subcategories",
-
   "contact_us": "Contact Us",
   "name": "Name",
-
   "message": "Message",
   "send": "Send",
-
-    "government_entities": "Government Entities",
+  "government_entities": "Government Entities",
   "search_entity": "Search by Entity Name...",
   "call": "Call",
   "no_entities_found": "No Government Entities Found",
-
-"offers": "Offers",
+  "offers": "Offers",
   "available_offers": "Available Offers",
   "search_shop": "Search by Shop Name...",
   "search": "Search",
@@ -66,31 +54,23 @@
   "unknown_shop": "Unknown Shop",
   "view_provider": "View Provider",
   "no_offers": "No offers available.",
-
-   "shop": "Shop",
+  "shop": "Shop",
   "start_date": "Start Date",
   "end_date": "End Date",
-
-   "edit_privacy_policy": "Edit Privacy Policy",
+  "edit_privacy_policy": "Edit Privacy Policy",
   "privacy_policy": "Privacy Policy",
   "privacy_policy_required": "Privacy policy field shouldn’t be empty.",
   "save": "Save",
   "privacy_policy_updated": "Privacy Policy updated successfully!",
-
-
   "privacy_policy_text": "This is the privacy policy text.",
   "privacy_policy_update_info": "You can update it later from the admin panel.",
-
-   "profile": "Profile",
+  "profile": "Profile",
   "profile_image": "Profile Image",
   "state": "State",
   "city": "City",
-
   "back_home": "⬅ Back to Home",
   "service_providers": "🌟 Service Providers (:count)",
   "no_providers": "No providers available in this category yet.",
-
-
   "register_provider": "🌟 Register as Service Provider",
   "provider_name": "Provider Name *",
   "shop_name": "Shop Name *",
@@ -105,21 +85,17 @@
   "select_category": "-- Select Category --",
   "select_subcategory": "-- Select Subcategory --",
   "submit_request": "🚀 Submit Request",
-
-   "back_to_providers": "Back to Service Providers",
+  "back_to_providers": "Back to Service Providers",
   "shop_image": "Shop Image",
   "gallery": "Gallery",
   "gallery_image": "Gallery Image",
   "tags": "Tags",
   "contact_details": "Contact Details",
   "na": "N/A",
-
-
   "subcategories_list": "Subcategories List",
   "arabic": "Arabic",
   "english": "English",
-
-    "fixmate_dashboard": "FixMate Dashboard",
+  "fixmate_dashboard": "FixMate Dashboard",
   "home": "Home",
   "devices": "Devices",
   "messages": "Messages",
@@ -129,17 +105,13 @@
   "dashboard": "Dashboard",
   "dashboard_intro": "This is an example dashboard layout 👌",
   "dashboard_content": "You can place tables, charts, or any content here.",
-
-    "login": "Login",
+  "login": "Login",
   "show_password": "Show Password",
   "sign_in": "Sign In",
   "become_seller": "Become a Seller",
-
-   "logout": "Logout",
+  "logout": "Logout",
   "are_you_sure_logout": "Are you sure you want to log out?",
   "no_back": "No, Go Back",
-
-
   "fixmate_title": "FixMate - Your Trusted Partner",
   "fixmate": "FixMate",
   "categories": "Categories",
@@ -159,10 +131,23 @@
   "no_about_content": "No About Us content available",
   "call_us": "Call Us",
   "close_form": "Close Form",
-
-  "all_rights_reserved": "All rights reserved"
-
-
-
+  "all_rights_reserved": "All rights reserved.",
+  "settings_title": "Notification Settings",
+  "enable": "Enable Notifications",
+  "notifications": "Notifications",
+  "enable_notifications": "Enable Notifications",
+  "title": "Why Choose FixMate?",
+  "expertise": "Expertise",
+  "expertise_desc": "Our experienced team delivers fast and effective solutions tailored to your needs.",
+  "support_24_7": "24/7 Support",
+  "support_24_7_desc": "Our dedicated team is always here to ensure you have the best experience.",
+  "flexible_pricing": "Flexible Pricing",
+  "flexible_pricing_desc": "Affordable plans designed for small startups and large enterprises alike.",
+  "explore_categories": "Explore Our Categories",
+  "about_us_placeholder": "No About Us content available.",
+  "enter_name": "Enter your name",
+  "enter_phone": "Enter your phone number",
+  "type_message": "Type your message here",
+  "notifications_updated": "Notification settings updated!",
+  "view_privacy_policy": "View our Privacy Policy"
 }
-

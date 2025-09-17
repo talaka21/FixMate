@@ -612,6 +612,15 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|notifications_enabled newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|notifications_enabled newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|notifications_enabled query()
+ */
+	class notifications_enabled extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * @property int $id
  * @property string $phone_number
  * @property string $token

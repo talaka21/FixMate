@@ -85,6 +85,7 @@ class NotificationController extends Controller
             'notifications_enabled' => $request->notifications_enabled
         ]);
 
-        return redirect()->back()->with('success', 'Notification settings updated successfully.');
+      return redirect()->route('welcome')->with('success', 'Notification settings updated successfully.');
+
     }
 }

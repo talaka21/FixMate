@@ -28,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('use-translation-manager', function ($user) {
             return $user !== null && $user->hasRole('admin');
         });
+         app()->setLocale(session('locale', config('app.locale')));
     }
 }

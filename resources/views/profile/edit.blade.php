@@ -1,111 +1,128 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الملف الشخصي</title>
+    <title>تعديل الملف الشخصي</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-light">
-
+<body>
 <div class="container mt-5">
-    <div class="card shadow p-4">
-        <h3 class="mb-4 text-center">الملف الشخصي</h3>
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-header">
+            <h4>تعديل الملف الشخصي</h4>
+        </div>
+        <div class="card-body">
 
-        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+            @if(session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
 
-        <div class="container mt-5">
-    <div class="card shadow p-4">
-        <h3 class="mb-4 text-center">{{ __('profile') }}</h3>
+            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
 
-        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+                <!-- الاسم الأول -->
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">الاسم الأول</label>
+                    <input type="text" name="first_name" id="first_name" class="form-control"
+                           value="{{ $user->first_name }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">{{ __('first_name') }}</label>
-                <input type="text" name="first_name" class="form-control" value="{{ old('first_name', $user->first_name) }}" required>
-            </div>
+                <!-- اسم العائلة -->
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">اسم العائلة</label>
+                    <input type="text" name="last_name" id="last_name" class="form-control"
+                           value="{{ $user->last_name }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">{{ __('last_name') }}</label>
-                <input type="text" name="last_name" class="form-control" value="{{ old('last_name', $user->last_name) }}" required>
-            </div>
+                <!-- رقم الهاتف -->
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">رقم الهاتف</label>
+                    <input type="text" name="phone_number" id="phone_number" class="form-control"
+                           value="{{ $user->phone_number }}" required>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">{{ __('phone_number') }}</label>
-                <input type="text" class="form-control" value="{{ $user->phone }}" readonly>
-            </div>
+                <!-- الدولة -->
+                <div class="mb-3">
+                    <label for="state" class="form-label">الدولة</label>
+                    <select name="state_id" id="state" class="form-select" required>
+                        <option value="">اختر الدولة</option>
+                        @foreach($states as $state)
+                            <option value="{{ $state->id }}"
+                                {{ $user->state_id == $state->id ? 'selected' : '' }}>
+                                {{ $state->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">{{ __('profile_image') }}</label>
-                <input type="file" name="image" class="form-control">
-                @if($user->image)
-                    <img src="{{ asset('storage/' . $user->image) }}" alt="profile" class="mt-2 rounded-circle" width="100">
-                @endif
-            </div>
+                <!-- المدينة -->
+                <div class="mb-3">
+                    <label for="city" class="form-label">المدينة</label>
+                    <select name="city_id" id="city" class="form-select" required>
+                        <option value="">اختر المدينة</option>
+                        @if($user->state_id && isset($cities[$user->state_id]))
+                            @foreach($cities[$user->state_id] as $city)
+                                <option value="{{ $city->id }}"
+                                    {{ $user->city_id == $city->id ? 'selected' : '' }}>
+                                    {{ $city->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">{{ __('state') }}</label>
-                <select id="state" name="state_id" class="form-select" required>
-                    <option value="">{{ __('select_state') }}</option>
-                    @foreach($states as $state)
-                        <option value="{{ $state->id }}" {{ $user->state_id == $state->id ? 'selected' : '' }}>
-                            {{ $state->getTranslation('name', 'ar') }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
+                <!-- صورة الملف الشخصي -->
+                <div class="mb-3">
+                    <label for="profile_image" class="form-label">صورة الملف الشخصي</label>
+                    <input type="file" name="image" id="profile_image" class="form-control">
+                    <img id="preview_image"
+                         src="{{ $user->image ? asset($user->image) : '' }}"
+                         alt="صورة الملف الشخصي"
+                         class="mt-2"
+                         style="width:100px; height:100px; object-fit:cover; {{ $user->image ? '' : 'display:none;' }}">
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">{{ __('city') }}</label>
-                <select id="city" name="city_id" class="form-select" required>
-                    <option value="">{{ __('select_city') }}</option>
-                    @foreach($cities[$user->state_id] ?? [] as $city)
-                        <option value="{{ $city->id }}" {{ $user->city_id == $city->id ? 'selected' : '' }}>
-                            {{ $city->name['ar'] }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <button type="submit" id="saveBtn" class="btn btn-primary w-100" disabled>{{ __('save') }}</button>
-        </form>
+                <!-- زر الحفظ -->
+                <button type="submit" class="btn btn-primary w-100">حفظ</button>
+            </form>
+        </div>
     </div>
 </div>
 
-
 <script>
-    // البيانات من Laravel
-    const cities = @json($cities);
+    // معاينة الصورة قبل التحميل
+    const profileInput = document.getElementById('profile_image');
+    const previewImage = document.getElementById('preview_image');
+    profileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function(e){
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
 
-    const stateSelect = document.getElementById('state');
-    const citySelect = document.getElementById('city');
-    const saveBtn = document.getElementById('saveBtn');
-    const form = document.querySelector('form');
+    // تحديث المدن ديناميكيًا عند اختيار الدولة
+    const citiesByState = @json($cities); // جلب المدن من الكنترولر كمصفوفة JSON
 
-    // عند تغيير المحافظة
-    stateSelect.addEventListener('change', function() {
-        let stateId = this.value;
+    document.getElementById('state').addEventListener('change', function(){
+        const stateId = this.value;
+        const citySelect = document.getElementById('city');
         citySelect.innerHTML = '<option value="">اختر المدينة</option>';
 
-        if (cities[stateId]) {
-            cities[stateId].forEach(city => {
-                let option = document.createElement('option');
+        if(citiesByState[stateId]){
+            citiesByState[stateId].forEach(city => {
+                const option = document.createElement('option');
                 option.value = city.id;
-                option.textContent = city.name.ar;
+                option.textContent = city.name;
                 citySelect.appendChild(option);
             });
         }
     });
-
-    // تفعيل زر الحفظ عند أي تعديل
-    form.addEventListener('input', () => {
-        saveBtn.disabled = false;
-    });
 </script>
-
 </body>
 </html>

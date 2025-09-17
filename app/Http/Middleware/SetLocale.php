@@ -16,18 +16,18 @@ class SetLocale
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle($request, Closure $next)
-    {
-        $locale = Session::get('locale');
+    {    // جِب اللغة من السيشن إذا موجودة
+                $locale = Session::get('locale');
 
-        // إذا غير موجودة، استخدم لغة المستخدم إذا مسجل
+        // إذا مو موجودة بالسيشن وجاه مستخدم مسجل دخول → خُذ من البروفايل
         if (!$locale && Auth::check()) {
             $locale = Auth::user()->language ?? 'en';
         }
 
-        // افتراضي
+        // إذا لسا مو محددة → خليها إنكليزي افتراضي
         $locale = $locale ?? 'en';
 
-        // طبق اللغة على التطبيق
+        // طبّق اللغة
         App::setLocale($locale);
 
         return $next($request);
