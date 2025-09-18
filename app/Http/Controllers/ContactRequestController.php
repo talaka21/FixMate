@@ -3,31 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Enum\ContactStatuEnum;
+use App\Http\Requests\ContactRequestStore;
 use App\Models\ContactRequest;
 use Illuminate\Http\Request;
 
 class ContactRequestController extends Controller
 {
-    public function create()
+ public function create()
     {
-        return view('contact.create'); // ملف Blade للصفحة
+        return view('contact.create');
     }
 
-    public function store(Request $request)
+    public function store(ContactRequestStore $request)
     {
-        $request->validate([
-            'user_name'    => 'required|string|max:255',
-            'phone_number' => 'required|string|max:10',
-            'message'      => 'required|string',
-        ]);
+        $data = $request->validated();
 
         ContactRequest::create([
-            'user_name'    => $request->user_name,
-            'phone_number' => $request->phone_number,
-            'message'      => $request->message,
-               'status' => ContactStatuEnum::UNREAD,
+            'user_name'    => $data['user_name'],
+            'phone_number' => $data['phone_number'],
+            'message'      => $data['message'],
+            'status'       => ContactStatuEnum::UNREAD,
         ]);
 
         return redirect()->back()->with('success', 'Your message has been sent successfully!');
     }
+
 }

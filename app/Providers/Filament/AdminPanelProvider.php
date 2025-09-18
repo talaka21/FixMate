@@ -64,6 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ->shouldShowSanctumTokens()
     ])
     ->middleware([
+         \App\Http\Middleware\FilamentSetLocale::class,
         EncryptCookies::class,
         AddQueuedCookiesToResponse::class,
         StartSession::class,

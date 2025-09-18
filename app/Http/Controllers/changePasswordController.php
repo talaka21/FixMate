@@ -8,17 +8,20 @@ use Illuminate\Support\Facades\Hash;
 
 class ChangePasswordController extends Controller
 {
-    public function changePassword(ChangePasswordRequest $request)
+ public function changePassword(ChangePasswordRequest $request)
     {
         $user = Auth::user();
 
+        // جلب البيانات التي تم التحقق منها فقط
+        $data = $request->validated();
+
         // التحقق من كلمة المرور الحالية
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (!Hash::check($data['current_password'], $user->password)) {
             return back()->withErrors(['current_password' => 'كلمة المرور الحالية غير صحيحة.']);
         }
 
         // تحديث كلمة المرور
-        $user->password = Hash::make($request->new_password);
+        $user->password = Hash::make($data['new_password']);
         $user->save();
 
         // تسجيل خروج المستخدم
@@ -27,4 +30,5 @@ class ChangePasswordController extends Controller
         // إعادة التوجيه لصفحة تسجيل الدخول مع رسالة نجاح
         return redirect()->route('login')->with('success', 'تم تغيير كلمة المرور بنجاح، الرجاء تسجيل الدخول مرة أخرى.');
     }
+
 }

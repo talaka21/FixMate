@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\VerifyPhoneRequest;
 use App\Models\PhonePasswordReset;
 use Illuminate\Http\Request;
 
@@ -14,28 +15,19 @@ class VerificationphoneController extends Controller
     return view('auth.verificationphone', compact('phone'));
 }
 
-
-
-    // التحقق من الرمز
-    public function checkCode(Request $request)
+     public function checkCode(VerifyPhoneRequest $request)
     {
-        $request->validate([
-            'phone' => 'required',
-            'verification_code' => 'required|digits:4',
-        ]);
+        $data = $request->validated();
 
-        $record = PhonePasswordReset::where('phone_number', $request->phone)
-            ->where('token', $request->verification_code)
+        $record = PhonePasswordReset::where('phone_number', $data['phone'])
+            ->where('token', $data['verification_code'])
             ->first();
 
         if (!$record) {
-            return back()->withErrors(['verification_code' => '❌ رمز التحقق غير صحيح.']);
+            return back()->withErrors(['verification_code' => '❌ Incorrect verification code.']);
         }
 
-
-        // ✅ إذا الرمز صح → روح لصفحة إعادة كلمة المرور
-   return redirect()->route('auth.passwordReset.form', ['phone' => $request->phone])
-    ->with('success', '✅ تم التحقق بنجاح، الرجاء تعيين كلمة مرور جديدة.');
-
+        return redirect()->route('auth.passwordReset.form', ['phone' => $data['phone']])
+                         ->with('success', '✅ Verified successfully, please set a new password.');
     }
 }

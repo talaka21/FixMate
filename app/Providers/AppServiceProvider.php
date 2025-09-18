@@ -14,9 +14,10 @@ class AppServiceProvider extends ServiceProvider
      *
      * @var array<class-string, class-string>
      */
-    protected $policies = [
-        PrivacyPolicy::class => PostPolicy::class, // ربط النموذج بالـ Policy
-    ];
+protected $policies = [
+    PrivacyPolicy::class => \App\Policies\PrivacyPolicyPolicy::class,
+];
+
 
     /**
      * Register any authentication / authorization services.

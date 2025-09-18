@@ -26,29 +26,26 @@ class LanguageResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->label('Language Name')
                     ->required(),
-                Forms\Components\TextInput::make('code')
+
+                Forms\Components\Select::make('code')
                     ->label('Language Code')
-                    ->required()
-                    ->maxLength(2),
-                Forms\Components\Select::make('language')
-                    ->label('Select Language')
                     ->options([
                         'en' => 'English',
                         'ar' => 'Arabic',
                     ])
                     ->default('en')
-                    ->required()
-                 ->dehydrated(false)
-
+                    ->required(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('code'),
+                ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Language Name'),
+                Tables\Columns\TextColumn::make('code')
+                    ->label('Language Code'),
             ])
 
             ->filters([

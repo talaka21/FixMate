@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+
 class SetLocale
 {
     /**
@@ -17,7 +18,7 @@ class SetLocale
      */
     public function handle($request, Closure $next)
     {    // جِب اللغة من السيشن إذا موجودة
-                $locale = Session::get('locale');
+        $locale = Session::get('locale');
 
         // إذا مو موجودة بالسيشن وجاه مستخدم مسجل دخول → خُذ من البروفايل
         if (!$locale && Auth::check()) {
@@ -32,5 +33,4 @@ class SetLocale
 
         return $next($request);
     }
-    }
-
+}

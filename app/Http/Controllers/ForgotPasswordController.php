@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Models\PhonePasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,37 +16,29 @@ class ForgotPasswordController extends Controller
     }
 // إرسال كود إعادة التعيين
 
-public function sendResetCode(Request $request)
+   public function sendResetCode(ForgotPasswordRequest $request)
     {
-        // التحقق من صحة الرقم
-        $request->validate([
-            'phone' => 'required|digits:10',
-        ]);
+        $data = $request->validated(); // ✅ بيانات صحيحة فقط
+        $phone = $data['phone'];
 
-        // التحقق من وجود المستخدم في قاعدة البيانات
-        $user = DB::table('users')->where('phone_number', $request->phone)->first();
+        $user = DB::table('users')->where('phone_number', $phone)->first();
 
         if (!$user) {
-            return back()->withErrors(['phone' => 'رقم الهاتف غير مسجل في النظام.']);
+            return back()->withErrors(['phone' => 'Phone number not registered']);
         }
 
-        // توليد رمز تحقق (OTP)
         $token = rand(1000, 9999);
 
-        // حذف أي رموز سابقة لنفس الرقم
-        PhonePasswordReset::where('phone_number', $request->phone)->delete();
+        PhonePasswordReset::where('phone_number', $phone)->delete();
 
-        // حفظ الرمز الجديد في قاعدة البيانات
         PhonePasswordReset::create([
-            'phone_number' => $request->phone,
+            'phone_number' => $phone,
             'token' => $token,
             'created_at' => now(),
         ]);
 
-        // رسالة نجاح (للتجربة فقط)
-
-return redirect()->route('auth.verificationPhone', ['phone' => $request->phone])
-                 ->with('success', 'تم إرسال رمز التحقق إلى رقم هاتفك!');
-
-    }}
+        return redirect()->route('auth.verificationPhone', ['phone' => $phone])
+                         ->with('success', 'Verification code sent successfully!');
+    }
+}
 
