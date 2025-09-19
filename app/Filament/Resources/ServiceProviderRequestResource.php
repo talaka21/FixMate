@@ -29,19 +29,17 @@ class ServiceProviderRequestResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('provider_name')
                     ->required()
-                    ->searchable()
                     ->maxLength(255),
+
                 Forms\Components\TextInput::make('shop_name')
                     ->maxLength(255)
-                    ->searchable()
                     ->default(null),
                 Forms\Components\TextInput::make('description')
                     ->maxLength(255)
                     ->default(null),
                 Forms\Components\TextInput::make('phone')
                     ->tel()
-                    ->searchable()
-                    ->maxLength(255)
+                    ->maxLength(10)
                     ->default(null),
                 Forms\Components\TextInput::make('whatsapp')
                     ->maxLength(255)
@@ -89,7 +87,7 @@ class ServiceProviderRequestResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
-                       ->badge()
+                    ->badge()
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('whatsapp')
                     ->searchable(),
@@ -127,13 +125,13 @@ class ServiceProviderRequestResource extends Resource
                     ->color(fn(bool $state) => $state ? 'success' : 'warning'),
             ])
             ->filters([
-               SelectFilter::make('status')
-        ->label('Status')
-        ->options([
-            statusServiceProviderRequestEnum::PENDING->value  => 'Pending',
-            statusServiceProviderRequestEnum::APPROVED->value => 'Approved',
-            statusServiceProviderRequestEnum::REJECTED->value => 'Rejected',
-        ]),
+                SelectFilter::make('status')
+                    ->label('Status')
+                    ->options([
+                        statusServiceProviderRequestEnum::PENDING->value  => 'Pending',
+                        statusServiceProviderRequestEnum::APPROVED->value => 'Approved',
+                        statusServiceProviderRequestEnum::REJECTED->value => 'Rejected',
+                    ]),
 
                 SelectFilter::make('is_read')
                     ->label('Read Status')

@@ -104,6 +104,44 @@
   </div>
 </nav>
 
+<!-- Search Form -->
+<section class="bg-white py-8">
+  <div class="container mx-auto px-4">
+    <form method="GET" action="{{ route('service_providers.search') }}" class="flex flex-col md:flex-row gap-4 items-center">
+      <!-- البحث حسب اسم المحل -->
+      <input type="text" name="shop_name" value="{{ request('shop_name') }}" placeholder="{{ __('search_by_shop_name') }}" class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8b4b8b]">
+
+      <!-- البحث حسب الفئة -->
+      <select name="category_id" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8b4b8b]">
+        <option value="">{{ __('select_category') }}</option>
+        @foreach($categories ?? [] as $category)
+          <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+            {{ $category->getTranslation('name', app()->getLocale()) }}
+          </option>
+        @endforeach
+      </select>
+
+      <!-- البحث حسب الفئة الفرعية -->
+      <select name="subcategory_id" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8b4b8b]">
+        <option value="">{{ __('select_subcategory') }}</option>
+        @foreach($subcategories ?? [] as $subcategory)
+          <option value="{{ $subcategory->id }}" {{ request('subcategory_id') == $subcategory->id ? 'selected' : '' }}>
+            {{ $subcategory->getTranslation('name', app()->getLocale()) }}
+          </option>
+        @endforeach
+      </select>
+
+      <!-- البحث حسب الوسوم -->
+      <input type="text" name="tags" value="{{ request('tags') }}" placeholder="{{ __('search_by_tags') }}" class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8b4b8b]">
+
+      <!-- زر البحث -->
+      <button type="submit" class="bg-[#8b4b8b] text-white py-3 px-6 rounded-lg font-semibold hover:bg-[#732f73] transition-colors">
+        {{ __('search') }}
+      </button>
+    </form>
+  </div>
+</section>
+
 <!-- Hero Section -->
 <section class="bg-gradient-to-r from-[#a864a8] to-[#6c63ff] text-white text-center py-20 md:py-32 rounded-b-3xl shadow-xl">
   <div class="container mx-auto px-4">
@@ -170,6 +208,62 @@
     <div class="mt-12">
       <a href="{{ route('categories.index') }}" class="inline-block border border-[#872b87] text-[#872b87] py-3 px-8 rounded-full font-semibold hover:bg-[#872b87] hover:text-white transition-colors duration-300">
         {{ __('view_all_categories') }}
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Service Providers Section -->
+<section class="py-16 bg-gray-50">
+  <div class="container mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold text-[#872b87] mb-10">{{ __('service_providers') }}</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      @foreach($serviceProviders as $provider)
+        <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+          <img src="{{ $provider->thumbnail_url }}"
+               class="w-full h-48 object-cover rounded-t-xl"
+               alt="{{ $provider->shop_name }}">
+
+          <div class="p-6 text-left">
+            <h5 class="text-xl font-bold text-[#a864a8] mb-2">{{ $provider->shop_name }}</h5>
+
+            <!-- عدد المشاهدات -->
+            <p class="text-sm text-gray-500 mb-2">
+              👁️ {{ $provider->views }} {{ __('views') }}
+            </p>
+
+            <!-- الوسوم -->
+            <div class="flex flex-wrap gap-2 mb-4">
+              @foreach($provider->tags ?? [] as $tag)
+                <span class="px-2 py-1 bg-[#f6edf9] text-[#872b87] text-xs rounded-full">
+                  #{{ $tag->name }}
+                </span>
+              @endforeach
+            </div>
+
+            <!-- زر التفاصيل -->
+            @auth
+              <a href="{{ route('service_providers.show', $provider->id) }}"
+                 class="inline-block bg-[#8b4b8b] text-white py-2 px-6 rounded-full font-semibold hover:bg-[#732f73] transition-colors duration-300">
+                {{ __('view_details') }}
+              </a>
+            @else
+              <a href="{{ route('login') }}"
+                 class="inline-block bg-gray-200 text-[#a864a8] py-2 px-6 rounded-full font-semibold hover:bg-gray-300 transition-colors duration-300">
+                {{ __('login_to_view') }}
+              </a>
+            @endauth
+          </div>
+        </div>
+      @endforeach
+    </div>
+
+    <!-- زر "عرض جميع مزوّدي الخدمة" -->
+    <div class="mt-12">
+      <a href="{{ route('service_providers.index') }}"
+         class="inline-block border border-[#872b87] text-[#872b87] py-3 px-8 rounded-full font-semibold hover:bg-[#872b87] hover:text-white transition-colors duration-300">
+        {{ __('view_all_service_providers') }}
       </a>
     </div>
   </div>

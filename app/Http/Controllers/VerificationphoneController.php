@@ -15,19 +15,29 @@ class VerificationphoneController extends Controller
     return view('auth.verificationphone', compact('phone'));
 }
 
-     public function checkCode(VerifyPhoneRequest $request)
-    {
-        $data = $request->validated();
+   public function checkCode(VerifyPhoneRequest $request)
+{
+    $data = $request->validated();
 
-        $record = PhonePasswordReset::where('phone_number', $data['phone'])
-            ->where('token', $data['verification_code'])
+    // ✅ أول شي شوف بالـ phone_password_resets
+    $record = PhonePasswordReset::where('phone_number', $data['phone'])
+        ->where('token', $data['verification_code'])
+        ->first();
+
+    // ✅ إذا ما لقيت بالكود المؤقت، جرب باليوزر نفسو
+    if (!$record) {
+        $user = \App\Models\User::where('phone_number', $data['phone'])
+            ->where('verification_code', $data['verification_code'])
             ->first();
 
-        if (!$record) {
+        if (!$user) {
             return back()->withErrors(['verification_code' => '❌ Incorrect verification code.']);
         }
-
-        return redirect()->route('auth.passwordReset.form', ['phone' => $data['phone']])
-                         ->with('success', '✅ Verified successfully, please set a new password.');
     }
+
+    // ✅ إذا مرّ أي شرط (واحد من الاثنين صحيح) بتكمل
+    return redirect()->route('auth.passwordReset.form', ['phone' => $data['phone']])
+                     ->with('success', '✅ Verified successfully, please set a new password.');
+}
+
 }

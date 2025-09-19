@@ -38,6 +38,10 @@
         border: 1px solid #f5c6cb;
     }
 
+    .input-group {
+        position: relative;
+    }
+
     input, select {
         width: 100%;
         padding: 12px 15px;
@@ -51,6 +55,16 @@
     input:focus, select:focus {
         border-color: #a864a8;
         outline: none;
+    }
+
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 14px;
+        color: #666;
     }
 
     label {
@@ -115,55 +129,55 @@
 
     <form method="POST" action="{{ route('register.submit') }}">
         @csrf
-        <input type="text" name="first_name" placeholder="First Name" required>
-        <input type="text" name="last_name" placeholder="Last Name" required>
-        <input type="text" name="phone_number" placeholder="Phone Number" maxlength="10" required>
-        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="first_name" placeholder="{{ __('first_name') }}" required>
+        <input type="text" name="last_name" placeholder="{{ __('last_name') }}" required>
+        <input type="text" name="phone_number" placeholder="{{ __('phone_number') }}" maxlength="10" required>
+        <input type="email" name="email" placeholder="{{ __('email') }}" required>
 
         <select name="state_id" id="state" required>
-            <option value="">Select State</option>
+            <option value="">{{ __('select_state') }}</option>
             @foreach($states as $state)
                 <option value="{{ $state->id }}">{{ $state->name }}</option>
             @endforeach
         </select>
 
         <select name="city_id" id="city" required>
-            <option value="">Select City</option>
+            <option value="">{{ __('select_city') }}</option>
         </select>
 
-     <input type="text" name="first_name" placeholder="{{ __('first_name') }}" required>
-<input type="text" name="last_name" placeholder="{{ __('last_name') }}" required>
-<input type="text" name="phone_number" placeholder="{{ __('phone_number') }}" maxlength="10" required>
-<input type="email" name="email" placeholder="{{ __('email') }}" required>
+        <div class="input-group">
+            <input type="password" name="password" id="password" placeholder="{{ __('password') }}" required>
+            <span class="toggle-password" onclick="togglePassword('password')">👁️</span>
+        </div>
 
-<select name="state_id" id="state" required>
-    <option value="">{{ __('select_state') }}</option>
-    @foreach($states as $state)
-        <option value="{{ $state->id }}">{{ $state->name }}</option>
-    @endforeach
-</select>
+        <div class="input-group">
+            <input type="password" name="password_confirmation" id="password_confirmation" placeholder="{{ __('confirm_password') }}" required>
+            <span class="toggle-password" onclick="togglePassword('password_confirmation')">👁️</span>
+        </div>
 
-<select name="city_id" id="city" required>
-    <option value="">{{ __('select_city') }}</option>
-</select>
-
-<input type="password" name="password" placeholder="{{ __('password') }}" required>
-
-<input type="password" name="password_confirmation" placeholder="{{ __('confirm_password') }}" required>
-
-<label>
-    <input type="checkbox" name="terms" required>
+      <label>
+    <input type="checkbox" id="terms" name="terms" required>
     {{ __('terms_and_conditions') }}
 </label>
 
-<button type="submit">{{ __('register') }}</button>
+<button type="submit" id="registerBtn" disabled>{{ __('register') }}</button>
 
     </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+function togglePassword(fieldId) {
+    var input = document.getElementById(fieldId);
+    if (input.type === "password") {
+        input.type = "text";
+    } else {
+        input.type = "password";
+    }
+}
+
 $(document).ready(function() {
+    // ✅ جلب المدن حسب الولاية
     $('#state').change(function() {
         var stateId = $(this).val();
         if(stateId) {
@@ -172,20 +186,31 @@ $(document).ready(function() {
                 type: 'GET',
                 success: function(data) {
                     $('#city').empty();
-                    $('#city').append('<option value="">Select City</option>');
+                    $('#city').append('<option value="">{{ __("select_city") }}</option>');
                     $.each(data, function(key, value) {
                         $('#city').append('<option value="'+ value.id +'">'+ value.name +'</option>');
                     });
                 },
                 error: function() {
                     $('#city').empty();
-                    $('#city').append('<option value="">Select City</option>');
+                    $('#city').append('<option value="">{{ __("select_city") }}</option>');
                 }
             });
         } else {
             $('#city').empty();
-            $('#city').append('<option value="">Select City</option>');
+            $('#city').append('<option value="">{{ __("select_city") }}</option>');
         }
+    });
+
+    // ✅ تعطيل زر Register حتى الموافقة على الشروط
+    const termsCheckbox = document.getElementById('terms');
+    const registerBtn = document.getElementById('registerBtn');
+
+    registerBtn.disabled = true; // معطّل من البداية
+
+    termsCheckbox.addEventListener('change', function () {
+        registerBtn.disabled = !this.checked;
     });
 });
 </script>
+

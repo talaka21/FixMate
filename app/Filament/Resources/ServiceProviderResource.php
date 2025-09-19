@@ -6,6 +6,7 @@ use App\Filament\Resources\ServiceProviderResource\Pages;
 use App\Filament\Resources\ServiceProviderResource\RelationManagers;
 use App\Models\ServiceProvider;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -44,7 +45,8 @@ class ServiceProviderResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->tel()
                     ->required()
-                    ->Length(10)
+                    ->Length(10) ->minLength(10)
+    ->maxLength(10)
                     ->default(null),
                 Forms\Components\TextInput::make('whatsapp')
                     ->length(10)
@@ -56,8 +58,13 @@ class ServiceProviderResource extends Resource
                 Forms\Components\TextInput::make('instagram')
                     ->maxLength(255)
                     ->default(null),
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
+                SpatieMediaLibraryFileUpload::make('image')
+                   ->collection('image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('service_providers')
+                    ->preserveFilenames()
+                    ->required(),
                 Forms\Components\Textarea::make('gallery')
                     ->columnSpanFull(),
                 Forms\Components\DatePicker::make('contract_start')
@@ -87,7 +94,8 @@ class ServiceProviderResource extends Resource
                 Forms\Components\TextInput::make('city_id')
                     ->required()
                     ->numeric(),
-                Forms\Components\select::make('tag')
+                Forms\Components\Select::make('tag')
+                    ->relationship('tags', 'name')
                     ->searchable()
                     ->required(),
             ]);
@@ -105,7 +113,7 @@ class ServiceProviderResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
                     ->searchable()
-                       ->badge()
+                    ->badge()
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('whatsapp')
                     ->searchable(),
@@ -113,7 +121,9 @@ class ServiceProviderResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('instagram')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->getStateUsing(fn($record) => $record->getFirstMediaUrl('image')),
+
                 Tables\Columns\TextColumn::make('contract_start')
                     ->date()
                     ->sortable(),
@@ -122,8 +132,8 @@ class ServiceProviderResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable()
-                       ->badge()
-                  ->color(fn ($state) => $state->color()),
+                    ->badge()
+                    ->color(fn($state) => $state->color()),
                 Tables\Columns\TextColumn::make('views')
                     ->numeric()
                     ->label('views')
@@ -151,7 +161,6 @@ class ServiceProviderResource extends Resource
                 Tables\Columns\TextColumn::make('tags.name')
                     ->label('tags')
                     ->sortable(),
-
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')

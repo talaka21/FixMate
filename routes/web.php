@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactRequestController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\NotificationController;
@@ -12,27 +13,43 @@ use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\SubcategoryController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Controllers\VerificationphoneController;
+use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\SetSessionLocale;
 use App\Models\AboutUs;
 use App\Models\Category;
+use App\Models\Offer;
+use App\Models\ServiceProvider;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\GovernmentEntityController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
-  use App\Http\Controllers\ContactRequestController;
 use App\Http\Middleware\SetUserLanguage;
+use Illuminate\Http\Request;
 
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 // استخدم Middleware واحد أو عدة Middleware مع بعض
+// Route::get('/', function (Request $request) {
+//     $about = AboutUs::first();
+//     $categories = Category::all();
 
-Route::get('/', function () {
-    $about = AboutUs::first();
-    $categories = Category::all();
-    return view('welcome', compact('about', 'categories'));
-})->name('welcome');
+//     // أول تشغيل → ترتيب عشوائي
+//     if (!$request->session()->has('first_launch_done')) {
+//         $serviceProviders = ServiceProvider::inRandomOrder()->take(6)->get();
+//         $request->session()->put('first_launch_done', true);
+//     } else {
+//         // المرات التالية → حسب المشاهدات
+//         $serviceProviders = ServiceProvider::orderByDesc('views')->take(6)->get();
+//     }
+
+//     $offers = Offer::latest()->take(6)->get();
+
+//     return view('welcome', compact('about', 'categories', 'serviceProviders', 'offers'));
+// })->name('welcome');
 
 // تغيير اللغة
 Route::get('/locale/{locale}', function ($locale) {
@@ -80,7 +97,7 @@ Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name(
 // routes/web.php
 
 Route::resource('service_providers', ServiceProviderController::class)
-    ->only(['create', 'store']);
+    ->only(['create', 'store','index']);
 
 // باقي العمليات للمسجلين دخول فقط
 Route::middleware('auth')->group(function () {
@@ -179,3 +196,13 @@ Route::middleware('auth')->group(function () {
 
 
 Route::get('lang/{locale}', [LanguageController::class, 'change'])->name('change.lang');
+
+Route::get('/subcategories/{subcategory}/providers', [ServiceProviderController::class, 'bySubcategory'])
+    ->name('subcategories.providers');
+Route::get('/cities/{stateId}', [RegisterController::class, 'getCities']);
+
+Route::get('/service-providers/search', [ServiceProviderController::class, 'search'])
+     ->name('service_providers.search');
+
+     Route::get('/service-providers/list', [ServiceProviderController::class, 'list'])
+     ->name('service_providers.list');

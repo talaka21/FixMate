@@ -6,10 +6,12 @@ use App\Enum\ServiceProviderEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
-class ServiceProvider extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+class ServiceProvider extends Model  implements HasMedia
 {
 
-  use HasTranslations;
+  use HasTranslations , InteractsWithMedia;
     protected  $fillable =[
         'provider_name',
         'shop_name',
@@ -70,5 +72,29 @@ class ServiceProvider extends Model
     return $this->belongsToMany(Tag::class, 'service_provider_tag', 'service_provider_id', 'tag_id');
 
 }
+public function getThumbnailUrlAttribute(): string
+{
+    // إذا عنده صورة محفوظة بالميديا
+    if ($this->hasMedia('image')) {
+        return $this->getFirstMediaUrl('image');
+    }
+
+    // إذا موجود default.png بمجلد storage/app/public
+    if (file_exists(storage_path('app/public/default.png'))) {
+        return asset('storage/default.png');
+    }
+
+    // إذا موجود default.png بمجلد public/images
+    if (file_exists(public_path('images/default.png'))) {
+        return asset('images/default.png');
+    }
+
+    // آخر حل → Placeholder من الإنترنت
+    return 'https://via.placeholder.com/300x200.png?text=No+Image';
+}
+     public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
+    }
 
 }

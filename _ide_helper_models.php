@@ -336,6 +336,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category $category
  * @property-read \App\Models\city $city
+ * @property-read string $thumbnail_url
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Offer> $offers
  * @property-read int|null $offers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Slider> $sliders
@@ -374,7 +377,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProvider whereViews($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ServiceProvider whereWhatsapp($value)
  */
-	class ServiceProvider extends \Eloquent {}
+	class ServiceProvider extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
