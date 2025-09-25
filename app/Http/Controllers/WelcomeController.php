@@ -2,66 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AboutUs;
-use App\Models\Category;
-use App\Models\Offer;
-use App\Models\ServiceProvider;
-use App\Models\Subcategory;
-use App\Models\Tag;
+use App\Services\WelcomeService;
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
+    private WelcomeService $welcomeService;
+
+    public function __construct(WelcomeService $welcomeService)
+    {
+        $this->welcomeService = $welcomeService;
+    }
+
     public function index(Request $request)
     {
-          $about = AboutUs::first();
-    $categories = Category::all();
-    $subcategories = Subcategory::all();
-    $tags = Tag::all();
+        $data = $this->welcomeService->getData($request->search);
 
-    $query = ServiceProvider::query();
-
-    // البحث باسم المحل
-    if ($request->shop_name) {
-        $query->where('shop_name', 'like', '%' . $request->shop_name . '%');
+        return view('welcome', $data);
     }
-
-    // البحث بالفئة
-    if ($request->category_id) {
-        $query->where('category_id', $request->category_id);
-    }
-
-    // البحث بالفئة الفرعية
-    if ($request->subcategory_id) {
-        $query->where('subcategory_id', $request->subcategory_id);
-    }
-
-    // البحث بالوسوم (كنص)
-if ($request->tags) {
-    $tags = is_array($request->tags) ? $request->tags : explode(',', $request->tags);
-    $query->whereHas('tags', function ($q) use ($tags) {
-        $q->whereIn('tags.id', $tags);
-    });
-}
-
-
-
-    // ترتيب النتائج (المشاهدة أولاً)
-    $serviceProviders = $query->orderByDesc('views')->paginate(12);
-
-    // العروض
-    $offers = Offer::latest()->take(6)->get();
-
-    return view('welcome', compact(
-        'about',
-        'categories',
-        'subcategories',
-        'tags',
-        'serviceProviders',
-        'offers'
-    ));
-
-    }
-
-
 }

@@ -9,10 +9,9 @@ class SubcategoryController extends Controller
 {
     public function index()
     {
-        // جلب جميع التصنيفات الفرعية
+   
         $subcategories = Subcategory::all();
 
-        // تمريرها إلى الـ View
         return view('subcategories.index', compact('subcategories'));
     }
 public function show(\App\Models\ServiceProvider $serviceProvider)

@@ -7,6 +7,7 @@ use App\Filament\Resources\OfferResource\RelationManagers;
 use App\Models\Offer;
 use App\Models\ServiceProvider;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -27,9 +28,12 @@ class OfferResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\FileUpload::make('image')
+                SpatieMediaLibraryFileUpload::make('image')
+                    ->collection('image')
                     ->image()
-                    ->maxFiles(1)
+                    ->disk('public')
+                    ->directory('offers')
+                    ->preserveFilenames()
                     ->required(),
                 Forms\Components\Select::make('service_provider_id')
                     ->required()
@@ -39,7 +43,7 @@ class OfferResource extends Resource
                     }),
                 Forms\Components\DatePicker::make('start_date')
                     ->required()
-                    ->rule('after:today'),
+                    ->rule('after_or_equal:today'),
 
                 Forms\Components\DatePicker::make('expire_date')
                     ->required()
@@ -70,7 +74,8 @@ class OfferResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->getStateUsing(fn($record) => $record->getFirstMediaUrl('image')),
                 Tables\Columns\TextColumn::make('serviceProvider.provider_name')
                     ->numeric()
                     ->sortable(),
@@ -80,10 +85,10 @@ class OfferResource extends Resource
                 Tables\Columns\TextColumn::make('expire_date')
                     ->date()
                     ->sortable(),
-                         Tables\Columns\TextColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
                     ->searchable()
-                      ->badge()
-                  ->color(fn ($state) => $state->color()),
+                    ->badge()
+                    ->color(fn($state) => $state->color()),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

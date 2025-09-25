@@ -8,6 +8,7 @@ use App\Models\city;
 use App\Models\state;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -43,8 +44,13 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
 
-                Forms\Components\FileUpload::make('image')
-                    ->image(),
+                     SpatieMediaLibraryFileUpload::make('image')
+                   ->collection('image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('users')
+                    ->preserveFilenames()
+                    ->required(),
 
                 Forms\Components\TextInput::make('state_id')
                     ->required()
@@ -79,7 +85,8 @@ class UserResource extends Resource
                        ->badge()
                     ->color('primary'),
                 Tables\Columns\TextColumn::make('email'),
-                Tables\Columns\ImageColumn::make('image'),
+                 Tables\Columns\ImageColumn::make('image')
+                    ->getStateUsing(fn($record) => $record->getFirstMediaUrl('image')),
                 Tables\Columns\TextColumn::make('state.name')
                     ->numeric()
                     ->sortable(),

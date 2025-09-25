@@ -250,6 +250,9 @@ namespace App\Models{
  * @property \App\Enum\stateStatusEnum $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $thumbnail_url
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \App\Models\ServiceProvider $serviceProvider
  * @property-read mixed $translations
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer newModelQuery()
@@ -269,7 +272,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Offer whereUpdatedAt($value)
  */
-	class Offer extends \Eloquent {}
+	class Offer extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -547,6 +550,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\city $city
  * @property-read mixed $full_name
+ * @property-read string $thumbnail_url
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\ServiceProviderRequest|null $serviceProviderRequest
@@ -577,7 +583,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereVerifyCode($value)
  */
-	class User extends \Eloquent implements \Filament\Models\Contracts\HasAvatar {}
+	class User extends \Eloquent implements \Filament\Models\Contracts\HasAvatar, \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{

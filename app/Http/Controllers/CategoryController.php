@@ -13,9 +13,7 @@ class CategoryController extends Controller
         return view('categories.index', compact('categories'));
     }
 
-    /**
-     * عرض تفاصيل تصنيف محدد
-     */
+
     public function show($id)
     {
         $category = Category::findOrFail($id);

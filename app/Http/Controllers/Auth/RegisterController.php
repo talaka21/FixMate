@@ -3,77 +3,35 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\state;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\stateController;
-use App\Models\city;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Services\Auth\RegisterService;
 
 class RegisterController extends Controller
 {
+    private RegisterService $registerService;
+
+    public function __construct(RegisterService $registerService)
+    {
+        $this->registerService = $registerService;
+    }
+
     public function showRegistrationForm()
     {
-        $states = state::all();
+        $states = $this->registerService->getStates();
         return view('auth.register', compact('states'));
     }
- public function getCities($stateId)
-{
-    $cities = City::where('state_id', $stateId)->get()->map(function ($city) {
-        return [
-            'id' => $city->id,
-            'name' => $city->getTranslation('name', app()->getLocale()), // ترجمة الاسم حسب اللغة الحالية
-        ];
-    });
 
-    return response()->json($cities);
-}
-
-
-    public function register(Request $request)
+    public function getCities($stateId)
     {
-        // ✅ تحقق أولي من رقم الهاتف قبل أي شيء
-        $existingUser = User::where('phone_number', $request->phone_number)->first();
+        return response()->json($this->registerService->getCities($stateId));
+    }
 
-        if ($existingUser) {
-            // ✅ إذا الرقم مستخدم مسبقًا → رجوع مع رسالة خطأ
-            return redirect()->back()->withErrors(['phone_number' => 'هذا الرقم مستخدم مسبقًا.']);
-        }
+    public function register(RegisterRequest $request)
+    {
+        $data = $request->validated();
 
-        // ✅ تحقق من باقي البيانات
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:50',
-            'last_name' => 'required|string|max:50',
-            'phone_number' => 'required|string|max:10|unique:users,phone_number',
-            'email' => 'required|email|unique:users,email',
-            'state_id' => 'required|exists:states,id',
-            'city_id' => 'required|exists:cities,id',
-            'password' => [
-                'required',
-                'confirmed',
-                'min:8',
-                 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/',
-            ],
-            'terms' => 'accepted',
-        ]);
+        $user = $this->registerService->registerUser($data);
 
-        // ✅ إنشاء المستخدم
-        $user = User::create([
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'phone_number' => $validated['phone_number'],
-            'email' => $validated['email'],
-            'state_id' => $validated['state_id'],
-            'city_id' => $validated['city_id'],
-            'password' => Hash::make($validated['password']),
-            'status' => 'active',
-    'verify_code'   => rand(1000, 9999),
-        ]);
-
-        // ✅ توجيه لصفحة التحقق مع تمرير رقم الهاتف
-
-return redirect()->route('verify.form', ['phone' => $user->phone_number]);
-
+        return redirect()->route('verify.form', ['phone' => $user->phone_number]);
     }
 }

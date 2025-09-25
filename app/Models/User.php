@@ -13,10 +13,10 @@ use Spatie\Translatable\HasTranslations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable implements  HasAvatar
+class User extends Authenticatable implements  HasAvatar, HasMedia
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable  ,HasTranslations;
+    use HasFactory, Notifiable  ,HasTranslations , InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -95,4 +95,29 @@ public function state()
     return $this->image ? Storage::url($this->image) : null;
 }
 
+
+    public function getThumbnailUrlAttribute(): string
+{
+    // إذا عنده صورة محفوظة بالميديا
+    if ($this->hasMedia('image')) {
+        return $this->getFirstMediaUrl('image');
+    }
+
+    // إذا موجود default.png بمجلد storage/app/public
+    if (file_exists(storage_path('app/public/default.png'))) {
+        return asset('storage/default.png');
+    }
+
+    // إذا موجود default.png بمجلد public/images
+    if (file_exists(public_path('images/default.png'))) {
+        return asset('images/default.png');
+    }
+
+    // آخر حل → Placeholder من الإنترنت
+    return 'https://via.placeholder.com/300x200.png?text=No+Image';
+}
+     public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
+    }
 }

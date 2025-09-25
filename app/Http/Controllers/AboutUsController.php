@@ -9,7 +9,7 @@ class AboutUsController extends Controller
 {
      public function show()
     {
-        $about = AboutUs::first(); // في حال صفحة واحدة فقط
+        $about = AboutUs::first(); 
         return view('about.show', compact('about'));
     }
 }

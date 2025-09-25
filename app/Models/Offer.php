@@ -5,9 +5,11 @@ namespace App\Models;
 use App\Enum\stateStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
-class Offer extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+class Offer extends Model implements HasMedia
 {
-       use HasTranslations;
+       use HasTranslations, InteractsWithMedia;
      protected $fillable = [
         'title',
         'image',
@@ -26,5 +28,28 @@ class Offer extends Model
     public function serviceProvider()
     {
         return $this->belongsTo(ServiceProvider::class);
+    }
+    public function getThumbnailUrlAttribute(): string
+{
+    if ($this->hasMedia('image')) {
+        return $this->getFirstMediaUrl('image');
+    }
+
+
+    if (file_exists(storage_path('app/public/default.png'))) {
+        return asset('storage/default.png');
+    }
+
+
+    if (file_exists(public_path('images/default.png'))) {
+        return asset('images/default.png');
+    }
+
+
+    return 'https://via.placeholder.com/300x200.png?text=No+Image';
+}
+     public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('image')->singleFile();
     }
 }

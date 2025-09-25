@@ -10,7 +10,7 @@ class PrivacyPolicyController extends Controller
 {
        public function show()
     {
-        $policy = PrivacyPolicy::first(); // بترجع أول سياسة خصوصية
+        $policy = PrivacyPolicy::first(); 
         return view('privacy.show', compact('policy'));
     }
 

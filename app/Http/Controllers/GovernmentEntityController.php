@@ -3,20 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\GovernmentEntity;
+use App\Services\GovernmentEntityService;
 use Illuminate\Http\Request;
 
 class GovernmentEntityController extends Controller
 {
-     public function index(Request $request)
-    {
-     $query = GovernmentEntity::query();
+    private GovernmentEntityService $governmentEntityService;
 
-    if ($request->has('search') && $request->search != '') {
-        $query->where('name', 'like', '%' . $request->search . '%');
+    public function __construct(GovernmentEntityService $governmentEntityService)
+    {
+        $this->governmentEntityService = $governmentEntityService;
     }
 
-    $entities = $query->paginate(10);
+    public function index(Request $request)
+    {
+        $search = $request->get('search', null);
+        $entities = $this->governmentEntityService->getEntities($search, 10);
 
-    return view('government_entities.index', compact('entities'));
+        return view('government_entities.index', compact('entities'));
     }
 }

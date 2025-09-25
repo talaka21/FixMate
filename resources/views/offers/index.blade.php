@@ -35,7 +35,7 @@
 <body>
 <div class="container py-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>🎁 {{ __('available_offers') }}</h1>
+        <h1> {{ __('available_offers') }}</h1>
         <a href="{{ url('/') }}" class="btn btn-back">⬅ {{ __('back') }}</a>
     </div>
 
@@ -51,15 +51,12 @@
         @forelse($offers as $offer)
             <div class="col-md-4 mb-4">
                 <div class="card shadow-sm offer-card h-100">
-                    @if($offer->image)
-                        <img src="{{ asset('storage/' . $offer->image) }}" class="card-img-top" alt="{{ __('offer_image') }}">
-                    @else
-                        <img src="https://via.placeholder.com/400x250?text=No+Image" class="card-img-top" alt="{{ __('no_image') }}">
-                    @endif
+                  <img src="{{ $offer->thumbnail_url }}" class="card-img-top" alt="{{ __('offer_image') }}">
+
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ $offer->title }}</h5>
                         <p class="text-muted">
-                            🏪 {{ $offer->serviceProvider->shop_name ?? __('unknown_shop') }}
+                             {{ $offer->serviceProvider->shop_name ?? __('unknown_shop') }}
                         </p>
                         <a href="{{ route('service_providers.show', $offer->serviceProvider->id) }}"
                            class="btn btn-sm"

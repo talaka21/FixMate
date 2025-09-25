@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Offer;
+use App\Services\OfferService;
 use Illuminate\Http\Request;
 
 class OfferController extends Controller
-{ public function index(Request $request)
+{
+    private OfferService $offerService;
+
+    public function __construct(OfferService $offerService)
     {
-        $query = Offer::with('serviceProvider');
+        $this->offerService = $offerService;
+    }
 
-        // البحث باسم المتجر (shop_name)
-        if ($request->filled('shop_name')) {
-            $query->whereHas('serviceProvider', function($q) use ($request) {
-                $q->where('shop_name', 'like', '%' . $request->shop_name . '%');
-            });
-        }
-
-        $offers = $query->latest()->paginate(12);
+    public function index(Request $request)
+    {
+        $shopName = $request->get('shop_name', null);
+        $offers = $this->offerService->getOffers($shopName, 12);
 
         return view('offers.index', compact('offers'));
     }
 
-    // عرض تفاصيل عرض محدد
     public function show(Offer $offer)
     {
-        $offer->load('serviceProvider'); // جلب معلومات المزود
+        $offer = $this->offerService->getOffer($offer);
 
         return view('offers.show', compact('offer'));
     }

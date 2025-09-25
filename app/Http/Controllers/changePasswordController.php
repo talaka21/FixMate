@@ -3,32 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ChangePasswordRequest;
+use App\Services\UserService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ChangePasswordController extends Controller
 {
- public function changePassword(ChangePasswordRequest $request)
+    private UserService $userService;
+
+    // Laravel يحقن UserService بشكل تلقائي (Dependency Injection)
+    public function __construct(UserService $userService)
     {
-        $user = Auth::user();
-
-        // جلب البيانات التي تم التحقق منها فقط
-        $data = $request->validated();
-
-        // التحقق من كلمة المرور الحالية
-        if (!Hash::check($data['current_password'], $user->password)) {
-            return back()->withErrors(['current_password' => 'كلمة المرور الحالية غير صحيحة.']);
-        }
-
-        // تحديث كلمة المرور
-        $user->password = Hash::make($data['new_password']);
-        $user->save();
-
-        // تسجيل خروج المستخدم
-        Auth::logout();
-
-        // إعادة التوجيه لصفحة تسجيل الدخول مع رسالة نجاح
-        return redirect()->route('login')->with('success', 'تم تغيير كلمة المرور بنجاح، الرجاء تسجيل الدخول مرة أخرى.');
+        $this->userService = $userService;
     }
 
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        $user = Auth::user();
+        $data = $request->validated();
+
+        $changed = $this->userService->changePassword(
+            $user,
+            $data['current_password'],
+            $data['new_password']
+        );
+
+        if (! $changed) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        return redirect()->route('login')
+            ->with('success', 'Password changed successfully. Please log in again.');
+    }
 }
