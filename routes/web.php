@@ -30,7 +30,6 @@ use App\Http\Controllers\ServiceProviderController;
 use App\Http\Middleware\SetUserLanguage;
 use Illuminate\Http\Request;
 
-// ----------------- Public -----------------
 
 // Home
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -99,14 +98,14 @@ Route::get('/get-cities/{state_id}', [ServiceProviderController::class, 'getCiti
 Route::get('/get-subcategories/{category_id}', [ServiceProviderController::class, 'getSubcategories']);
 
 
-// ----------------- Service Providers -----------------
+// -- Service Providers --
 Route::resource('service_providers', ServiceProviderController::class)
     ->only(['create', 'store','index']);
 Route::get('/service-providers/search', [ServiceProviderController::class, 'search'])->name('service_providers.search');
 Route::get('/service-providers/list', [ServiceProviderController::class, 'list'])->name('service_providers.list');
 
 
-// ----------------- Auth Required -----------------
+// - Auth Required -
 Route::middleware('auth')->group(function () {
 
     // Dashboard
