@@ -29,7 +29,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ServiceProviderController;
 use App\Http\Middleware\SetUserLanguage;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 
 // Home
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
@@ -131,4 +131,13 @@ Route::middleware('auth')->group(function () {
     // Notifications
     Route::get('/notifications/settings', [NotificationController::class, 'settings'])->name('notifications.settings');
     Route::post('/notifications/settings', [NotificationController::class, 'updateSettings'])->name('notifications.settings.update');
+});
+
+Route::get('/test-db', function () {
+    try {
+        DB::connection()->getPdo();
+        return "✅ Database connection is OK. DB: " . DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        return "❌ Database connection failed: " . $e->getMessage();
+    }
 });
